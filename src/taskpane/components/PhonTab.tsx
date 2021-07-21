@@ -1,3 +1,23 @@
+/********************************************************************************
+ *  Copyright 2021, Pierre-Alain Etique                                         *
+ *                                                                              *
+ *  This file is part of Coloriƨation.                                          *
+ *                                                                              *
+ *  Coloriƨation is free software: you can redistribute it and/or modify        *
+ *  it under the terms of the GNU General Public License as published by        *
+ *  the Free Software Foundation, either version 3 of the License, or           *
+ *  (at your option) any later version.                                         *
+ *                                                                              *
+ *  Coloriƨation is distributed in the hope that it will be useful,             *
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of              *
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               *
+ *  GNU General Public License for more details.                                *
+ *                                                                              *
+ *  You should have received a copy of the GNU General Public License           *
+ *  along with Coloriƨation.  If not, see <https://www.gnu.org/licenses/>.      *
+ *                                                                              *
+ ********************************************************************************/
+
 import * as React from "react";
 import { useBoolean } from '@fluentui/react-hooks';
 import { DefaultButton, DefaultPalette, getColorFromRGBA, getColorFromString, IButtonStyles, IStackItemStyles, IStackStyles, IStackTokens, Stack, Text } from "@fluentui/react";
@@ -6,10 +26,12 @@ import PhonControl from "./PhonControl";
 import { useState } from "react";
 import CharFormatForm from "./CharFormatForm";
 import CharFormatting from "../Configs/CharFormatting";
-import PhonConfig from "../Configs/PhonConfig";
+import Config from "../Configs/Config";
 
 export interface PhonTabProps {
-    pc: PhonConfig;
+    conf: Config;
+    colPhons: (conf: Config) => void; // Coloriser les phonèmes
+    colNoir: (conf: Config) => void; // remettre en noir
 }
 
 const stackTokens: IStackTokens = { 
@@ -111,10 +133,19 @@ const phonList = [
     [["b",  "[b]",  "bébé"],          ["gz",  "[gz]",  "examen"]],
 ]
   
-  
+/* 
+async function ColorizeRed() {
+  Word.run(async (context) => {
+    let sel = context.document.getSelection();
+    sel.font.color = "#FF0000";
+    await context.sync();
+  })
+}
+ */
+
 export default function PhonTab(props: PhonTabProps) {
   
-    const pc = props.pc;
+    const pc = props.conf.pc;
   
     // Pour CharFormatForm
     const [isCFFOpen, { setTrue: showCFF, setFalse: hideCFF }] = useBoolean(false);
@@ -125,6 +156,15 @@ export default function PhonTab(props: PhonTabProps) {
     const [cffItalic, {toggle : clickCffItalic, setTrue : setItalic, setFalse : clearItalic}] = useBoolean(false);
     const [cffUnderline, {toggle : clickCffUnderline, setTrue : setUnderline, setFalse : clearUnderline}] = useBoolean(false);
   
+    function ColPhonClick() {
+      props.colPhons(props.conf);
+      // ColorizeRed();
+    }
+
+    function ColNoirClick() {
+      props.colNoir(props.conf);
+    }
+
     function LoadCffData() {
       pc.SetCF(phonToEdit, new CharFormatting(cffBold, cffItalic, cffUnderline, true, cffColor));
       hideCFF();
@@ -253,7 +293,9 @@ export default function PhonTab(props: PhonTabProps) {
           <Stack.Item align="start" styles={flStackItemStyles}>
             <CommandButton
               butTitle="Cololriser les phonèmes"
-              iconSrc="../assets/phon-carré 52.png" />
+              iconSrc="../assets/phon-carré 52.png"
+              onClick={ColPhonClick}
+            />
           </Stack.Item>
   
           <Stack.Item align="center" grow styles={flStackItemStyles}>
@@ -266,7 +308,9 @@ export default function PhonTab(props: PhonTabProps) {
           <Stack.Item align="end" styles={flStackItemStyles}>
             <CommandButton
               butTitle="Cololriser en enoir et enlever le formattage"
-              iconSrc="../assets/black_carre_64.png" />
+              iconSrc="../assets/black_carre_64.png" 
+              onClick={ColNoirClick}
+            />
           </Stack.Item>
         </Stack>
   

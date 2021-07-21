@@ -18,42 +18,39 @@
  *                                                                              *
  ********************************************************************************/
 
-import * as React from "react";
-import { IButtonStyles, IconButton, IIconProps, ImageFit} from "@fluentui/react";
+import { Dispatch, SetStateAction, useState } from "react";
 
-export interface CommandButtonProps {
-    butTitle : string;
-    iconSrc: string;
-    onClick: () => void;
+export default class UnsetBehConfig {
+    public readonly forceNBold: boolean;
+    public readonly forceNItalic: boolean;
+    public readonly forceNUnderline: boolean;
+    public readonly forceBlackColor: boolean;
+    private readonly setFNBold: Dispatch<SetStateAction<boolean>>;
+    private readonly setFNItalic: Dispatch<SetStateAction<boolean>>;
+    private readonly setFNUnderline: Dispatch<SetStateAction<boolean>>;
+    private readonly setFBlackColor: Dispatch<SetStateAction<boolean>>;
 
-    // il faudra ajouter l'action...
+    constructor() {
+        [this.forceNBold, this.setFNBold] = useState(false);
+        [this.forceNItalic, this.setFNItalic] = useState(false);
+        [this.forceNUnderline, this.setFNUnderline] = useState(false);
+        [this.forceBlackColor, this.setFBlackColor] = useState(false);
+    }
+
+    public SetFNBold(val: boolean) {
+        this.setFNBold(val);
+    }
+
+    public SetFNItalic(val: boolean) {
+        this.setFNItalic(val);
+    }
+
+    public SetFNUnderline(val: boolean) {
+        this.setFNUnderline(val);
+    }
+
+    public SetFBlackColor(val: boolean) {
+        this.setFBlackColor(val);
+    }
+     
 }
-
-const iconSize = 40;
-
-const customIconButStyles: IButtonStyles = { 
-  root: {height: iconSize + 5, width: iconSize + 5, border: "solid", borderWidth: 1, borderColor: "#A19F9D"},
-  icon: {height: iconSize}
-};
-
-export default function CommandButton (props: CommandButtonProps) {
-
-    const phonIcon: IIconProps = {
-        imageProps: {
-            imageFit: ImageFit.centerContain,
-            width: iconSize,
-            height: iconSize,
-            src: props.iconSrc
-        }
-    };
-    return(
-        <IconButton
-          iconProps={phonIcon}
-          title={props.butTitle}
-          styles= {customIconButStyles}
-          onClick= {props.onClick}
-        />
-    )
-
-}
-  

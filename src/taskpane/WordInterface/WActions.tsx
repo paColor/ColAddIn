@@ -18,42 +18,47 @@
  *                                                                              *
  ********************************************************************************/
 
-import * as React from "react";
-import { IButtonStyles, IconButton, IIconProps, ImageFit} from "@fluentui/react";
 
-export interface CommandButtonProps {
-    butTitle : string;
-    iconSrc: string;
-    onClick: () => void;
+import Config from "../Configs/Config";
 
-    // il faudra ajouter l'action...
-}
+export default class WAction {
 
-const iconSize = 40;
+    // ------------------------------ Agir sur MSWText -------------------------
+    
+    static AddSpace(_conf: Config) {
 
-const customIconButStyles: IButtonStyles = { 
-  root: {height: iconSize + 5, width: iconSize + 5, border: "solid", borderWidth: 1, borderColor: "#A19F9D"},
-  icon: {height: iconSize}
-};
+    }
 
-export default function CommandButton (props: CommandButtonProps) {
+    // ----------------------- Les clicks -------------------------------------
 
-    const phonIcon: IIconProps = {
-        imageProps: {
-            imageFit: ImageFit.centerContain,
-            width: iconSize,
-            height: iconSize,
-            src: props.iconSrc
-        }
-    };
-    return(
-        <IconButton
-          iconProps={phonIcon}
-          title={props.butTitle}
-          styles= {customIconButStyles}
-          onClick= {props.onClick}
-        />
-    )
+    static EcarterClick(conf: Config) {
+        ActOnSelectedText(this.AddSpace, "Écarter", conf);
+    }
+
+    static ColPhonsClick(conf: Config) {
+        ActOnSelectedText(this.AddSpace, "Coloriser phonèmes", conf);
+        console.log("ColPhonsClick");
+    }
+
+    static ColNoirClick(conf: Config) {
+        ActOnSelectedText(this.AddSpace, "Noir", conf);
+    }
 
 }
-  
+
+    async function ActOnSelectedText(_act: (c:Config) => void, _undoTxt: string, _conf: Config) {
+        Word.run(async (context) => {
+            let sel = context.document.getSelection();
+            sel.load();
+            let rge = sel.getRange("Start");
+            let rge2 = rge.getRange("After");
+            
+            rge2.font.color = "#FF0000";
+
+            // const paragraph = context.document.body.insertParagraph("Hello World", Word.InsertLocation.end);
+            // paragraph.font.color = "blue";
+            
+            await context.sync();
+        })
+    }
+

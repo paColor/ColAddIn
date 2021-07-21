@@ -18,42 +18,37 @@
  *                                                                              *
  ********************************************************************************/
 
-import * as React from "react";
-import { IButtonStyles, IconButton, IIconProps, ImageFit} from "@fluentui/react";
 
-export interface CommandButtonProps {
-    butTitle : string;
-    iconSrc: string;
-    onClick: () => void;
+import Config from "../Configs/Config";
+import FormattedTextEl from "../Core/FormattedTextEl";
+import TheText from "../Core/TheText";
 
-    // il faudra ajouter l'action...
-}
+// interface MultipleCharInfo {
+//     pos: number;
+//     nrCHars: number;
+// }
 
-const iconSize = 40;
+export default class MSWText extends TheText {
 
-const customIconButStyles: IButtonStyles = { 
-  root: {height: iconSize + 5, width: iconSize + 5, border: "solid", borderWidth: 1, borderColor: "#A19F9D"},
-  icon: {height: iconSize}
-};
+    // private multipleChars : MultipleCharInfo[];
 
-export default function CommandButton (props: CommandButtonProps) {
+    constructor (rge: Word.Range) {
+        super(MSWText.GetStringFor(rge));
+    }
 
-    const phonIcon: IIconProps = {
-        imageProps: {
-            imageFit: ImageFit.centerContain,
-            width: iconSize,
-            height: iconSize,
-            src: props.iconSrc
-        }
-    };
-    return(
-        <IconButton
-          iconProps={phonIcon}
-          title={props.butTitle}
-          styles= {customIconButStyles}
-          onClick= {props.onClick}
-        />
-    )
+    protected SetChars(_fte: FormattedTextEl, _conf: Config) {
+         
+    }
+
+    // Retourne le string correspondant au range donné. 
+    // Dans la version VSTO, nettoie ce string des
+    // caractères spéciaux corrspondants à l'accroche d'un objet à un paragraphe (par exemple
+    // une image).
+    // Pour le moment, une fonctionalité simplifiée ici. On verra quand ça ne suffira pas. 
+    private static GetStringFor(rge: Word.Range) : string {
+        // let itR = new Word.Range();
+        // itR.set(rge);
+        return rge.text;
+    }
 
 }
-  

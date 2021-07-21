@@ -18,42 +18,24 @@
  *                                                                              *
  ********************************************************************************/
 
-import * as React from "react";
-import { IButtonStyles, IconButton, IIconProps, ImageFit} from "@fluentui/react";
+import TheText from "./TheText";
 
-export interface CommandButtonProps {
-    butTitle : string;
-    iconSrc: string;
-    onClick: () => void;
+export default class TextEl {
+    public readonly T: TheText;
+    
+    // La position (zero-based) dans T du premier caractère du TextEl. Doit
+    // être plus grand ou égal à zéro.
+    public readonly first: number;
 
-    // il faudra ajouter l'action...
+    // La position (zero-based) dans T du dernier caractère du TextEl.
+    // S'il est plus petit que first, l'élément est considéré comme vide.
+    public readonly last: number;
+
+    constructor(tt: TheText, inF: number, inL: number) {
+        this.T = tt;
+        this.first = inF;
+        this.last = inL;
+    }
+
+    
 }
-
-const iconSize = 40;
-
-const customIconButStyles: IButtonStyles = { 
-  root: {height: iconSize + 5, width: iconSize + 5, border: "solid", borderWidth: 1, borderColor: "#A19F9D"},
-  icon: {height: iconSize}
-};
-
-export default function CommandButton (props: CommandButtonProps) {
-
-    const phonIcon: IIconProps = {
-        imageProps: {
-            imageFit: ImageFit.centerContain,
-            width: iconSize,
-            height: iconSize,
-            src: props.iconSrc
-        }
-    };
-    return(
-        <IconButton
-          iconProps={phonIcon}
-          title={props.butTitle}
-          styles= {customIconButStyles}
-          onClick= {props.onClick}
-        />
-    )
-
-}
-  

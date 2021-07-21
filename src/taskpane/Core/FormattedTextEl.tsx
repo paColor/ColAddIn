@@ -18,42 +18,20 @@
  *                                                                              *
  ********************************************************************************/
 
-import * as React from "react";
-import { IButtonStyles, IconButton, IIconProps, ImageFit} from "@fluentui/react";
+import CharFormatting from "../Configs/CharFormatting";
+import TextEl from "./TextEl";
+import TheText from "./TheText";
 
-export interface CommandButtonProps {
-    butTitle : string;
-    iconSrc: string;
-    onClick: () => void;
+export default class FormattedTextEl extends TextEl {
 
-    // il faudra ajouter l'action...
+    public static GetFTEfromTE(te: TextEl, inCF: CharFormatting): FormattedTextEl {
+        return new FormattedTextEl(te.T, te.first, te.last, inCF);
+    }
+
+    public readonly cf: CharFormatting;
+
+    constructor(tt: TheText, inF: number, inL: number, inCF: CharFormatting) {
+        super(tt, inF, inL);
+        this.cf = inCF;
+    }
 }
-
-const iconSize = 40;
-
-const customIconButStyles: IButtonStyles = { 
-  root: {height: iconSize + 5, width: iconSize + 5, border: "solid", borderWidth: 1, borderColor: "#A19F9D"},
-  icon: {height: iconSize}
-};
-
-export default function CommandButton (props: CommandButtonProps) {
-
-    const phonIcon: IIconProps = {
-        imageProps: {
-            imageFit: ImageFit.centerContain,
-            width: iconSize,
-            height: iconSize,
-            src: props.iconSrc
-        }
-    };
-    return(
-        <IconButton
-          iconProps={phonIcon}
-          title={props.butTitle}
-          styles= {customIconButStyles}
-          onClick= {props.onClick}
-        />
-    )
-
-}
-  
