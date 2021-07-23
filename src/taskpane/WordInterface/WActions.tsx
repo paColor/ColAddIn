@@ -49,11 +49,33 @@ export default class WAction {
     async function ActOnSelectedText(_act: (c:Config) => void, _undoTxt: string, _conf: Config) {
         Word.run(async (context) => {
             let sel = context.document.getSelection();
-            sel.load();
+            // sel.load();
+            const delimiters : string[] = ["B", "o", "n", "j", "u", "r"];
+            let rgeColl = sel.split(delimiters);
+            rgeColl.load();
+            await context.sync();
+
+            for (let rge of rgeColl.items) {
+                console.log(rge.text);
+            }
+
+            
+/* 
+            let rge = rgeColl.getFirstOrNullObject();
+            rge.font.color = "#FF0000";
+
+            rgeColl.items[1].font.color = "#00FF00";
+
+
+
             let rge = sel.getRange("Start");
             let rge2 = rge.getRange("After");
+            let rge3 = rge2.getRange("After");
             
-            rge2.font.color = "#FF0000";
+            let newRge = rge.expandTo(rge3);
+             */
+
+            
 
             // const paragraph = context.document.body.insertParagraph("Hello World", Word.InsertLocation.end);
             // paragraph.font.color = "blue";
