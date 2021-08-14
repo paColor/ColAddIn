@@ -22,18 +22,17 @@ import Config from "../Configs/Config";
 import FormattedTextEl from "../Core/FormattedTextEl";
 import TheText from "../Core/TheText";
 
-// interface MultipleCharInfo {
-//     pos: number;
-//     nrCHars: number;
-// }
-
+// C'est la seule façon que j'ai trouvée pour séparer chaque lettre et pouvoir la coloriser
+// de manière indépendante. 
 const letDelimiters : string[] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
  "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", 
  "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", 
  "T", "U", "V", "W", "X", "Y", "Z",
- "é", "è", "ê", "ë", "à", "â", "î", "ï", "ô", "û", "ù",
- "É", "È", "Ê", "Ë", "À", "Â", "Î", "Ï", "Ô", "Û", "Ù",
- " "];
+ "é", "è", "ê", "ë", "à", "â", "î", "ï", "ô", "û", "ù", "ç",
+ "É", "È", "Ê", "Ë", "À", "Â", "Î", "Ï", "Ô", "Û", "Ù", "Ç",
+ " ", "\b", "\f", "\n", "\r", "\t", "\v", "\'", "\"", "\\",
+ ".", ",", ";", ":", "?", "!", "§", "°", "+", "*", "-", "_", "/", "%", "&", "(", ")", "=",
+ "´", "`", "[", "]", "{", "}"];
 
 
 async function ColPhonAction() {
