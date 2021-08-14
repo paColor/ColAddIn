@@ -18,7 +18,6 @@
  *                                                                              *
  ********************************************************************************/
 
-
 import Config from "../Configs/Config";
 import FormattedTextEl from "../Core/FormattedTextEl";
 import TheText from "../Core/TheText";
@@ -33,19 +32,61 @@ const letDelimiters : string[] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "
  "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", 
  "T", "U", "V", "W", "X", "Y", "Z",
  "é", "è", "ê", "ë", "à", "â", "î", "ï", "ô", "û", "ù",
- "É", "È", "Ê", "Ë", "À", "Â", "Î", "Ï", "Ô", "Û", "Ù"];
+ "É", "È", "Ê", "Ë", "À", "Â", "Î", "Ï", "Ô", "Û", "Ù",
+ " "];
 
-export default class MSWText extends TheText {
 
-    // private multipleChars : MultipleCharInfo[];
+async function ColPhonAction() {
+    Word.run(async (context) => {
+        let sel = context.document.getSelection();
+        sel.load();
+        let rgeColl = sel.split(letDelimiters);
+        rgeColl.load();
+        await context.sync();
+        let mswT = new MSWText(sel, rgeColl);
+
+        mswT.ColQquesChar([1, 3, 5, 7]);
+
+        await context.sync();
+    })
+}
+
+
+export default class MSWText extends TheText {    
     
-    
-    constructor (rge: Word.Range) {
+    // pour chaque position dans le texte, indique le Range correspondant.
+    // On utilise ce mécanisme car on ne peut garantir que chaque Range contienne exactement
+    // un caractère dans tous les cas.
+    private pos : Word.Range[];
+
+    constructor (rge: Word.Range, rgeColl : Word.RangeCollection) {
         super(MSWText.GetStringFor(rge));
+        this.pos = new Array<Word.Range>(this.S.length);
+        let i = 0;
+        for (let r of rgeColl.items) {
+            for (let j = 0; j < r.text.length; j++) {
+                this.pos[i] = r;
+                i++;
+            }
+            console.log(r.text);
+        }
+    }
+
+    public ColQquesChar(numArr: number[]) {
+        for (let i of numArr) {
+            if (i < this.pos.length) {
+                this.pos[i].font.color = "#00FF00";
+            }
+        }
     }
 
     protected SetChars(_fte: FormattedTextEl, _conf: Config) {
          
+    }
+
+    static ColPhonsClick(_conf: Config) {
+        ColPhonAction();
+        console.log("ColPhonsClick");
     }
 
     // Retourne le string correspondant au range donné. 

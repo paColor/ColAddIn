@@ -20,6 +20,7 @@
 
 import * as React from "react";
 import Config from "../Configs/Config";
+import MSWText from "../WordInterface/MSWText";
 import WAction from "../WordInterface/WActions";
 import PhonTab from "./PhonTab";
 
@@ -35,7 +36,7 @@ export default function App() {
     <div>
       <PhonTab 
         conf = {conf}
-        colPhons = {WAction.ColPhonsClick}
+        colPhons = {MSWText.ColPhonsClick}
         colNoir = {WAction.ColNoirClick}
       />
     </div>

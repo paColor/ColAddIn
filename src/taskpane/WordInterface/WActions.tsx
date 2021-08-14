@@ -46,7 +46,7 @@ export default class WAction {
 
 }
 
-    async function ActOnSelectedText(_act: (c:Config) => void, _undoTxt: string, _conf: Config) {
+async function ActOnSelectedText(_act: (c:Config) => void, _undoTxt: string, _conf: Config) {
         Word.run(async (context) => {
             let sel = context.document.getSelection();
             // sel.load();
