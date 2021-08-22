@@ -20,7 +20,19 @@
 
 import TheText from "./TheText";
 
+const consonnes = "bcdfghjklmnpqrstvwxzç";
+const voyelles = "aeiouyœéàèùäëïöüâêîôûœ";
+
+export function EstVoyelle(c:string) {
+    return voyelles.includes(c);
+}
+
+export function EstConsonne(c:string) {
+    return consonnes.includes(c);
+}
+
 export default class TextEl {
+
     public readonly T: TheText;
     
     // La position (zero-based) dans T du premier caractère du TextEl. Doit

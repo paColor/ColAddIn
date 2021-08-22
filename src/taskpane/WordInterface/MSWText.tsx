@@ -19,6 +19,7 @@
  ********************************************************************************/
 
 import Config from "../Configs/Config";
+import { RegleMotsEn5, RegleMotsGnGN, RegleMotsOYoj, RegleMotsQUkw, RegleMotsRe, Regle_avoir, Regle_ChK, Regle_er, Regle_finD, Regle_ierConjI, Regle_ill, Regle_ment, Regle_MotsUM, Regle_MotsUN_ON, Regle_mots_ent, Regle_nc_ai_final, Regle_s_final, Regle_tien, Regle_t_final, Regle_VerbesTer, Regle_verbe_mer, Regle_X_Final } from "../Core/AutomRuleFilter";
 import FormattedTextEl from "../Core/FormattedTextEl";
 import TheText from "../Core/TheText";
 
@@ -33,22 +34,6 @@ const letDelimiters : string[] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "
  " ", "\b", "\f", "\n", "\r", "\t", "\v", "\'", "\"", "\\",
  ".", ",", ";", ":", "?", "!", "§", "°", "+", "*", "-", "_", "/", "%", "&", "(", ")", "=",
  "´", "`", "[", "]", "{", "}"];
-
-
-async function ColPhonAction() {
-    Word.run(async (context) => {
-        let sel = context.document.getSelection();
-        sel.load();
-        let rgeColl = sel.split(letDelimiters);
-        rgeColl.load();
-        await context.sync();
-        let mswT = new MSWText(sel, rgeColl);
-
-        mswT.ColQquesChar([1, 3, 5, 7]);
-
-        await context.sync();
-    })
-}
 
 
 export default class MSWText extends TheText {    
@@ -67,7 +52,7 @@ export default class MSWText extends TheText {
                 this.pos[i] = r;
                 i++;
             }
-            console.log(r.text);
+            // console.log(r.text);
         }
     }
 
@@ -83,9 +68,145 @@ export default class MSWText extends TheText {
          
     }
 
-    static ColPhonsClick(_conf: Config) {
-        ColPhonAction();
-        console.log("ColPhonsClick");
+    static async ColPhonsClick(_conf: Config) {
+        Word.run(async (context) => {
+            let sel = context.document.getSelection();
+            sel.load();
+            let rgeColl = sel.split(letDelimiters);
+            rgeColl.load();
+            await context.sync();
+            let mswT = new MSWText(sel, rgeColl);
+    
+            mswT.ColQquesChar([1, 3, 5, 7]);
+
+            console.log("Regle_ierConjI");
+            console.log(Regle_ierConjI("châtierais", 4));
+            console.log(Regle_ierConjI("Bonjour", 4)); 
+
+            console.log("Regle_mots_ent");
+            console.log(Regle_mots_ent("impotent", 5));
+            console.log(Regle_mots_ent("lent", 1));
+            console.log(Regle_mots_ent("vient", 2));
+
+            console.log("Regle_ment");
+            console.log(Regle_ment("impotent", 5));
+            console.log(Regle_ment("importent", 6));
+            console.log(Regle_ment("dorment", 4));
+            console.log(Regle_ment("comment", 4));
+
+            console.log("Regle_verbe_mer");
+            console.log(Regle_verbe_mer("impotent", 5));
+            console.log(Regle_verbe_mer("importent", 6));
+            console.log(Regle_verbe_mer("dorment", 4));
+
+            console.log("Regle_er");
+            console.log(Regle_er("impotent", 5));
+            console.log(Regle_er("fier", 2));
+
+            console.log("Regle_nc_ai_final");
+            console.log(Regle_nc_ai_final("impotent", 5));
+            console.log(Regle_nc_ai_final("mangeai", 5));
+            console.log(Regle_nc_ai_final("geai", 2));
+
+            console.log("Regle_avoir");
+            console.log(Regle_avoir("impotent", 5));
+            console.log(Regle_avoir("eue", 0));
+
+            console.log("Regle_s_final");
+            console.log(Regle_s_final("impotent", 5));
+            console.log(Regle_s_final("bonjours", 7));
+            console.log(Regle_s_final("triceps", 6));
+
+            console.log("Regle_t_final");
+            console.log(Regle_t_final("impotent", 7));
+            console.log(Regle_t_final("bonjours", 7));
+            console.log(Regle_t_final("rapt", 3));
+
+            console.log("Regle_tien");
+            console.log(Regle_tien("capétien", 4));
+            console.log(Regle_tien("chrétien", 4));
+            console.log(Regle_tien("antienne", 2));
+
+            console.log("Regle_finD");
+            console.log(Regle_finD("lourd", 4));
+            console.log(Regle_finD("baroud", 5));
+            console.log(Regle_finD("caïd", 3));
+    
+            console.log("Regle_ill");
+            console.log(Regle_ill("vanille", 3));
+            console.log(Regle_ill("vanilline", 3));
+            console.log(Regle_ill("filliole", 1));
+
+            console.log("Regle_ill");
+            console.log(Regle_ill("vanille", 3));
+            console.log(Regle_ill("vanilline", 3));
+            console.log(Regle_ill("filliole", 1));
+
+            console.log("Regle_MotsUM");
+            console.log(Regle_MotsUM("hume", 1));
+            console.log(Regle_MotsUM("minimum", 5));
+            console.log(Regle_MotsUM("maximum", 5));
+
+            console.log("Regle_VerbesTer");
+            console.log(Regle_VerbesTer("chantions", 4));
+            console.log(Regle_VerbesTer("obligations", 6));
+            console.log(Regle_VerbesTer("prétentions", 6));
+
+            console.log("Regle_X_Final");
+            console.log(Regle_X_Final("dix", 2));
+            console.log(Regle_X_Final("choux", 4));
+            console.log(Regle_X_Final("lynx", 3));
+
+            console.log("Regle_ChK");
+            console.log(Regle_ChK("rachitique", 2));
+            console.log(Regle_ChK("psychédélique", 3));
+            console.log(Regle_ChK("autochtone", 4));
+
+            console.log("Regle_MotsUN_ON");
+            console.log(Regle_MotsUN_ON("unifié", 0));
+            console.log(Regle_MotsUN_ON("acupuncture", 4));
+            console.log(Regle_MotsUN_ON("chacun", 4));
+
+            console.log("RegleMotsQUkw");
+            console.log(RegleMotsQUkw("quidam", 0));
+            console.log(RegleMotsQUkw("aquarelle", 1));
+            console.log(RegleMotsQUkw("etique", 3));
+
+            console.log("RegleMotsEn5");
+            console.log(RegleMotsEn5("rendez", 1));
+            console.log(RegleMotsEn5("aquarelle", 1));
+            console.log(RegleMotsEn5("agenda", 2));
+
+            console.log("RegleMotsGnGN");
+            console.log(RegleMotsGnGN("cognitig", 2));
+            console.log(RegleMotsGnGN("campagne", 5));
+            console.log(RegleMotsGnGN("agneau", 1));
+
+            console.log("RegleMotsOYoj");
+            console.log(RegleMotsOYoj("roy", 1));
+            console.log(RegleMotsOYoj("goyave", 1));
+            console.log(RegleMotsOYoj("boyeau", 1));
+
+            console.log("RegleMotsRe");
+            console.log(RegleMotsRe("regarder", 1));
+            console.log(RegleMotsRe("renverser", 1));
+            console.log(RegleMotsRe("rectifié", 1));
+
+
+            await context.sync();
+        })
+    }
+
+    static async ColNoirClick(_conf: Config) {
+        Word.run(async (context) => {
+            let sel = context.document.getSelection();
+            sel.load();
+            sel.font.color = "#000000";
+            sel.font.bold = false;
+            sel.font.italic = false;
+            sel.font.underline = "None";
+            await context.sync();
+        })
     }
 
     // Retourne le string correspondant au range donné. 

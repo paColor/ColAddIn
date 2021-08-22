@@ -18,27 +18,18 @@
  *                                                                              *
  ********************************************************************************/
 
-import * as React from "react";
-import Config from "../Configs/Config";
-import MSWText from "../WordInterface/MSWText";
-import PhonTab from "./PhonTab";
+import TextEl from "./TextEl";
+import TheText from "./TheText";
 
-export interface AppProps {
-  title: string;
-  isOfficeInitialized: boolean;
+export default class TheWord extends TextEl {
+
+    public readonly lowWord: string; // low characters version of the word.
+
+    // Paramètres: le TheText considéré ainsi que inFirst et inLast: positions 
+    // (zero based) du premier et dernier caractère.
+    constructor(tt: TheText, inF: number, inL: number) { 
+        super(tt, inF, inL);
+        this.lowWord = this.T.S.toLowerCase();
+    }
+    
 }
-
-export default function App() {
-  const conf : Config = new Config();
-
-  return (
-    <div>
-      <PhonTab 
-        conf = {conf}
-        colPhons = {MSWText.ColPhonsClick}
-        colNoir = {MSWText.ColNoirClick}
-      />
-    </div>
-  )
-}
-

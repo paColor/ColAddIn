@@ -18,27 +18,26 @@
  *                                                                              *
  ********************************************************************************/
 
-import * as React from "react";
+
 import Config from "../Configs/Config";
-import MSWText from "../WordInterface/MSWText";
-import PhonTab from "./PhonTab";
+import { AutomatFindPhons } from "./AutomAutomat";
+import PhonInW from "./PhonInW";
+import TheText from "./TheText";
+import TheWord from "./TheWord";
 
-export interface AppProps {
-  title: string;
-  isOfficeInitialized: boolean;
+export default class PhonWord extends TheWord {
+    private phons: PhonInW[];
+    private theConf: Config;
+
+    constructor (tt: TheText, inFirst: number, inLast: number, conf: Config) {
+        super(tt, inFirst, inLast);
+        this.theConf = conf;
+        this.phons = new Array<PhonInW>();
+        AutomatFindPhons(this, this.theConf);
+    }
+
+    public AddPhon(piw: PhonInW) {
+        this.phons.push(piw);
+    }
+
 }
-
-export default function App() {
-  const conf : Config = new Config();
-
-  return (
-    <div>
-      <PhonTab 
-        conf = {conf}
-        colPhons = {MSWText.ColPhonsClick}
-        colNoir = {MSWText.ColNoirClick}
-      />
-    </div>
-  )
-}
-
