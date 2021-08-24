@@ -21,7 +21,9 @@
 
 import Config from "../Configs/Config";
 import PhonWord from "./PhonWord";
-import { RegleMotsEn5, RegleMotsGnGN, RegleMotsOYoj, RegleMotsQUkw, RegleMotsRe, Regle_avoir, Regle_ChK, Regle_er, Regle_finD, Regle_ient, Regle_ierConjE, Regle_ierConjI, Regle_ill, Regle_ment, Regle_MotsUM, Regle_MotsUN_ON, Regle_mots_ent, Regle_nc_ai_final, Regle_s_final, Regle_tien, Regle_t_final, Regle_VerbesTer, Regle_verbe_mer, Regle_X_Final } from "../Core/AutomRuleFilter";
+
+/*
+import { RegleMotsEn5, RegleMotsGnGN, RegleMotsOYoj, RegleMotsQUkw, RegleMotsRe, Regle_avoir, Regle_ChK, Regle_er, Regle_finD, Regle_ient, Regle_ierConjE, Regle_ierConjI, Regle_ill, Regle_ment, Regle_MotsUM, Regle_MotsUN_ON, Regle_mots_ent, Regle_nc_ai_final, Regle_s_final, Regle_tien, Regle_t_final, Regle_VerbesTer, Regle_X_Final } from "../Core/AutomRuleFilter";
 import { Phoneme } from "./PhonInW";
 
 
@@ -513,7 +515,9 @@ let automat = {
     
     } // automat
 
+*/
 
 export function AutomatFindPhons(_pw: PhonWord, _conf: Config) {
     
 }
+

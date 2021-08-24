@@ -171,24 +171,126 @@ export enum Phoneme
         lastPhon
     }
 
+    /// <summary>
+        /// Traduction de la représentation ColSimpl étendue (ça devient un peu compliqué) vers les 
+        /// phonèmes utilisés par PhonInW et PhonWord.
+        /// ColSimpl correspond en fait à Lexique sans la distinction entre "o" et "O". Les extensions
+        /// attribuent une représentation en une lettre pour les phonèmes "spéciaux" de colorization.
+        /// Est utilisé par le dictionnaire d'exceptions.
+        /// Extensions: 
+        ///     "#" pour muet, 
+        ///     "ç" pour e caduc, 
+        ///     "4" pour les chiffres, 
+        ///     "3" pour oin, 
+        ///     "6" pour oi, 
+        ///     "x" pour ks, 
+        ///     "X" pour gz,
+        ///     "%" pour ill
+        ///     "/" pour ij
+        /// 
+        /// </summary>
+        const colSE2phoneme = new Map ([
+            ['a',   Phoneme.a],
+            ['°',   Phoneme.q],
+            ['i',   Phoneme.i],
+            ['y',   Phoneme.y],
+            ['1',   Phoneme.x_tilda],
+            ['u',   Phoneme.u],
+            ['e',   Phoneme.e],
+            ['o',   Phoneme.o],
+            ['E',   Phoneme.E],
+            ['@',   Phoneme.a_tilda], // an
+            ['§',   Phoneme.o_tilda], // on
+            ['2',   Phoneme.x2],
+            ['6',   Phoneme.oi], // oi
+            ['5',   Phoneme.e_tilda],
+            ['w',   Phoneme.w],
+            ['j',   Phoneme.j],
+            ['%',   Phoneme.j_ill], // ill
+            ['G',   Phoneme.J], // ng
+            ['N',   Phoneme.N], // gn
+            ['l',   Phoneme.l],
+            ['v',   Phoneme.v],
+            ['f',   Phoneme.f],
+            ['p',   Phoneme.p],
+            ['b',   Phoneme.b],
+            ['m',   Phoneme.m],
+            ['z',   Phoneme.z],
+            ['s',   Phoneme.s],
+            ['t',   Phoneme.t],
+            ['d',   Phoneme.d],
+            ['x',   Phoneme.ks], // ks
+            ['X',   Phoneme.gz], // gz
+            ['R',   Phoneme.R],
+            ['r',   Phoneme.R],
+            ['n',   Phoneme.n],
+            ['Z',   Phoneme.Z], // ge
+            ['S',   Phoneme.S], // ch
+            ['k',   Phoneme.k],
+            ['g',   Phoneme.g],
+            ['/',   Phoneme.i_j],
+            ['3',   Phoneme.w_e_tilda], // oin
+            ['4',   Phoneme.chiffre],
+            ['#',   Phoneme._muet],
+            ['ç',   Phoneme.q_caduc]
+        ]);
+
     export default class PhonInW extends TextEl {
         public readonly p : Phoneme;
         public readonly pw : PhonWord; // the PhonWord the PhonInW belongs to
         public readonly firedRuleName: string; // name of the rule that was used to set the phonème.
 
-        // Créé un PhonInWord et l'ajoute à la liste de inPW.
-        // inPW: Le PhonWord qui contient le phonème créé.
-        // inBeg: La position (zero based) de la première lettre du phonème dans le mot.
-        // inEnd: La position (zero based) de la dernière lettre du phonème dans le mot.
-        // inP: Le type de phonème
-        // ruleN: La règle de l'automate qui a décidé de la création du phonème.
-        constructor(inPW : PhonWord, inBeg : number, inEnd : number, inP : Phoneme, ruleN : string)
+
+        /** Créé un PhonInWord.
+         * @param inPW Le PhonWord qui contient le phonème créé.
+         * @param inBeg: La position (zero based) de la première lettre du phonème dans le mot.
+         * @param inEnd: La position (zero based) de la dernière lettre du phonème dans le mot.
+         * @param inP: Le type de phonème
+         * @param ruleN: La règle de l'automate qui a décidé de la création du phonème.
+        */
+        constructor(inPW : PhonWord, inBeg : number, inEnd : number, inP : Phoneme, ruleN? : string)
         {
             super(inPW.T, inPW.first+inBeg, inPW.first + inEnd);
             this.pw = inPW;
             this.p = inP;
             this.firedRuleName = ruleN;
-            inPW.AddPhon(this);
+        }
+
+        /** Créé un PhonInWord et l'ajoute à la liste de inPW.
+         * @param inPW Le PhonWord qui contient le phonème créé.
+         * @param inBeg: La position (zero based) de la première lettre du phonème dans le mot.
+         * @param inEnd: La position (zero based) de la dernière lettre du phonème dans le mot.
+         * @param inP: Le type de phonème
+         * @param ruleN: La règle de l'automate qui a décidé de la création du phonème.
+        */
+        public static CreateAndPushPiWPhon(inPW : PhonWord, inBeg : number, inEnd : number, 
+            inP : Phoneme, ruleN : string) : PhonInW
+        {
+            let piw = new PhonInW(inPW, inBeg, inEnd, inP, ruleN)
+            inPW.AddPhon(piw);
+            return piw;
+        }
+        
+        
+        /** Créé un PhonInWord et l'ajoute à la liste des phonèmes de inPW.
+         * @param inPW Le PhonWord qui contient le phonème créé.
+         * @param inBeg La position (zero based) de la première lettre du phonème dans le mot.
+         * @param inEnd La position (zero based) de la dernière lettre du phonème dans le mot.
+         * @param colSE Le phonème au format ColSimplifiéEtendu.
+         * @param ruleN La règle de l'automate qui a décidé de la création du phonème.
+        */
+        public static CreateAndPushPiWColSE (inPW : PhonWord, inBeg : number, inEnd : number, 
+            colSE : string, ruleN : string) : PhonInW 
+        {
+            let phon = colSE2phoneme.get(colSE);
+            if (phon !== undefined) {
+                let piw = new PhonInW(inPW, inBeg, inEnd, phon, ruleN);
+                inPW.AddPhon(piw);
+                return piw;
+            }
+            else {
+                return null;
+            }
         }
         
     }
