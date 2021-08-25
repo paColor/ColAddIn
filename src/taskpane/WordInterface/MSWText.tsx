@@ -19,7 +19,6 @@
  ********************************************************************************/
 
 import Config from "../Configs/Config";
-import { FindExceptPhons } from "../Core/AutomDictionary";
 import { RegleMotsEn5, RegleMotsGnGN, RegleMotsOYoj, RegleMotsQUkw, RegleMotsRe, Regle_avoir, Regle_ChK, Regle_er, Regle_finD, Regle_ierConjI, Regle_ill, Regle_ment, Regle_MotsUM, Regle_MotsUN_ON, Regle_mots_ent, Regle_nc_ai_final, Regle_s_final, Regle_tien, Regle_t_final, Regle_VerbesTer, Regle_verbe_mer, Regle_X_Final } from "../Core/AutomRuleFilter";
 import FormattedTextEl from "../Core/FormattedTextEl";
 import PhonWord from "../Core/PhonWord";
@@ -35,7 +34,7 @@ const letDelimiters : string[] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "
  "É", "È", "Ê", "Ë", "À", "Â", "Î", "Ï", "Ô", "Û", "Ù", "Ç",
  " ", "\b", "\f", "\n", "\r", "\t", "\v", "\'", "\"", "\\",
  ".", ",", ";", ":", "?", "!", "§", "°", "+", "*", "-", "_", "/", "%", "&", "(", ")", "=",
- "´", "`", "[", "]", "{", "}"];
+ "´", "`", "[", "]", "{", "}", "’", "«", "»"];
 
 
 export default class MSWText extends TheText {    
@@ -196,11 +195,33 @@ export default class MSWText extends TheText {
 
             let tt = new TheText("et");
             let pw = new PhonWord(tt, 0, 1, _conf);
-            FindExceptPhons(pw, _conf);
+            console.log(pw);
+            console.log(pw.ToPhonString());
 
             let tt2 = new TheText("clef");
-            let pw2 = new PhonWord(tt2, 0, 1, _conf);
-            FindExceptPhons(pw2, _conf);
+            let pw2 = new PhonWord(tt2, 0, 3, _conf);
+            console.log(pw2);
+            console.log(pw2.ToPhonString());
+
+            let tt3 = new TheText("bizarre");
+            let pw3 = new PhonWord(tt3, 0, 0, _conf);
+            console.log(pw3);
+            console.log(pw3.ToPhonString());
+
+            let tt4 = new TheText("bonjour");
+            let pw4 = new PhonWord(tt4, 0, 6, _conf);
+            console.log(pw4);
+            console.log(pw4.ToPhonString());
+
+            let tt5 = new TheText("aquarelle");
+            let pw5 = new PhonWord(tt5, 0, 8, _conf);
+            console.log(pw5);
+            console.log(pw5.ToPhonString());
+
+            let tt6 = new TheText("fille");
+            let pw6 = new PhonWord(tt6, 0, 9, _conf);
+            console.log(pw6);
+            console.log(pw6.ToPhonString());
 
             await context.sync();
         })

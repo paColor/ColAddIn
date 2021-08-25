@@ -31,7 +31,7 @@ import PhonWord from "./PhonWord";
  * @returns true: le mot a été trouvé dans les exceptions, les phonèmes ont été ajoutés à 
  * pw. false: le mot n'est pas dans la liste. pw est inchangé.
  */
-export function FindExceptPhons(pw: PhonWord, _conf: Config)
+export default function FindExceptPhons(pw: PhonWord, _conf: Config)
 {
     let toReturn = false;
     let sons : string = except.get(pw.lowWord);

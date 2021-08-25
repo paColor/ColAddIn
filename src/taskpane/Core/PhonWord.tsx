@@ -20,7 +20,7 @@
 
 
 import Config from "../Configs/Config";
-import { AutomatFindPhons } from "./AutomAutomat";
+import AutomatFindPhons from "./AutomAutomat";
 import PhonInW from "./PhonInW";
 import TheText from "./TheText";
 import TheWord from "./TheWord";
@@ -38,6 +38,17 @@ export default class PhonWord extends TheWord {
 
     public AddPhon(piw: PhonInW) {
         this.phons.push(piw);
+    }
+
+    /**
+     * Retourne une représentation phonétique lexique.org du mot.
+     */
+    public ToPhonString() : string {
+        let toReturn = "";
+        for (let piw of this.phons) {
+            toReturn = toReturn + piw.PhonToString();
+        }
+        return toReturn;
     }
 
 }

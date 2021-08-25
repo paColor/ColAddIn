@@ -138,6 +138,18 @@ export default class PhonConfig { // équivalent de ColConfWin
         this.SetAllChk(false);
     }
 
+    /**
+     * Indique si les règles de la catégorie donnée sont activées (true) ou non (false)
+     * @param rCat catégorie de règles dont on veut connaître l'état. Sont possibles:
+     *      "IllCeras"
+     *      "IllLireCouleur"
+     */
+    public IsRuleCatEnabled(rCat : string) : boolean {
+        // implémentation à modifier quand on rendra les flags configurables, comme dans
+        // la version VSTO.
+        return rCat === "IllCeras";
+    }
+
     private SetAllChk(val: boolean) {
         let chkMap = new Map<string, boolean> ();
         phonValides.forEach((phon:string) => {chkMap.set(phon, val)});
