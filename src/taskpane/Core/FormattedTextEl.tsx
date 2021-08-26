@@ -24,14 +24,21 @@ import TheText from "./TheText";
 
 export default class FormattedTextEl extends TextEl {
 
-    public static GetFTEfromTE(te: TextEl, inCF: CharFormatting): FormattedTextEl {
-        return new FormattedTextEl(te.T, te.first, te.last, inCF);
-    }
-
     public readonly cf: CharFormatting;
 
     constructor(tt: TheText, inF: number, inL: number, inCF: CharFormatting) {
         super(tt, inF, inL);
         this.cf = inCF;
     }
+
+    /**
+     * Crée le formattage demandé pour le TextEl
+     * @param te Le TextEl à formatter
+     * @param cf Le formattage à appliquer
+     */
+    public static SetCharFormat4TE(te: TextEl, cf: CharFormatting) {
+        let fte = new FormattedTextEl(te.T, te.first, te.last, cf);
+        te.T.AddFTE(fte);
+    }
+
 }

@@ -18,12 +18,13 @@
  *                                                                              *
  ********************************************************************************/
 
-import { getColorFromString, IRGB } from "@fluentui/react";
-import CharFormatting from "../Configs/CharFormatting";
+// import { getColorFromString, IRGB } from "@fluentui/react";
 import Config from "../Configs/Config";
 import FormattedTextEl from "./FormattedTextEl";
 import PhonWord from "./PhonWord";
-import TextEl from "./TextEl";
+
+/* Pas sûr qu'on en aura besoin puisque la fonction "Noir" est directement réalisée 
+ * dans MSWText
 
 class CFFForceBlack extends CharFormatting {
     constructor() {
@@ -47,6 +48,7 @@ class CFFForceBlack extends CharFormatting {
         return true;
     }
 }
+*/
 
 
 
@@ -70,8 +72,20 @@ export default class TheText {
         return this.lowerCaseS;
     }
 
+    /** Colorise les phonèmes du texte
+     * @param conf La Config donnant les formats à utiliser
+    */
     public ColorizePhons(conf: Config) {
+        let pws = this.GetPhonWords(conf);
+        for (let pw of pws) {
+            pw.ColorPhons(conf);
+            console.log(pw.lowWord + " " + pw.ToPhonString());
+        }
+        this.ApplyFormatting(conf);
+    }
 
+    public AddFTE(fte : FormattedTextEl) {
+        this.formats.push(fte);
     }
 
     /**

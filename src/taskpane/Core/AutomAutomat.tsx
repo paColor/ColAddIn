@@ -22,8 +22,9 @@
 import Config from "../Configs/Config";
 import PhonWord from "./PhonWord";
 import { RegleMotsEn5, RegleMotsGnGN, RegleMotsOYoj, RegleMotsQUkw, RegleMotsRe, Regle_avoir, Regle_ChK, Regle_er, Regle_finD, Regle_ient, Regle_ierConjE, Regle_ierConjI, Regle_ill, Regle_ment, Regle_MotsUM, Regle_MotsUN_ON, Regle_mots_ent, Regle_nc_ai_final, Regle_s_final, Regle_tien, Regle_t_final, Regle_VerbesTer, Regle_X_Final } from "../Core/AutomRuleFilter";
-import PhonInW, { Phoneme } from "./PhonInW";
+import PhonInW from "./PhonInW";
 import FindExceptPhons from "./AutomDictionary";
+import { Phoneme } from "./Phoneme";
 
 /*
 L'automate a subi quelques transformations par rapport à celui de la version VSTO:
@@ -54,7 +55,7 @@ let automat : any = {
             'il':[{'+':/^il((s?)$|l)/i},Phoneme.a,1],
             'in':[{'+':/^i[nm]([bcçdfghjklnmpqrstvwxz]|$)/i},Phoneme.e_tilda,3], // toute succession 'ain' 'aim' suivie d'une consonne ou d'une fin de mot
             'nc_ai_fin':[{'r':Regle_nc_ai_final},Phoneme.E_comp,2],
-            'ai_fin':[{'+':/^i$/i},Phoneme.E_comp,2],
+            'ai_fin':[{'+':/^i$/i},Phoneme.e_comp,2],
             'fais':[{'-':/f$/i,'+':/^is[aeiouy]/i},Phoneme.q, 2], // (PAE - 30.04.20) faisais et toutes les variations
             'i':[{'+':/^[iî]/i},Phoneme.E_comp,2],
             'n':[{'+':/^n[bcçdfgjklmpqrstvwxz]/i},Phoneme.a_tilda,2],
@@ -150,7 +151,7 @@ let automat : any = {
             't_final':[{'+':/^[t]$/i},Phoneme.E_comp,2], // donne le son [E] et le t ne se prononce pas
             'eclm_final':[{'+':/^[clm](s?)$/i},Phoneme.E_comp,1], // donne le son [E] et le l ou le c se prononcent (ex. : miel, sec)
              'd_except': [{'-':/(^bl|^ou|^damn)$/i, '+':/^d(s?)$/i},Phoneme.E_comp,1], // [PAE 22.02.20] pour covrir oued, bled, damned   
-            'drz_final':[{'+':/^[drz](s?)$/i},Phoneme.E_comp,2], // e suivi d'un d,r ou z en fin de mot done le son [e] 
+            'drz_final':[{'+':/^[drz](s?)$/i},Phoneme.e_comp,2], // e suivi d'un d,r ou z en fin de mot done le son [e] 
             'except_en2':[{'r':RegleMotsEn5},Phoneme.e_tilda,2], // mots dont le en se prononce [5]
             'n':[{'+':/^n[bcdfghjklmpqrstvwxzç]/i},Phoneme.a_tilda,2],
             'adv_emment_a':[{'+':/^mment/i},Phoneme.a,1], // adverbe avec 'emment' => son [a]
@@ -158,7 +159,7 @@ let automat : any = {
             'em_gene':[{'+':/^m[bcçdfghjklmpqrstvwxz]/i},Phoneme.a_tilda,2], // 'em' cas général => son [a_tilda]
             'nm':[{'+':/^[nm]$/i},Phoneme.a_tilda,2], // en fin de mot...
             'eno':[{'-':/(^|dés)$/i,'+':/^n[aio]/i},Phoneme.a_tilda,1], // 'enivrer' --> le 'n' se prononce également
-            'tclesmesdes':[{'-':/^[tcslmd]$/i,'+':/^s$/i},Phoneme.E_comp, 2], // mes, tes, ces, ses, les
+            'tclesmesdes':[{'-':/^[tcslmd]$/i,'+':/^s$/i},Phoneme.e_comp, 2], // mes, tes, ces, ses, les
             'que_gue_final':[{'-':/[gq]u$/i,'+':/^(s?)$/i},Phoneme.q_caduc,1], // que ou gue final
             'jtcnslemede':[{'-':/^[jtcnslmd]$/i,'last':true},Phoneme.q,1], // je, te, me, le, se, de, ne
             'jean':[{'-':/j$/i,'+':/^an/i},Phoneme._muet,1], // jean

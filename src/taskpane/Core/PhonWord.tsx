@@ -36,8 +36,23 @@ export default class PhonWord extends TheWord {
         AutomatFindPhons(this, this.theConf);
     }
 
+    /**
+     * Ajoute le PhonInW à la liste des PhonInW pour le mot.
+     * @param piw Le PhonInW à ajouter
+     */
     public AddPhon(piw: PhonInW) {
         this.phons.push(piw);
+    }
+
+    /**
+     * Applique le formattage de phonèmes défini par conf au PhonWord.
+     * Ajoute les FormattedTextEl nécessaires au TheText auquel le PhonWord est attaché.
+     * @param conf La Config indiquant les formattages à utiliser.
+     */
+    public ColorPhons (conf: Config) {
+        for (let piw of this.phons) {
+            piw.PutColor(conf);
+        }
     }
 
     /**

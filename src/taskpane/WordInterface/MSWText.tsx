@@ -18,10 +18,9 @@
  *                                                                              *
  ********************************************************************************/
 
+import { getColorFromRGBA } from "@fluentui/react";
 import Config from "../Configs/Config";
-import { RegleMotsEn5, RegleMotsGnGN, RegleMotsOYoj, RegleMotsQUkw, RegleMotsRe, Regle_avoir, Regle_ChK, Regle_er, Regle_finD, Regle_ierConjI, Regle_ill, Regle_ment, Regle_MotsUM, Regle_MotsUN_ON, Regle_mots_ent, Regle_nc_ai_final, Regle_s_final, Regle_tien, Regle_t_final, Regle_VerbesTer, Regle_verbe_mer, Regle_X_Final } from "../Core/AutomRuleFilter";
 import FormattedTextEl from "../Core/FormattedTextEl";
-import PhonWord from "../Core/PhonWord";
 import TheText from "../Core/TheText";
 
 // C'est la seule façon que j'ai trouvée pour séparer chaque lettre et pouvoir la coloriser
@@ -65,11 +64,16 @@ export default class MSWText extends TheText {
         }
     }
 
-    protected SetChars(_fte: FormattedTextEl, _conf: Config) {
-         
+    protected SetChars(fte: FormattedTextEl, _conf: Config) {
+        for (let i = fte.first; i <= fte.last; i++) {
+            if (fte.cf.changeColor) {
+            this.pos[i].font.color = getColorFromRGBA(fte.cf.color).str;
+            }
+        }
+
     }
 
-    static async ColPhonsClick(_conf: Config) {
+    static async ColPhonsClick(conf: Config) {
         Word.run(async (context) => {
             let sel = context.document.getSelection();
             sel.load();
@@ -77,152 +81,8 @@ export default class MSWText extends TheText {
             rgeColl.load();
             await context.sync();
             let mswT = new MSWText(sel, rgeColl);
-    
-            mswT.ColQquesChar([1, 3, 5, 7]);
-
-            console.log("Regle_ierConjI");
-            console.log(Regle_ierConjI("châtierais", 4));
-            console.log(Regle_ierConjI("Bonjour", 4)); 
-
-            console.log("Regle_mots_ent");
-            console.log(Regle_mots_ent("impotent", 5));
-            console.log(Regle_mots_ent("lent", 1));
-            console.log(Regle_mots_ent("vient", 2));
-
-            console.log("Regle_ment");
-            console.log(Regle_ment("impotent", 5));
-            console.log(Regle_ment("importent", 6));
-            console.log(Regle_ment("dorment", 4));
-            console.log(Regle_ment("comment", 4));
-
-            console.log("Regle_verbe_mer");
-            console.log(Regle_verbe_mer("impotent", 5));
-            console.log(Regle_verbe_mer("importent", 6));
-            console.log(Regle_verbe_mer("dorment", 4));
-
-            console.log("Regle_er");
-            console.log(Regle_er("impotent", 5));
-            console.log(Regle_er("fier", 2));
-
-            console.log("Regle_nc_ai_final");
-            console.log(Regle_nc_ai_final("impotent", 5));
-            console.log(Regle_nc_ai_final("mangeai", 5));
-            console.log(Regle_nc_ai_final("geai", 2));
-
-            console.log("Regle_avoir");
-            console.log(Regle_avoir("impotent", 5));
-            console.log(Regle_avoir("eue", 0));
-
-            console.log("Regle_s_final");
-            console.log(Regle_s_final("impotent", 5));
-            console.log(Regle_s_final("bonjours", 7));
-            console.log(Regle_s_final("triceps", 6));
-
-            console.log("Regle_t_final");
-            console.log(Regle_t_final("impotent", 7));
-            console.log(Regle_t_final("bonjours", 7));
-            console.log(Regle_t_final("rapt", 3));
-
-            console.log("Regle_tien");
-            console.log(Regle_tien("capétien", 4));
-            console.log(Regle_tien("chrétien", 4));
-            console.log(Regle_tien("antienne", 2));
-
-            console.log("Regle_finD");
-            console.log(Regle_finD("lourd", 4));
-            console.log(Regle_finD("baroud", 5));
-            console.log(Regle_finD("caïd", 3));
-    
-            console.log("Regle_ill");
-            console.log(Regle_ill("vanille", 3));
-            console.log(Regle_ill("vanilline", 3));
-            console.log(Regle_ill("filliole", 1));
-
-            console.log("Regle_ill");
-            console.log(Regle_ill("vanille", 3));
-            console.log(Regle_ill("vanilline", 3));
-            console.log(Regle_ill("filliole", 1));
-
-            console.log("Regle_MotsUM");
-            console.log(Regle_MotsUM("hume", 1));
-            console.log(Regle_MotsUM("minimum", 5));
-            console.log(Regle_MotsUM("maximum", 5));
-
-            console.log("Regle_VerbesTer");
-            console.log(Regle_VerbesTer("chantions", 4));
-            console.log(Regle_VerbesTer("obligations", 6));
-            console.log(Regle_VerbesTer("prétentions", 6));
-
-            console.log("Regle_X_Final");
-            console.log(Regle_X_Final("dix", 2));
-            console.log(Regle_X_Final("choux", 4));
-            console.log(Regle_X_Final("lynx", 3));
-
-            console.log("Regle_ChK");
-            console.log(Regle_ChK("rachitique", 2));
-            console.log(Regle_ChK("psychédélique", 3));
-            console.log(Regle_ChK("autochtone", 4));
-
-            console.log("Regle_MotsUN_ON");
-            console.log(Regle_MotsUN_ON("unifié", 0));
-            console.log(Regle_MotsUN_ON("acupuncture", 4));
-            console.log(Regle_MotsUN_ON("chacun", 4));
-
-            console.log("RegleMotsQUkw");
-            console.log(RegleMotsQUkw("quidam", 0));
-            console.log(RegleMotsQUkw("aquarelle", 1));
-            console.log(RegleMotsQUkw("etique", 3));
-
-            console.log("RegleMotsEn5");
-            console.log(RegleMotsEn5("rendez", 1));
-            console.log(RegleMotsEn5("aquarelle", 1));
-            console.log(RegleMotsEn5("agenda", 2));
-
-            console.log("RegleMotsGnGN");
-            console.log(RegleMotsGnGN("cognitig", 2));
-            console.log(RegleMotsGnGN("campagne", 5));
-            console.log(RegleMotsGnGN("agneau", 1));
-
-            console.log("RegleMotsOYoj");
-            console.log(RegleMotsOYoj("roy", 1));
-            console.log(RegleMotsOYoj("goyave", 1));
-            console.log(RegleMotsOYoj("boyeau", 1));
-
-            console.log("RegleMotsRe");
-            console.log(RegleMotsRe("regarder", 1));
-            console.log(RegleMotsRe("renverser", 1));
-            console.log(RegleMotsRe("rectifié", 1));
-
-            let tt = new TheText("et");
-            let pw = new PhonWord(tt, 0, 1, _conf);
-            console.log(pw);
-            console.log(pw.ToPhonString());
-
-            let tt2 = new TheText("clef");
-            let pw2 = new PhonWord(tt2, 0, 3, _conf);
-            console.log(pw2);
-            console.log(pw2.ToPhonString());
-
-            let tt3 = new TheText("bizarre");
-            let pw3 = new PhonWord(tt3, 0, 0, _conf);
-            console.log(pw3);
-            console.log(pw3.ToPhonString());
-
-            let tt4 = new TheText("bonjour");
-            let pw4 = new PhonWord(tt4, 0, 6, _conf);
-            console.log(pw4);
-            console.log(pw4.ToPhonString());
-
-            let tt5 = new TheText("aquarelle");
-            let pw5 = new PhonWord(tt5, 0, 8, _conf);
-            console.log(pw5);
-            console.log(pw5.ToPhonString());
-
-            let tt6 = new TheText("fille");
-            let pw6 = new PhonWord(tt6, 0, 9, _conf);
-            console.log(pw6);
-            console.log(pw6.ToPhonString());
-
+            mswT.ColorizePhons(conf);
+            //mswT.ColQquesChar([1, 3, 5, 7]);
             await context.sync();
         })
     }

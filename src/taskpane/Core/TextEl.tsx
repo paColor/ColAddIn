@@ -49,5 +49,4 @@ export default class TextEl {
         this.last = inL;
     }
 
-    
 }

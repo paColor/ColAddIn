@@ -29,7 +29,7 @@ export default class TheWord extends TextEl {
     // (zero based) du premier et dernier caractère.
     constructor(tt: TheText, inF: number, inL: number) { 
         super(tt, inF, inL);
-        this.lowWord = this.T.S.toLowerCase();
+        this.lowWord = this.T.S.substring(inF, inL+1).toLowerCase();
     }
     
 }
