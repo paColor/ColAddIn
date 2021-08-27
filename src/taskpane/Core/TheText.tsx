@@ -50,8 +50,6 @@ class CFFForceBlack extends CharFormatting {
 }
 */
 
-
-
 export default class TheText {
     private static rxWords = /\b\w+\b/ig; // expression régulière (rationnelle?) pour détecter les mots
     
@@ -79,7 +77,7 @@ export default class TheText {
         let pws = this.GetPhonWords(conf);
         for (let pw of pws) {
             pw.ColorPhons(conf);
-            console.log(pw.lowWord + " " + pw.ToPhonString());
+            //console.log(pw.lowWord + " " + pw.ToPhonString());
         }
         this.ApplyFormatting(conf);
     }

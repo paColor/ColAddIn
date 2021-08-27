@@ -30,59 +30,67 @@ const sonValides = [
   "g", "ij", "oin", "47", "uni", "diz", "cen", "mil", "_muet", "q_caduc", 
 ]
 
-const cerasChkSons: Map<string, boolean> = new Map([
-    ["a", false], ["q", false], ["i", false], ["y", false], ["1", true], ["u", true], ["é", true], ["o", true], ["è", true], ["an", true], ["on", true], ["2", true], ["oi", true], ["5", true], ["w", false], ["j", false], ["ill", false], ["ng", false], 
-    ["gn", false], ["l", false], ["v", false], ["f", false], ["p", false], ["b", false], ["m", false], ["z", false], ["s", false], ["t", false], ["d", false], ["ks", false], ["gz", false], ["r", false], ["n", false], ["ge", false], ["ch", false], ["k", false],   
-    ["g", false], ["ij", false], ["oin", true], ["47", false], ["uni", false], ["diz", false], ["cen", false], ["mil", false], ["_muet", true], ["q_caduc", false], 
-  ]) 
-  
-const roseChkSons: Map<string, boolean> = new Map([
-  ["a", false], ["q", false], ["i", false], ["y", false], ["1", true], ["u", true], ["é", true], ["o", true], ["è", true], ["an", true], ["on", true], ["2", true], ["oi", true], ["5", true], ["w", false], ["j", false], ["ill", true], ["ng", false], 
-  ["gn", false], ["l", false], ["v", false], ["f", false], ["p", false], ["b", false], ["m", false], ["z", false], ["s", false], ["t", false], ["d", false], ["ks", false], ["gz", false], ["r", false], ["n", false], ["ge", false], ["ch", false], ["k", false],   
-  ["g", false], ["ij", false], ["oin", true], ["47", false], ["uni", false], ["diz", false], ["cen", false], ["mil", false], ["_muet", true], ["q_caduc", false], 
-]) 
+function GetCerasChkSons(): Map<string, boolean> {
+    return new Map([
+        ["a", false], ["q", false], ["i", false], ["y", false], ["1", true], ["u", true], ["é", true], ["o", true], ["è", true], ["an", true], ["on", true], ["2", true], ["oi", true], ["5", true], ["w", false], ["j", false], ["ill", false], ["ng", false], 
+        ["gn", false], ["l", false], ["v", false], ["f", false], ["p", false], ["b", false], ["m", false], ["z", false], ["s", false], ["t", false], ["d", false], ["ks", false], ["gz", false], ["r", false], ["n", false], ["ge", false], ["ch", false], ["k", false],   
+        ["g", false], ["ij", false], ["oin", true], ["47", false], ["uni", false], ["diz", false], ["cen", false], ["mil", false], ["_muet", true], ["q_caduc", false], 
+    ]);
+}
+
+function GetCerasCFSons(): Map<string, CharFormatting> {
+    return new Map([
+        ["a", defCF], ["q", defCF], ["i", defCF], ["y", defCF], ["w", defCF], ["j", defCF], ["ill", defCF], ["ng", defCF], 
+        ["gn", defCF], ["l", defCF], ["v", defCF], ["f", defCF], ["p", defCF], ["b", defCF], ["m", defCF], ["z", defCF], ["s", defCF], 
+        ["t", defCF], ["d", defCF], ["ks", defCF], ["gz", defCF], ["r", defCF], ["n", defCF], ["ge", defCF], ["ch", defCF], ["k", defCF],   
+        ["g", defCF], ["ij", defCF], ["47", defCF], ["uni", defCF], ["diz", defCF], ["cen", defCF], ["mil", defCF], ["q_caduc", defCF], 
+        ["1",     new CharFormatting (false, false, true, false, {r: 0, g: 0, b: 0})], 
+        ["u",     new CharFormatting (false, false, false, true, {r: 255, g: 0, b: 0})], 
+        ["é",     new CharFormatting (false, false, false, true, {r: 0, g: 20, b: 208})], 
+        ["o",     new CharFormatting (false, false, false, true, {r: 240, g: 222, b: 0})], 
+        ["è",     new CharFormatting (false, false, false, true, {r: 164, g: 20, b: 210})], 
+        ["an",    new CharFormatting (false, false, false, true, {r: 237, g: 125, b: 49})], 
+        ["on",    new CharFormatting (false, false, false, true, {r: 172, g: 121, b: 66})], 
+        ["2",     new CharFormatting (false, false, false, true, {r: 71, g: 115, b: 255})], 
+        ["oi",    new CharFormatting (true, false, false, true,  {r: 0, g: 0, b: 0})], 
+        ["5",     new CharFormatting (false, false, false, true, {r: 51, g: 153, b: 102})],
+        ["oin",   new CharFormatting (false, false, false, true, {r: 15, g: 201, b: 221})],
+        ["_muet", new CharFormatting (false, false, false, true, {r: 166, g: 166, b: 166})],
+      ])
+}
+
+function GetRoseChkSons(): Map<string, boolean> {
+    return new Map([
+        ["a", false], ["q", false], ["i", false], ["y", false], ["1", true], ["u", true], ["é", true], ["o", true], ["è", true], ["an", true], ["on", true], ["2", true], ["oi", true], ["5", true], ["w", false], ["j", false], ["ill", true], ["ng", false], 
+        ["gn", false], ["l", false], ["v", false], ["f", false], ["p", false], ["b", false], ["m", false], ["z", false], ["s", false], ["t", false], ["d", false], ["ks", false], ["gz", false], ["r", false], ["n", false], ["ge", false], ["ch", false], ["k", false],   
+        ["g", false], ["ij", false], ["oin", true], ["47", false], ["uni", false], ["diz", false], ["cen", false], ["mil", false], ["_muet", true], ["q_caduc", false], 
+      ]); 
+}
+
+function GetRoseCFSons(): Map<string, CharFormatting> {
+    return new Map([
+        ["a", defCF], ["q", defCF], ["i", defCF], ["y", defCF], ["w", defCF], ["j", defCF], ["ng", defCF], 
+        ["gn", defCF], ["l", defCF], ["v", defCF], ["f", defCF], ["p", defCF], ["b", defCF], ["m", defCF], ["z", defCF], ["s", defCF], 
+        ["t", defCF], ["d", defCF], ["ks", defCF], ["gz", defCF], ["r", defCF], ["n", defCF], ["ge", defCF], ["ch", defCF], ["k", defCF],   
+        ["g", defCF], ["ij", defCF], ["47", defCF], ["uni", defCF], ["diz", defCF], ["cen", defCF], ["mil", defCF], ["q_caduc", defCF], 
+        ["1",     new CharFormatting (false, false, true, false, { r: 0,   g: 0,   b: 0   })], 
+        ["u",     new CharFormatting (false, false, false, true, { r: 255, g: 0,   b: 0   })], 
+        ["é",     new CharFormatting (false, false, false, true, { r: 255, g: 100, b: 177 })], 
+        ["o",     new CharFormatting (false, false, false, true, { r: 240, g: 222, b: 0   })], 
+        ["è",     new CharFormatting (false, false, false, true, { r: 164, g: 20,  b: 210 })], 
+        ["an",    new CharFormatting (false, false, false, true, { r: 237, g: 125, b: 49  })], 
+        ["on",    new CharFormatting (false, false, false, true, { r: 172, g: 121, b: 66  })], 
+        ["2",     new CharFormatting (false, false, false, true, { r: 71,  g: 115, b: 255 })], 
+        ["oi",    new CharFormatting (true, false, false, true,  { r: 0,   g: 0,   b: 0   })], 
+        ["5",     new CharFormatting (false, false, false, true, { r: 51,  g: 153, b: 102 })],
+        ["oin",   new CharFormatting (false, false, false, true, { r: 15,  g: 201, b: 221 })],
+        ["_muet", new CharFormatting (false, false, false, true, { r: 166, g: 166, b: 166 })],
+        ["ill",   new CharFormatting (false, true, false, true,  { r: 127, g: 241, b: 0   })], 
+      ]);
+}
 
 const black: IRGB = { r: 0, g: 0, b: 0 }; 
 const defCF: CharFormatting = new CharFormatting(false, false, false, false, black);
-
-const cerasCFSons: Map<string, CharFormatting> = new Map([
-  ["a", defCF], ["q", defCF], ["i", defCF], ["y", defCF], ["w", defCF], ["j", defCF], ["ill", defCF], ["ng", defCF], 
-  ["gn", defCF], ["l", defCF], ["v", defCF], ["f", defCF], ["p", defCF], ["b", defCF], ["m", defCF], ["z", defCF], ["s", defCF], 
-  ["t", defCF], ["d", defCF], ["ks", defCF], ["gz", defCF], ["r", defCF], ["n", defCF], ["ge", defCF], ["ch", defCF], ["k", defCF],   
-  ["g", defCF], ["ij", defCF], ["47", defCF], ["uni", defCF], ["diz", defCF], ["cen", defCF], ["mil", defCF], ["q_caduc", defCF], 
-  ["1",     new CharFormatting (false, false, true, false, {r: 0, g: 0, b: 0})], 
-  ["u",     new CharFormatting (false, false, false, true, {r: 255, g: 0, b: 0})], 
-  ["é",     new CharFormatting (false, false, false, true, {r: 0, g: 20, b: 208})], 
-  ["o",     new CharFormatting (false, false, false, true, {r: 240, g: 222, b: 0})], 
-  ["è",     new CharFormatting (false, false, false, true, {r: 164, g: 20, b: 210})], 
-  ["an",    new CharFormatting (false, false, false, true, {r: 237, g: 125, b: 49})], 
-  ["on",    new CharFormatting (false, false, false, true, {r: 172, g: 121, b: 66})], 
-  ["2",     new CharFormatting (false, false, false, true, {r: 71, g: 115, b: 255})], 
-  ["oi",    new CharFormatting (true, false, false, true,  {r: 0, g: 0, b: 0})], 
-  ["5",     new CharFormatting (false, false, false, true, {r: 51, g: 153, b: 102})],
-  ["oin",   new CharFormatting (false, false, false, true, {r: 15, g: 201, b: 221})],
-  ["_muet", new CharFormatting (false, false, false, true, {r: 166, g: 166, b: 166})],
-])
-
-const roseCFSons: Map<string, CharFormatting> = new Map([
-  ["a", defCF], ["q", defCF], ["i", defCF], ["y", defCF], ["w", defCF], ["j", defCF], ["ng", defCF], 
-  ["gn", defCF], ["l", defCF], ["v", defCF], ["f", defCF], ["p", defCF], ["b", defCF], ["m", defCF], ["z", defCF], ["s", defCF], 
-  ["t", defCF], ["d", defCF], ["ks", defCF], ["gz", defCF], ["r", defCF], ["n", defCF], ["ge", defCF], ["ch", defCF], ["k", defCF],   
-  ["g", defCF], ["ij", defCF], ["47", defCF], ["uni", defCF], ["diz", defCF], ["cen", defCF], ["mil", defCF], ["q_caduc", defCF], 
-  ["1",     new CharFormatting (false, false, true, false, { r: 0,   g: 0,   b: 0   })], 
-  ["u",     new CharFormatting (false, false, false, true, { r: 255, g: 0,   b: 0   })], 
-  ["é",     new CharFormatting (false, false, false, true, { r: 255, g: 100, b: 177 })], 
-  ["o",     new CharFormatting (false, false, false, true, { r: 240, g: 222, b: 0   })], 
-  ["è",     new CharFormatting (false, false, false, true, { r: 164, g: 20,  b: 210 })], 
-  ["an",    new CharFormatting (false, false, false, true, { r: 237, g: 125, b: 49  })], 
-  ["on",    new CharFormatting (false, false, false, true, { r: 172, g: 121, b: 66  })], 
-  ["2",     new CharFormatting (false, false, false, true, { r: 71,  g: 115, b: 255 })], 
-  ["oi",    new CharFormatting (true, false, false, true,  { r: 0,   g: 0,   b: 0   })], 
-  ["5",     new CharFormatting (false, false, false, true, { r: 51,  g: 153, b: 102 })],
-  ["oin",   new CharFormatting (false, false, false, true, { r: 15,  g: 201, b: 221 })],
-  ["_muet", new CharFormatting (false, false, false, true, { r: 166, g: 166, b: 166 })],
-  ["ill",   new CharFormatting (false, true, false, true,  { r: 127, g: 241, b: 0   })], 
-])
 
 /*
 const sonMap : Map<string, Phoneme[]> = new Map ([
@@ -206,8 +214,8 @@ export default class PhonConfig { // équivalent de ColConfWin
     private readonly setDummy: Dispatch<SetStateAction<boolean>>;
 
     constructor () {
-        [this.cfSons, this.setCFSons] = useState(roseCFSons);
-        [this.chkSons, this.setChkSons] = useState(roseChkSons);
+        [this.cfSons, this.setCFSons] = useState(GetRoseCFSons());
+        [this.chkSons, this.setChkSons] = useState(GetRoseChkSons());
         [this.dummy, this.setDummy] = useState(false);
     }
 
@@ -237,14 +245,14 @@ export default class PhonConfig { // équivalent de ColConfWin
     }
 
     public SetCERAS() {
-        this.setChkSons(cerasChkSons);
-        this.setCFSons(cerasCFSons);
+        this.setChkSons(GetCerasChkSons());
+        this.setCFSons(GetCerasCFSons());
         this.setDummy(!this.dummy);
     }
 
     public SetRose() {
-        this.setChkSons(roseChkSons);
-        this.setCFSons(roseCFSons);
+        this.setChkSons(GetRoseChkSons());
+        this.setCFSons(GetRoseCFSons());
         this.setDummy(!this.dummy);
     }
 

@@ -56,21 +56,12 @@ export default class MSWText extends TheText {
         }
     }
 
-    public ColQquesChar(numArr: number[]) {
-        for (let i of numArr) {
-            if (i < this.pos.length) {
-                this.pos[i].font.color = "#00FF00";
-            }
-        }
-    }
-
     protected SetChars(fte: FormattedTextEl, _conf: Config) {
         for (let i = fte.first; i <= fte.last; i++) {
             if (fte.cf.changeColor) {
-            this.pos[i].font.color = getColorFromRGBA(fte.cf.color).str;
+                this.pos[i].font.color = getColorFromRGBA(fte.cf.color).str;
             }
         }
-
     }
 
     static async ColPhonsClick(conf: Config) {
@@ -82,7 +73,6 @@ export default class MSWText extends TheText {
             await context.sync();
             let mswT = new MSWText(sel, rgeColl);
             mswT.ColorizePhons(conf);
-            //mswT.ColQquesChar([1, 3, 5, 7]);
             await context.sync();
         })
     }
