@@ -51,7 +51,7 @@ class CFFForceBlack extends CharFormatting {
 */
 
 export default class TheText {
-    private static rxWords = /\b\w+\b/ig; // expression régulière (rationnelle?) pour détecter les mots
+    private static rxWords = /[a-z0-9àáäâéèêëíìïîóòöôúùüû_]+/ig;  // expression régulière (rationnelle?) pour détecter les mots
     
     public S : string;
     private lowerCaseS: string;
@@ -77,7 +77,8 @@ export default class TheText {
         let pws = this.GetPhonWords(conf);
         for (let pw of pws) {
             pw.ColorPhons(conf);
-            //console.log(pw.lowWord + " " + pw.ToPhonString());
+            console.log(pw);
+            console.log(pw.lowWord + " " + pw.ToPhonString());
         }
         this.ApplyFormatting(conf);
     }
@@ -95,7 +96,7 @@ export default class TheText {
     private GetPhonWords (conf: Config, mergeApostrophe = false) : PhonWord[] {
         let pws = new Array<PhonWord>();
         let match: RegExpExecArray | null;
-        while ((match = TheText.rxWords.exec(this.S)) !== null) {
+        while ((match = TheText.rxWords.exec(this.ToLowerString())) !== null) {
             let beg = match.index;
             let len = match[0].length;
             let end = beg + len - 1;
