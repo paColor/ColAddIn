@@ -56,10 +56,34 @@ export default class MSWText extends TheText {
         }
     }
 
-    protected SetChars(fte: FormattedTextEl, _conf: Config) {
+    protected SetChars(fte: FormattedTextEl, conf: Config) {
         for (let i = fte.first; i <= fte.last; i++) {
             if (fte.cf.changeColor) {
                 this.pos[i].font.color = getColorFromRGBA(fte.cf.color).str;
+            }
+            else if (fte.cf.ForceBlackColor(conf)) {
+                this.pos[i].font.color = "#000000";
+            }
+
+            if (fte.cf.bold) {
+                this.pos[i].font.bold = true;
+            }
+            else if (fte.cf.ForceNonBold(conf)) {
+                this.pos[i].font.bold = false;
+            }
+
+            if (fte.cf.italic) {
+                this.pos[i].font.italic = true;
+            }
+            else if (fte.cf.ForceNonItalic(conf)) {
+                this.pos[i].font.italic = false;
+            }
+
+            if (fte.cf.underline) {
+                this.pos[i].font.underline = "Single";
+            }
+            else if (fte.cf.ForceNonUnderline(conf)) {
+                this.pos[i].font.underline = "None";
             }
         }
     }

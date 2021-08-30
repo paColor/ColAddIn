@@ -77,8 +77,8 @@ export default class TheText {
         let pws = this.GetPhonWords(conf);
         for (let pw of pws) {
             pw.ColorPhons(conf);
-            console.log(pw);
-            console.log(pw.lowWord + " " + pw.ToPhonString());
+            // console.log(pw);
+            // console.log(pw.lowWord + " " + pw.ToPhonString());
         }
         this.ApplyFormatting(conf);
     }
