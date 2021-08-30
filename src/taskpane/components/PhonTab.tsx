@@ -216,8 +216,8 @@ export default function PhonTab(props: PhonTabProps) {
     for (let i = 0; i < phonList.length; i++) {
       if (phonList[i].length === 3) {
         phonLines.push(
-          <Stack key= {i} horizontal styles={phonLineStackStyles} tokens={phonTokens}>
-            <Stack.Item key= {i*100} align="start" styles={slStackItemStyles}> 
+          <Stack key= {phonList[i][0][0]+"_Stack"} horizontal styles={phonLineStackStyles} tokens={phonTokens}>
+            <Stack.Item key= {phonList[i][0][0]+"_SI"} align="start" styles={slStackItemStyles}> 
               <PhonControl 
                 key= {phonList[i][0][0]} 
                 phon= {phonList[i][0][0]} 
@@ -228,7 +228,7 @@ export default function PhonTab(props: PhonTabProps) {
                 chkOnChange = {SetChk} 
                 clickBut = {OpenCFF}/>
             </Stack.Item>
-            <Stack.Item key= {i*101} align="auto" grow styles={slStackItemStyles}> 
+            <Stack.Item key= {phonList[i][1][0]+"_SI"} align="auto" grow styles={slStackItemStyles}> 
             <PhonControl 
                 key= {phonList[i][1][0]} 
                 phon= {phonList[i][1][0]} 
@@ -239,7 +239,7 @@ export default function PhonTab(props: PhonTabProps) {
                 chkOnChange = {SetChk} 
                 clickBut = {OpenCFF}/>
             </Stack.Item>
-            <Stack.Item key= {i*10000} align="end" styles={slStackItemStyles}> 
+            <Stack.Item key= {phonList[i][2][0]+"_SI"} align="end" styles={slStackItemStyles}> 
             <PhonControl 
                 key= {phonList[i][2][0]} 
                 phon= {phonList[i][2][0]} 
@@ -254,8 +254,8 @@ export default function PhonTab(props: PhonTabProps) {
         )
       } else if (phonList[i].length === 2) {
         phonLines.push(
-          <Stack horizontal styles={phonLineStackStyles} tokens={phonTokens}>
-            <Stack.Item align="start" styles={slStackItemStyles}> 
+          <Stack key= {phonList[i][0][0]+"_Stack"} horizontal styles={phonLineStackStyles} tokens={phonTokens}>
+            <Stack.Item key= {phonList[i][0][0]+"_SI"} align="start" styles={slStackItemStyles}> 
               <PhonControl 
                 key= {phonList[i][0][0]} 
                 phon= {phonList[i][0][0]} 
@@ -269,7 +269,7 @@ export default function PhonTab(props: PhonTabProps) {
             <Stack.Item align="auto" grow styles={slStackItemStyles}> 
               <Text></Text>
             </Stack.Item>
-            <Stack.Item align="end" styles={slStackItemStyles}> 
+            <Stack.Item key= {phonList[i][1][0]+"_SI"} align="end" styles={slStackItemStyles}> 
             <PhonControl 
                 key= {phonList[i][1][0]} 
                 phon= {phonList[i][1][0]} 
