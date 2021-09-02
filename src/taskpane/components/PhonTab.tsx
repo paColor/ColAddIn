@@ -132,16 +132,6 @@ const phonList = [
     [["p",  "[p]",  "papa"],          ["ks",  "[ks]",  "rixe"],     ["w",   "[w]",   "kiwi"]],
     [["b",  "[b]",  "bébé"],          ["gz",  "[gz]",  "examen"]],
 ]
-  
-/* 
-async function ColorizeRed() {
-  Word.run(async (context) => {
-    let sel = context.document.getSelection();
-    sel.font.color = "#FF0000";
-    await context.sync();
-  })
-}
- */
 
 export default function PhonTab(props: PhonTabProps) {
   

@@ -18,26 +18,53 @@
  *                                                                              *
  ********************************************************************************/
 
+import { ILabelStyles, IStyleSet, Label, Pivot, PivotItem } from "@fluentui/react";
 import * as React from "react";
 import Config from "../Configs/Config";
 import MSWText from "../WordInterface/MSWText";
 import PhonTab from "./PhonTab";
+import PlusTab from "./PlusTab";
 
 export interface AppProps {
   title: string;
   isOfficeInitialized: boolean;
 }
 
+const labelStyles: Partial<IStyleSet<ILabelStyles>> = {
+  root: { marginTop: 10 },
+};
+
 export default function App() {
   const conf : Config = new Config();
 
   return (
     <div>
-      <PhonTab 
-        conf = {conf}
-        colPhons = {MSWText.ColPhonsClick}
-        colNoir = {MSWText.ColNoirClick}
-      />
+      <Pivot aria-label="Basic Pivot Example" linkFormat="links"> 
+        <PivotItem
+          headerText="Phon"
+        >
+          <PhonTab 
+            conf = {conf}
+            colPhons = {MSWText.ColPhonsClick}
+            colNoir = {MSWText.ColNoirClick}
+          />
+        </PivotItem>
+        <PivotItem headerText="Plus">
+          <PlusTab 
+            conf = {conf}
+            colLettres = {MSWText.ColPhonsClick}
+          />
+        </PivotItem>
+        <PivotItem headerText="Sauv">
+          <Label styles={labelStyles}>Config pour Sauv</Label>
+        </PivotItem>
+        <PivotItem headerText="Avancé">
+          <Label styles={labelStyles}>Config pour Avancé</Label>
+        </PivotItem>
+        <PivotItem headerText="Infos">
+          <Label styles={labelStyles}>Config pour À propos</Label>
+        </PivotItem>
+      </Pivot>
     </div>
   )
 }
