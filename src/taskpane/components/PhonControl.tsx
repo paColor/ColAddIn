@@ -118,7 +118,7 @@ export default function PhonControl(props: PhonControlProps) {
           flexWrap: 'nowrap',
           color: fontCol,
         },
-      };
+    };
 
     return (
         <div>

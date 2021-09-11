@@ -19,6 +19,7 @@
  ********************************************************************************/
 
 import { getColorFromRGBA } from "@fluentui/react";
+import { SorryMsg, WarningMsg } from "../components/MessageWin";
 import Config from "../Configs/Config";
 import FormattedTextEl from "../Core/FormattedTextEl";
 import TheText from "../Core/TheText";
@@ -88,28 +89,121 @@ export default class MSWText extends TheText {
         }
     }
 
-    static async ColPhonsClick(conf: Config) {
-        Word.run(async (context) => {
-            let sel = context.document.getSelection();
-            sel.load();
-            let rgeColl = sel.split(letDelimiters);
-            rgeColl.load();
-            await context.sync();
-            let mswT = new MSWText(sel, rgeColl);
-            mswT.ColorizePhons(conf);
-            await context.sync();
-        })
-    }
-
     static async ColNoirClick(_conf: Config) {
         Word.run(async (context) => {
             let sel = context.document.getSelection();
             sel.load();
-            sel.font.color = "#000000";
-            sel.font.bold = false;
-            sel.font.italic = false;
-            sel.font.underline = "None";
             await context.sync();
+            if (!sel.isEmpty) {
+                sel.font.color = "#000000";
+                sel.font.bold = false;
+                sel.font.italic = false;
+                sel.font.underline = "None";
+                await context.sync();
+            }
+            else {
+                WarningMsg("Aucun texte n'est sélectionné.")
+            }
+        })
+    }
+
+    static async ColPhonsClick(conf: Config) {
+        Word.run(async (context) => {
+            let sel = context.document.getSelection();
+            sel.load();
+            await context.sync();
+            if (!sel.isEmpty) {
+                let rgeColl = sel.split(letDelimiters);
+                rgeColl.load();
+                await context.sync();
+                let mswT = new MSWText(sel, rgeColl);
+                mswT.ColorizePhons(conf);
+                await context.sync();
+            }
+            else {
+                WarningMsg("Aucun texte n'est sélectionné.")
+            }
+        })
+    }
+
+
+    static async ColSylClick(_conf: Config) {
+        Word.run(async (context) => {
+            let sel = context.document.getSelection();
+            sel.load();
+            await context.sync();
+            if (!sel.isEmpty) {
+                // let rgeColl = sel.split(letDelimiters);
+                // rgeColl.load();
+                // await context.sync();
+                // let mswT = new MSWText(sel, rgeColl);
+                // mswT.ColorizePhons(conf);
+                // await context.sync();
+                SorryMsg("La fonction colorisation de syllabes n'est malheureusement pas encore réalisée.");
+            }
+            else {
+                WarningMsg("Aucun texte n'est sélectionné.")
+            }
+        })
+    }
+
+    static async ColMotsClick(_conf: Config) {
+        Word.run(async (context) => {
+            let sel = context.document.getSelection();
+            sel.load();
+            await context.sync();
+            if (!sel.isEmpty) {
+                // let rgeColl = sel.split(letDelimiters);
+                // rgeColl.load();
+                // await context.sync();
+                // let mswT = new MSWText(sel, rgeColl);
+                // mswT.ColorizePhons(conf);
+                // await context.sync();
+                SorryMsg("La fonction colorisation de mots n'est malheureusement pas encore réalisée.");
+            }
+            else {
+                WarningMsg("Aucun texte n'est sélectionné.")
+            }
+        })
+    }
+
+    static async ColVoyConsClick(_conf: Config) {
+        Word.run(async (context) => {
+            let sel = context.document.getSelection();
+            sel.load();
+            await context.sync();
+            if (!sel.isEmpty) {
+                // let rgeColl = sel.split(letDelimiters);
+                // rgeColl.load();
+                // await context.sync();
+                // let mswT = new MSWText(sel, rgeColl);
+                // mswT.ColorizePhons(conf);
+                // await context.sync();
+                SorryMsg("La fonction colorisation de voyelles et consonnes n'est malheureusement pas encore réalisée.");
+            }
+            else {
+                WarningMsg("Aucun texte n'est sélectionné.")
+            }
+        })
+    }
+
+    static async ColLetClick(_conf: Config) {
+        Word.run(async (context) => {
+            let sel = context.document.getSelection();
+            sel.load();
+            await context.sync();
+            if (!sel.isEmpty) {
+                // let rgeColl = sel.split(letDelimiters);
+                // rgeColl.load();
+                // await context.sync();
+                // let mswT = new MSWText(sel, rgeColl);
+                // mswT.ColorizePhons(conf);
+                // await context.sync();
+                SorryMsg("La fonction colorisation de lettres n'est malheureusement pas encore réalisée.");
+            }
+            else {
+                WarningMsg("Aucun texte n'est sélectionné.")
+            }
         })
     }
 

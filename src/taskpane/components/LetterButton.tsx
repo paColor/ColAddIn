@@ -18,40 +18,52 @@
  *                                                                              *
  ********************************************************************************/
 
-import * as React from "react";
-import { IButtonStyles, IconButton, IIconProps, ImageFit} from "@fluentui/react";
+import { DefaultButton, IButtonStyles } from "@fluentui/react";
+import React = require("react");
 
-export interface CommandButtonProps {
-    butTitle : string;
-    iconSrc: string;
-    onClick: () => void;
+export interface LetterButtonProps {
+    position: number; // nombre de 0 à 7 indiquant de quel bouton il s'agit
+    // clickBut: (butNr: number) => void;
 }
 
-const iconSize = 40;
+export default function LetterButton(props: LetterButtonProps) {
 
-const customIconButStyles: IButtonStyles = { 
-  root: {height: iconSize + 5, width: iconSize + 5, border: "solid", borderWidth: 1, borderColor: "#A19F9D"},
-  icon: {height: iconSize}
-};
+    function onClicked() {
+        // props.clickBut(props.position);
+    }
 
-export default function CommandButton (props: CommandButtonProps) {
+    let col: string = "#FFFFFF"; // blanc
+    let fontCol: string = "#000000"; // noir
 
-    const phonIcon: IIconProps = {
-        imageProps: {
-            imageFit: ImageFit.centerContain,
-            width: iconSize,
-            height: iconSize,
-            src: props.iconSrc
-        }
+    const phonButStyles: IButtonStyles = { 
+        root: {
+        width: 35,
+        height: 20, 
+        padding: 0,
+        margin: 0,
+        minWidth: 10,
+        flexWrap: 'nowrap',
+        background: col,
+        },
+        label: {
+        fontSize: 11,
+        // fontWeight: props.chk && props.cf.bold?"800":"400",
+        // fontStyle: props.chk && props.cf.italic?"italic":"normal",
+        // textDecoration: props.chk && props.cf.underline?"underline":"",
+        padding: 0,
+        margin: 0,
+        flexWrap: 'nowrap',
+        color: fontCol,
+        },
     };
+    
     return(
-        <IconButton
-          iconProps={phonIcon}
-          title={props.butTitle}
-          styles= {customIconButStyles}
-          onClick= {props.onClick}
-        />
+        <div>
+            <DefaultButton 
+                text={props.position.toString()} 
+                styles={phonButStyles}
+                onClick={onClicked}
+            />
+        </div>
     )
-
 }
-  

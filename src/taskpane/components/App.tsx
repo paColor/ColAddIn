@@ -22,6 +22,7 @@ import { ILabelStyles, IStyleSet, Label, Pivot, PivotItem } from "@fluentui/reac
 import * as React from "react";
 import Config from "../Configs/Config";
 import MSWText from "../WordInterface/MSWText";
+import MessageWin from "./MessageWin";
 import PhonTab from "./PhonTab";
 import PlusTab from "./PlusTab";
 
@@ -52,7 +53,11 @@ export default function App() {
         <PivotItem headerText="Plus">
           <PlusTab 
             conf = {conf}
-            colLettres = {MSWText.ColPhonsClick}
+            colLettres = {MSWText.ColLetClick}
+            colSyllabes = {MSWText.ColSylClick}
+            colMots = {MSWText.ColMotsClick}
+            colVoyCons = {MSWText.ColVoyConsClick}
+            colNoir = {MSWText.ColNoirClick}
           />
         </PivotItem>
         <PivotItem headerText="Sauv">
@@ -65,6 +70,7 @@ export default function App() {
           <Label styles={labelStyles}>Config pour À propos</Label>
         </PivotItem>
       </Pivot>
+      <MessageWin></MessageWin>
     </div>
   )
 }

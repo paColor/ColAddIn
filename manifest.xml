@@ -82,7 +82,7 @@
         <bt:String id="TaskpaneButton.Label" DefaultValue="Configurer Coloriƨation" />
       </bt:ShortStrings>
       <bt:LongStrings>
-        <bt:String id="GetStarted.Description" DefaultValue="Coloriƨation a chargé correstement. Utilisez la commande dans le ruban pour ouvrir la configuration." />
+        <bt:String id="GetStarted.Description" DefaultValue="Coloriƨation a chargé correctement. Utilisez la commande dans le ruban pour ouvrir la configuration." />
         <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Cliquez pour afficher le panneau de configuration" />
       </bt:LongStrings>
     </Resources>
