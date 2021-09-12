@@ -21,7 +21,7 @@
 import * as React from "react";
 import Config from "../Configs/Config";
 import CommandButton from "./CommandButton";
-import { DefaultButton, DefaultPalette, IButtonStyles, IStackItemStyles, IStackTokens, ITextStyles, Stack, Text } from "@fluentui/react";
+import { Checkbox, DefaultButton, DefaultPalette, Dropdown, IButtonStyles, IDropdownOption, IDropdownStyles, IStackItemStyles, IStackTokens, ITextStyles, ResponsiveMode, Separator, Stack, Text } from "@fluentui/react";
 import LetterButton from "./LetterButton";
 
 export interface PlusTabProps {
@@ -77,6 +77,25 @@ const TextStyle: ITextStyles = {
 
 }
 
+const ddModeStyles: Partial<IDropdownStyles> = {
+    dropdown: { width: 80 },
+};
+
+const dd2ConsStyles: Partial<IDropdownStyles> = {
+    dropdown: { width: 100, fontSize: 12},
+};
+
+const sylModeOptions: IDropdownOption[] = [
+    { key: 'Ecrit', text: 'Écrit' },
+    { key: 'Oral', text: 'Oral' },
+    { key: 'Poésie', text: 'Poésie' },
+];
+
+const cons2Options: IDropdownOption[] = [
+    { key: 'Std', text: 'Standard' },
+    { key: 'Av2C', text: 'Avant 2 cons.' },
+];
+
 export default function PlusTab(props: PlusTabProps) {
 
     function LetClick()  {
@@ -97,6 +116,14 @@ export default function PlusTab(props: PlusTabProps) {
 
     function NoirClick()  {
         props.colNoir(props.conf);
+    }
+
+    function OnSylModeChange(_ev: React.FormEvent<HTMLInputElement>, item: IDropdownOption): void  {
+        console.dir(item);
+    }
+
+    function On2ConsChange(_ev: React.FormEvent<HTMLInputElement>, item: IDropdownOption): void  {
+        console.dir(item);
     }
 
     return (
@@ -174,7 +201,50 @@ export default function PlusTab(props: PlusTabProps) {
                     />
                 </Stack.Item>
             </Stack>
+
+            <Separator alignContent="start">{"Config Syllabes"}</Separator>
+
+            <Stack horizontal grow tokens={letterStackTokens}>
+                <Stack.Item>
+                    <Dropdown
+                        responsiveMode={ResponsiveMode.large}
+                        label="Mode"
+                        defaultSelectedKey="Ecrit"
+                        onChange={OnSylModeChange}
+                        options={sylModeOptions}
+                        styles={ddModeStyles}
+                    />
+                </Stack.Item>
+                <Stack.Item>
+                    <Dropdown
+                        responsiveMode={ResponsiveMode.large}
+                        label="2 Consonnes"
+                        defaultSelectedKey="Std"
+                        onChange={On2ConsChange}
+                        options={cons2Options}
+                        styles={dd2ConsStyles}
+                    />
+                </Stack.Item>
+                <Stack.Item styles={{root: {paddingTop:'5px'}}}>
+                    <Stack>
+                        <Stack.Item>
+                            <Text 
+                                variant='medium'
+                                styles={{root: { fontWeight: 600 }}}
+                            >
+                                Poésie
+                            </Text>
+                        </Stack.Item>
+                        <Stack.Item>
+                            <Checkbox label="Diérèse" styles={{root: {paddingTop:'10px'}}}></Checkbox>
+                        </Stack.Item>
+                    </Stack>
+                </Stack.Item>
+            </Stack>  
+
             
+            
+
 
             
         </div>
