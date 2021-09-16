@@ -23,6 +23,8 @@ import Config from "../Configs/Config";
 import CommandButton from "./CommandButton";
 import { Checkbox, ChoiceGroup, ComboBox, DefaultButton, DefaultPalette, IButtonStyles, IChoiceGroupOption, IComboBox, IComboBoxOption, IStackItemStyles, IStackTokens, ITextStyles, Separator, Stack, Text } from "@fluentui/react";
 import LetterButton from "./LetterButton";
+import SylButton from "./SylButton";
+import PBDQConfig from "../Configs/PBDQConfig";
 
 export interface PlusTabProps {
     conf: Config;
@@ -49,7 +51,12 @@ const CommandStackTokens: IStackTokens = {
 };
 
 const sylOptStackTokens: IStackTokens = { 
-    childrenGap: 12,
+    childrenGap: 5,
+    padding: '2px 2px 2px 2px', // top right bottom left
+};
+
+const sylButStackTokens: IStackTokens = { 
+    childrenGap: 6,
     padding: '2px 2px 2px 2px', // top right bottom left
 };
 
@@ -57,26 +64,11 @@ const flStackItemStyles: IStackItemStyles = {
     root: {
       alignItems: 'center',
       display: 'flex',
-      height: 50,
+      margin: '2px 0px 2px 0px', // top right bottom left
       justifyContent: 'center',
       overflow: 'hidden',
     },
 };
-
-// const cgStyles : IChoiceGroupOptionStyles = {
-//     choiceFieldWrapper: {width: 45, height: 45, borderColor: "#ff0000", border: "solid"},
-//     field: {
-//         // fontSize: 10,
-//         // color: "#00ff00"
-//     },
-//     iconWrapper: {maxWidth: 5},
-//     imageWrapper: {maxWidth: 5},
-//     innerField: {maxWidth: 5, color: "#00ff00"},
-//     input: {},
-//     labelWrapper: {maxWidth: 5},
-//     root: {},
-//     selectedImageWrapper: {maxWidth: 5},
-// }
 
 const customButStyles: IButtonStyles = { 
     root: {
@@ -94,13 +86,12 @@ const TextStyle: ITextStyles = {
     root: {
         textAlign: "center",
     },
-
 }
 
 const sylModeOptions: IChoiceGroupOption[] = [
-    { key: 'Ecrit', text: 'Écrit' },
-    { key: 'Oral', text: 'Oral' },
-    { key: 'Poésie', text: 'Poésie' },
+    { key: 'Ecrit', text: 'Écrit', },
+    { key: 'Oral', text: 'Oral', },
+    { key: 'Poésie', text: 'Poésie', },
 ];
 
 const cons2Options: IChoiceGroupOption[] = [
@@ -133,6 +124,8 @@ export default function PlusTab(props: PlusTabProps) {
 
     function LetClick()  {
         props.colLettres(props.conf);
+        let pbdqC = new PBDQConfig();
+        pbdqC.ttt();
     }
 
     function SylClick()  {
@@ -212,7 +205,7 @@ export default function PlusTab(props: PlusTabProps) {
             <Stack tokens={flStackTokens}>
                 <Stack.Item align="center" grow styles={flStackItemStyles}>
                     <Text block variant="medium" styles={TextStyle}>
-                        Mise en évidence des syllabes, mots, lignes, voyelles et consonnes.
+                        Mise en évidence d'éléments alternés.
                     </Text>
                 </Stack.Item>
             </Stack>
@@ -248,61 +241,120 @@ export default function PlusTab(props: PlusTabProps) {
                 </Stack.Item>
             </Stack>
 
-            <Separator alignContent="center">{"Config Syllabes"}</Separator>
+            <Separator 
+                alignContent="center"
+                styles= {{
+                    root: {
+                        fontSize: 12,
+                    }
+                }}
+            >
+                Config Syllabes
+            </Separator>
 
-            <Stack horizontal grow tokens={sylOptStackTokens}>
-                <Stack.Item>
+            <Stack horizontal grow tokens={sylOptStackTokens} verticalAlign="start">
+                <Stack.Item 
+                    align="start"
+                    styles={{
+                        root:{ margin: '-14px 0px 0px -6px', }// top right bottom left}
+                    }}
+                >
                     <ChoiceGroup
                         label="Mode"
                         defaultSelectedKey="Ecrit"
                         onChange={OnSylModeChange}
                         options={sylModeOptions}
                         styles={{
-                            root: { width: 80 },
-                            label: { paddingBottom: 0 },
+                            root: { 
+                                width: 80, 
+                                padding: 5,
+                                margin: 0,
+                                borderStyle: "solid",
+                                borderWidth: 0.1,
+                                borderColor: "#BBBBBB",
+                                transform: "scale(0.8, 0.8)", },
+                            label: { padding: 0 , fontWeight:700},
                         }}
                     />
                 </Stack.Item>
-                <Stack.Item>
-                    <Stack>
-                        <Stack.Item>
+                <Stack.Item
+                    align="start"
+                >
+                    <Stack horizontalAlign="start">
+                        <Stack.Item
+                            align="start"
+                            styles={{
+                                root:{ margin: '-10px 0px 0px -12px', } // top right bottom left
+                            }}
+                        >
                             <ChoiceGroup
                                 label="2 Consonnes"
                                 defaultSelectedKey="Std"
                                 onChange={On2ConsChange}
                                 options={cons2Options}
                                 styles={{
-                                    root: { width: 115, },
-                                    label: { paddingBottom: 0 },
+                                    root: { 
+                                        width: 115, 
+                                        padding: 5,
+                                        margin: 0,
+                                        borderStyle: "solid",
+                                        borderWidth: 0.1,
+                                        borderColor: "#BBBBBB",
+                                        transform: "scale(0.8, 0.8)", },
+                                    label: { padding: 0 , fontWeight:700},
                                 }}
                             />
                         </Stack.Item>
                         <Stack.Item>
                             <Checkbox 
-                                label="Col Muettes" 
+                                label="Col. Muettes" 
                                 styles={{
-                                    root: {paddingTop:'10px'},
+                                    root: {
+                                        margin: '-1px 0px 0px 4px'
+                                    },
+                                    checkbox: {
+                                        width: 17,
+                                        height: 17,
+                                    },
+                                    text: {
+                                        fontSize: 12,
+                                        margin: '-2px 0px 0px 0px'
+                                    },
                                 }}
                                 onChange={OnMuettesChange}
                             />
                         </Stack.Item>
                     </Stack>
                 </Stack.Item>
-                <Stack.Item styles={{root: {paddingTop:'5px'}}}>
+                <Stack.Item styles={{root: {paddingTop:'0px'}}}>
                     <Stack>
                         <Stack.Item>
                             <Text 
-                                variant='medium'
-                                styles={{root: { fontWeight: "600" }}}
+                                variant='small'
+                                styles={{
+                                    root: { 
+                                        fontWeight: "700",
+                                        margin: 0,
+                                    }
+                                }}
                             >
-                                Poésie
+                                Mode poésie
                             </Text>
                         </Stack.Item>
                         <Stack.Item>
                             <Checkbox 
                                 label="Diérèse" 
                                 disabled={false}
-                                styles={{root: {paddingTop:'10px'}}}
+                                styles={{
+                                    checkbox: {
+                                        width: 17,
+                                        height: 17,
+                                    },
+                                    text: {
+                                        fontSize: 12,
+                                        margin: '-2px 0px 0px 0px' // top right bottom left
+                                    },
+                                }}
                                 onChange={OnDiereseChange}
                             />
                         </Stack.Item>
@@ -311,7 +363,20 @@ export default function PlusTab(props: PlusTabProps) {
                                 defaultSelectedKey="0"
                                 label="Nbre pieds"
                                 options={nrPiedsOptions}
-                                styles={{ root: { width: 80 } }}
+                                styles={{ 
+                                    root: { 
+                                        width: 80,
+                                        height: 22,
+                                    },
+                                    label: {
+                                        fontSize: 12,
+                                        fontWeight: "700",
+                                    },
+                                    input: {
+                                        fontSize: 12,
+                                        verticalAlign: "middle",
+                                    }
+                                }}
                                 disabled={false}
                                 onChange={OnNbrePiedsChange}
                             />
@@ -320,10 +385,35 @@ export default function PlusTab(props: PlusTabProps) {
                 </Stack.Item>
             </Stack> 
 
-            <Separator alignContent="center">{"Couleurs alternées"}</Separator>
+            <Separator 
+                alignContent="center"
+                styles= {{
+                    root: {
+                        fontSize: 12,
+                        marginTop: -5,
+                    }
+                }}
+            >
+                Couleurs alternées
+            </Separator>
 
+            <Stack horizontal grow tokens={sylButStackTokens}>
+                <Stack.Item> <SylButton position = {0} /> </Stack.Item>
+                <Stack.Item> <SylButton position = {1} /> </Stack.Item>
+                <Stack.Item> <SylButton position = {2} /> </Stack.Item>
+                <Stack.Item> <SylButton position = {3} /> </Stack.Item>
+                <Stack.Item> <SylButton position = {4} /> </Stack.Item>
+                <Stack.Item> <SylButton position = {5} /> </Stack.Item>
+            </Stack>
             
-            
+            <Stack tokens={flStackTokens}>
+                <Stack.Item align="center">
+                    <DefaultButton 
+                        text="réinitialiser à bleu/rouge" 
+                        styles={customButStyles} 
+                    />
+                </Stack.Item>
+            </Stack>
 
 
             

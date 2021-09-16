@@ -19,10 +19,15 @@
  ********************************************************************************/
 
 
-import { IRGB } from "@fluentui/react";
+import { getColorFromString, IRGB } from "@fluentui/react";
 import Config from "./Config";
 
 export default class CharFormatting {
+
+    public static CreateNeutralCF() : CharFormatting {
+        return new CharFormatting(false, false, false, false, getColorFromString("#AAAAAA"))
+    }
+    
     bold: boolean;
     italic: boolean;
     underline: boolean;

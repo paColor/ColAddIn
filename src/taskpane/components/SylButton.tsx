@@ -22,12 +22,12 @@ import { DefaultButton, IButtonStyles } from "@fluentui/react";
 import React = require("react");
 import { SorryMsg } from "./MessageWin";
 
-export interface LetterButtonProps {
+export interface SylButtonProps {
     position: number; // nombre de 0 à 7 indiquant de quel bouton il s'agit
     // clickBut: (butNr: number) => void;
 }
 
-export default function LetterButton(props: LetterButtonProps) {
+export default function SylButton(props: SylButtonProps) {
 
     function onClicked() {
         // props.clickBut(props.position);
@@ -39,7 +39,7 @@ export default function LetterButton(props: LetterButtonProps) {
 
     const phonButStyles: IButtonStyles = { 
         root: {
-            width: 35,
+            width: 45,
             height: 20, 
             padding: 0,
             margin: 0,
