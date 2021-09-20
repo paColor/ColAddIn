@@ -23,11 +23,13 @@ import { getColorFromString, IRGB } from "@fluentui/react";
 import Config from "./Config";
 
 export default class CharFormatting {
+    /** Un CharFormatting sans aucun flag mis. */
+    public static readonly NeutralCF = new CharFormatting(false, false, false, false, getColorFromString("#AAAAAA"));
 
-    public static CreateNeutralCF() : CharFormatting {
-        return new CharFormatting(false, false, false, false, getColorFromString("#AAAAAA"))
-    }
-    
+    /**Un CharFormatting contenant les instructions de colorer en noir. */
+    public static readonly BlackCF = new CharFormatting(false, false, false, true, getColorFromString("#000000"));
+
+
     bold: boolean;
     italic: boolean;
     underline: boolean;

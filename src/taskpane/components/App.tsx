@@ -70,7 +70,8 @@ export default function App() {
           <Label styles={labelStyles}>Config pour À propos</Label>
         </PivotItem>
       </Pivot>
-      <MessageWin></MessageWin>
+      
+      <MessageWin/>
     </div>
   )
 }

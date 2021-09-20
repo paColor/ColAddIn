@@ -25,6 +25,8 @@ import { Checkbox, ChoiceGroup, ComboBox, DefaultButton, DefaultPalette, IButton
 import LetterButton from "./LetterButton";
 import SylButton from "./SylButton";
 import PBDQConfig from "../Configs/PBDQConfig";
+import { SorryMsg, WarningMsg } from "./MessageWin";
+import { useId } from '@fluentui/react-hooks';
 
 export interface PlusTabProps {
     conf: Config;
@@ -128,6 +130,10 @@ export default function PlusTab(props: PlusTabProps) {
         pbdqC.ttt();
     }
 
+    function ResetLetClick() {
+        WarningMsg("Fonction pas encore réalisée.");
+    }
+
     function SylClick()  {
         props.colSyllabes(props.conf);
     }
@@ -142,6 +148,10 @@ export default function PlusTab(props: PlusTabProps) {
 
     function NoirClick()  {
         props.colNoir(props.conf);
+    }
+
+    function OnLetButClicked(_butNr: number) {
+        SorryMsg("Fonction pas encore réalisée.");
     }
 
     function OnSylModeChange(_ev: React.SyntheticEvent<HTMLElement>, option: IChoiceGroupOption): void  {
@@ -165,6 +175,24 @@ export default function PlusTab(props: PlusTabProps) {
         console.log(`Nbre Pieds has been changed to index ${_index} and value ${_value}.`);
     }
 
+    function ResetCoulSylClick() {
+        WarningMsg("Fonction pas encore réalisée.");
+    }
+
+    let letButtons: Array<any> = new Array<any>();
+    for (let i = 0; i < 8; i++) {
+        letButtons.push(
+            <Stack.Item key = {useId("SI_LetBut")}> 
+                <LetterButton 
+                    position = {i} 
+                    pbdqC = {props.conf.pbdq}
+                    clickBut = {OnLetButClicked}
+                    key = {useId("LB_LetBut")}
+                /> 
+            </Stack.Item>
+        )
+    }
+
     return (
         <div>
             <Stack horizontal tokens={flStackTokens}>
@@ -184,7 +212,8 @@ export default function PlusTab(props: PlusTabProps) {
                         <Stack.Item align="center">
                             <DefaultButton 
                                 text="réinitialiser à bpdq" 
-                                styles={customButStyles} 
+                                styles={customButStyles}
+                                onClick={ResetLetClick}
                             />
                         </Stack.Item>
                     </Stack>
@@ -192,20 +221,13 @@ export default function PlusTab(props: PlusTabProps) {
             </Stack>
 
             <Stack horizontal grow tokens={letterStackTokens}>
-                <Stack.Item> <LetterButton position = {0} /> </Stack.Item>
-                <Stack.Item> <LetterButton position = {1} /> </Stack.Item>
-                <Stack.Item> <LetterButton position = {2} /> </Stack.Item>
-                <Stack.Item> <LetterButton position = {3} /> </Stack.Item>
-                <Stack.Item> <LetterButton position = {4} /> </Stack.Item>
-                <Stack.Item> <LetterButton position = {5} /> </Stack.Item>
-                <Stack.Item> <LetterButton position = {6} /> </Stack.Item>
-                <Stack.Item> <LetterButton position = {7} /> </Stack.Item>
+                {letButtons}
             </Stack>
 
             <Stack tokens={flStackTokens}>
                 <Stack.Item align="center" grow styles={flStackItemStyles}>
                     <Text block variant="medium" styles={TextStyle}>
-                        Mise en évidence d'éléments alternés.
+                        {"Mise en évidence d'éléments alternés."}
                     </Text>
                 </Stack.Item>
             </Stack>
@@ -410,7 +432,8 @@ export default function PlusTab(props: PlusTabProps) {
                 <Stack.Item align="center">
                     <DefaultButton 
                         text="réinitialiser à bleu/rouge" 
-                        styles={customButStyles} 
+                        styles={customButStyles}
+                        onClick={ResetCoulSylClick}
                     />
                 </Stack.Item>
             </Stack>

@@ -21,6 +21,7 @@
 import { Stack, Checkbox, DefaultButton, IStackStyles, IStackTokens, IButtonStyles, ICheckboxStyles, getColorFromRGBA } from "@fluentui/react";
 import * as React from "react";
 import CharFormatting from "../Configs/CharFormatting";
+import { GetTxtCol4Bkgrnd } from "../Configs/Utils";
 
 export interface PhonControlProps {
     // Le phonème / son
@@ -92,10 +93,7 @@ export default function PhonControl(props: PhonControlProps) {
     if (props.chk && props.cf.changeColor) {
         let iCol = getColorFromRGBA(props.cf.color);
         col = iCol.str;
-        if (((0.9 * iCol.r) + (1.5 * iCol.g) + (0.5 * iCol.b)) < 380) {
-            // foncé
-            fontCol = "#FFFFFF"; // blanc
-        }
+        fontCol = GetTxtCol4Bkgrnd(iCol).str;
     }
 
     const phonButStyles: IButtonStyles = { 
@@ -132,7 +130,7 @@ export default function PhonControl(props: PhonControlProps) {
                         />
                 </Stack.Item>
                 <Stack.Item>
-                    <DefaultButton 
+                    <DefaultButton
                         text={props.butTxt} 
                         styles={phonButStyles}
                         onClick={onClicked}

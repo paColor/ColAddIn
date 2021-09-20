@@ -18,24 +18,33 @@
  *                                                                              *
  ********************************************************************************/
 
-import { DefaultButton, IButtonStyles } from "@fluentui/react";
+import { DefaultButton, getColorFromRGBA, getColorFromString, IButtonStyles, IColor } from "@fluentui/react";
 import React = require("react");
-import { SorryMsg } from "./MessageWin";
+import PBDQConfig from "../Configs/PBDQConfig";
+import { GetTxtCol4Bkgrnd } from "../Configs/Utils";
 
 export interface LetterButtonProps {
     position: number; // nombre de 0 à 7 indiquant de quel bouton il s'agit
-    // clickBut: (butNr: number) => void;
+    pbdqC: PBDQConfig;
+    clickBut: (butNr: number) => void;
 }
 
 export default function LetterButton(props: LetterButtonProps) {
 
     function onClicked() {
-        // props.clickBut(props.position);
-        SorryMsg("Cette fonction n'est pas encore réalisée.")
+        props.clickBut(props.position);
     }
 
-    let col: string = "#FFFFFF"; // blanc
-    let fontCol: string = "#000000"; // noir
+    let c = props.pbdqC.GetLetterForButtonNr(props.position);
+    let cf = props.pbdqC.GetCFForPBDQButton(props.position);
+    let bkgrCol: IColor = getColorFromString("#FFFFFF"); // blanc
+    if (c !== PBDQConfig.inactiveLetter) {
+        if (cf.changeColor){
+            bkgrCol = getColorFromRGBA(cf.color);
+        }
+    }
+    let fontCol = GetTxtCol4Bkgrnd(bkgrCol);
+    let txt = c!==" "?c:"-"; // aucune idée pourquoi le caractère vide formatte le bouton autrement
 
     const phonButStyles: IButtonStyles = { 
         root: {
@@ -44,25 +53,26 @@ export default function LetterButton(props: LetterButtonProps) {
             padding: 0,
             margin: 0,
             minWidth: 10,
+            minHeight: 10,
             flexWrap: 'nowrap',
-            background: col,
-            },
-            label: {
+            background: bkgrCol.str,
+        },
+        label: {
             fontSize: 11,
-            // fontWeight: props.chk && props.cf.bold?"800":"400",
-            // fontStyle: props.chk && props.cf.italic?"italic":"normal",
-            // textDecoration: props.chk && props.cf.underline?"underline":"",
+            fontWeight: cf.bold?"800":"400",
+            fontStyle: cf.italic?"italic":"normal",
+            textDecoration: cf.underline?"underline":"",
             padding: 0,
             margin: 0,
             flexWrap: 'nowrap',
-            color: fontCol,
+            color: fontCol.str,
         },
     };
     
     return(
         <div>
             <DefaultButton 
-                text={props.position.toString()} 
+                text={txt} 
                 styles={phonButStyles}
                 onClick={onClicked}
             />

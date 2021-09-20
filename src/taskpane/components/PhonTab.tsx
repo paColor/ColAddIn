@@ -19,12 +19,11 @@
  ********************************************************************************/
 
 import * as React from "react";
-import { useBoolean } from '@fluentui/react-hooks';
-import { DefaultButton, DefaultPalette, getColorFromRGBA, getColorFromString, IButtonStyles, IStackItemStyles, IStackStyles, IStackTokens, Stack, Text } from "@fluentui/react";
+import { DefaultButton, DefaultPalette, IButtonStyles, IStackItemStyles, IStackStyles, IStackTokens, Stack, Text } from "@fluentui/react";
 import CommandButton from "./CommandButton";
 import PhonControl from "./PhonControl";
 import { useState } from "react";
-import CharFormatForm from "./CharFormatForm";
+import CharFormatForm, { EditCf } from "./CharFormatForm";
 import CharFormatting from "../Configs/CharFormatting";
 import Config from "../Configs/Config";
 
@@ -138,30 +137,24 @@ export default function PhonTab(props: PhonTabProps) {
     const pc = props.conf.pc;
   
     // Pour CharFormatForm
-    const [isCFFOpen, { setTrue: showCFF, setFalse: hideCFF }] = useBoolean(false);
     const [phonToEdit, setPTE] = useState("");
-    const white = getColorFromString('#ffffff')!;
-    const [cffColor, setCffColor] = useState(white);
-    const [cffBold, {toggle : clickCffBold, setTrue : setBold, setFalse : clearBold}] = useBoolean(false);
-    const [cffItalic, {toggle : clickCffItalic, setTrue : setItalic, setFalse : clearItalic}] = useBoolean(false);
-    const [cffUnderline, {toggle : clickCffUnderline, setTrue : setUnderline, setFalse : clearUnderline}] = useBoolean(false);
-  
+      
     function ColPhonClick() {
-      props.colPhons(props.conf);
-      // ColorizeRed();
+        props.colPhons(props.conf);
+        // ColorizeRed();
     }
 
     function ColNoirClick() {
-      props.colNoir(props.conf);
+        props.colNoir(props.conf);
     }
 
-    function LoadCffData() {
-      pc.SetCF(phonToEdit, new CharFormatting(cffBold, cffItalic, cffUnderline, true, cffColor));
-      hideCFF();
+    function LoadCffData(cf: CharFormatting) {
+        pc.SetCF(phonToEdit, cf);
+        pc.ForceRendering();
     }
   
     function SetChk(phon: string, valeurChkBox: boolean) {
-      pc.SetChk(phon, valeurChkBox);
+        pc.SetChk(phon, valeurChkBox);
     }
 
     function LocSetCERAS() {
@@ -182,24 +175,7 @@ export default function PhonTab(props: PhonTabProps) {
     
     function OpenCFF(phon: string) {
       setPTE(phon);
-      let cf = pc.GetCF(phon);
-      if (cf.bold) {
-        setBold();
-      } else {
-        clearBold();
-      }
-      if (cf.italic) {
-        setItalic();
-      } else {
-        clearItalic();
-      }
-      if (cf.underline) {
-        setUnderline();
-      } else {
-        clearUnderline();
-      }
-      setCffColor(getColorFromRGBA(cf.color));
-      showCFF();
+      EditCf(pc.GetCF(phon));
     }
   
     let phonLines: Array<any> = new Array<any>();
@@ -397,18 +373,8 @@ export default function PhonTab(props: PhonTabProps) {
         </Stack>
   
         <CharFormatForm
-          visible={isCFFOpen}
-          phon= {phonToEdit}
-          bold= {cffBold}
-          clickBold = {clickCffBold}
-          italic= {cffItalic}
-          clickItalic={clickCffItalic}
-          underline= {cffUnderline}
-          clickUnderline= {clickCffUnderline}
-          color= {cffColor}
-          setColor= {setCffColor}
+          titTxt= {"Configurer " + phonToEdit}
           valid= {LoadCffData}
-          cancel= {hideCFF}
         />
   
       </div>

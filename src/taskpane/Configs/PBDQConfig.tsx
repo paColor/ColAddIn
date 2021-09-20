@@ -21,7 +21,7 @@
 import { useState } from "react";
 import CharFormatting from "./CharFormatting";
 
-//const nrButtons = 8;
+const nrButtons = 8;
 
 function GetDefPBDQCFs(): Map<string, CharFormatting> {
     return new Map ([
@@ -38,6 +38,8 @@ function GetDefSelLet(): string[] {
 
 
 export default class PBDQConfig {
+
+    public static readonly inactiveLetter = " ";
     /**
      * Indique si les lettres qui ne doivent pas être marquées doivent être laissées telles
      * quelles <c>false</c> ou mises en noir <c>true</c>.
@@ -60,19 +62,136 @@ export default class PBDQConfig {
     /**
      * Le CF qui est retourné pour les lettres qui ne doivent pas être formattées.
      */
-    private readonly defaultCF = CharFormatting.CreateNeutralCF();
+    private defaultCF: CharFormatting;
+    private setDefaultCF: (newCF: CharFormatting) => void;
 
 
     constructor() {
         [this.markAsBlack, this.setMAB] = useState(false);
         [this.pbdqCF, this.setPBDQcf] = useState(GetDefPBDQCFs());
         [this.selLetters, this.setSelLetters] = useState(GetDefSelLet());
+        [this.defaultCF, this.setDefaultCF] = useState(CharFormatting.NeutralCF)
+
     }
 
     public Reset() {
         this.setMAB(false);
         this.setPBDQcf(GetDefPBDQCFs());
         this.setSelLetters(GetDefSelLet());
+    }
+
+    /**
+     * Retourne le CharFormatting pour la lettre c
+     * @param c La lettre dont on veut le Charformatting
+     * @returns Le CharFormatting souhaité. defaultCF dans le cas où il n'y a pas d'instructions
+     * pour la lettre donnée.
+     */
+    public GetCfForPBDQLetter(c: string) : CharFormatting {
+        let toReturn = this.pbdqCF.get(c);
+        if (toReturn === undefined) {
+            toReturn = this.defaultCF;
+        }
+        return toReturn;
+    }
+
+    /**
+     * Retourne le CharFormatting pour le bouton butNr
+     * @param butNr Le numéro (zero based) du bouton pour lequel on veut le CharFormatting.
+     * @returns Le CharFormatting pour le bouton donné.
+     */
+    public GetCFForPBDQButton (butNr: number): CharFormatting {
+        if (butNr >= 0 && butNr < nrButtons) {
+            return this.GetCfForPBDQLetter(this.selLetters[butNr]);
+        }
+        else {
+            // on jettera une exception quand on saura comment ça se fait :-)
+            return null;
+        }
+    }
+
+    /**
+     * Retourne la lettre pour le bouton donné.
+     * @param butNr Le numéro du bouton dont on veut la lettre.
+     * @returns La lettre recherchée.
+     */
+    public GetLetterForButtonNr(butNr: number): string {
+        if (butNr >= 0 && butNr < nrButtons) {
+            return this.selLetters[butNr];
+        }
+        else {
+            // on jettera une exception quand on saura comment ça se fait :-)
+            return null;
+        }
+    }
+
+    /**
+     * Met à jour la configuration pour le bouton butNr. Si le caractère c est déjà utilisé
+     * pour un autre bouton, la modification est refusée et la méthode retourne false. Si <c>c</c> est 
+     * le caractère inactif ' ', le bouton est "effacé". 
+     * @param butNr Numéro du bouton à modifier
+     * @param c Nouveau caractère pour le bouton. inactiveLetter correspond à un effacement du bouton.
+     * @param cf Le nouveau CharFormatting pour le bouton
+     * @returns false si la lettre n'a pas pu être mise à jour, par exemple parce qu'elle est
+     * déjà traitée. true si tout à fonctionné.
+     */
+    public UpdateLetter(butNr: number, c: string, cf: CharFormatting): boolean{
+        let toReturn = true;
+        if (butNr >= 0 && butNr < nrButtons) {
+            let newPBDQcf = this.pbdqCF;
+            let newSelLetters = this.selLetters;
+            let previousC = this.selLetters[butNr];
+            if (c !== PBDQConfig.inactiveLetter)
+            {
+                if (previousC !== c)
+                {
+                    if (!newPBDQcf.has(c))
+                    {
+                        if (previousC !== PBDQConfig.inactiveLetter)
+                        {
+                            newPBDQcf.delete(previousC);
+                        }
+                        newPBDQcf.set(c, cf);
+                        newSelLetters[butNr] = c;
+                    }
+                    else
+                    {
+                        // pbdqCF.ContainsKey(c) i.e. the letter is already present
+                        toReturn = false;
+                    }
+                }
+                else
+                {
+                    // previousC == c
+                    newPBDQcf.set(c, cf);
+                }
+            }
+            else
+            {
+                // c == inactiveLetter
+                newSelLetters[butNr] = PBDQConfig.inactiveLetter; // neutral character inactiveLetter
+                if (previousC !== PBDQConfig.inactiveLetter){
+                    newPBDQcf.delete(previousC);
+                }
+            }
+            this.setPBDQcf(newPBDQcf);
+            this.setSelLetters(newSelLetters);
+        }
+        else {
+            // on jettera une exception quand on saura comment ça se fait :-)
+            toReturn = false;
+        }
+        return toReturn;
+    }
+
+    public SetMarkAsBlackTo(val: boolean) {
+        this.setMAB(val);
+        if (this.markAsBlack)
+            this.setDefaultCF(CharFormatting.BlackCF);
+        else
+            this.setDefaultCF(CharFormatting.NeutralCF);
+        let newPBDQcf = this.pbdqCF;
+        newPBDQcf.set(PBDQConfig.inactiveLetter, this.defaultCF);
+        this.setPBDQcf(newPBDQcf);
     }
 
     public ttt() {
@@ -82,7 +201,6 @@ export default class PBDQConfig {
         else if (this.selLetters.length === 1) {
 
         }
-
     }
 
 }

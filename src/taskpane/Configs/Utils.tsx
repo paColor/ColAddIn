@@ -18,18 +18,26 @@
  *                                                                              *
  ********************************************************************************/
 
-import PBDQConfig from "./PBDQConfig";
-import PhonConfig from "./PhonConfig";
-import UnsetBehConf from "./UnsetBehConf";
+import { getColorFromString, IColor, IRGB } from "@fluentui/react";
 
-export default class Config {
-    public readonly pc: PhonConfig;
-    public readonly uBeh: UnsetBehConf;
-    public readonly pbdq: PBDQConfig;
+/**
+ * Retourne true si la couleur est considérée comme foncée.
+ * @param col La couleur à analyser
+ */
+export function IsDark(col: IRGB): boolean {
+    return (((0.9 * col.r) + (1.5 * col.g) + (0.5 * col.b)) < 380);
+}
 
-    constructor() {
-        this.pc = new PhonConfig();
-        this.uBeh = new UnsetBehConf();
-        this.pbdq = new PBDQConfig();
+/**
+ * Retourne la couleur du texte à utiliser sur un fond de couleur col
+ * @param col La couleur due fond
+ * @returns La couleur du texte à utiliser
+ */
+export function GetTxtCol4Bkgrnd(col: IRGB): IColor {
+    if (IsDark(col)) {
+        return getColorFromString("#FFFFFF"); // blanc
+    }
+    else {
+        return getColorFromString("#000000"); // noir
     }
 }

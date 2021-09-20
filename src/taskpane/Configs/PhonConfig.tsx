@@ -219,11 +219,18 @@ export default class PhonConfig { // équivalent de ColConfWin
         [this.dummy, this.setDummy] = useState(false);
     }
 
+    /** 
+     * Il est parfois nécessaire de forcer le rendu. En utilisant ce truc ça marche...
+     */
+    public ForceRendering() {
+        this.setDummy(!this.dummy);
+    }
+
     public SetChk(son: string, chkBoxVal: boolean) {
         let chkMap = this.chkSons;
         chkMap.set(son, chkBoxVal);
         this.setChkSons(chkMap);
-        this.setDummy(!this.dummy); // to force rendering
+        this.ForceRendering(); // to force rendering
     }
 
     public GetChk(son: string) : boolean {
@@ -247,13 +254,13 @@ export default class PhonConfig { // équivalent de ColConfWin
     public SetCERAS() {
         this.setChkSons(GetCerasChkSons());
         this.setCFSons(GetCerasCFSons());
-        this.setDummy(!this.dummy);
+        this.ForceRendering();
     }
 
     public SetRose() {
         this.setChkSons(GetRoseChkSons());
         this.setCFSons(GetRoseCFSons());
-        this.setDummy(!this.dummy);
+        this.ForceRendering();
     }
 
     public ChkTout() {
