@@ -219,13 +219,6 @@ export default class PhonConfig { // équivalent de ColConfWin
         [this.dummy, this.setDummy] = useState(false);
     }
 
-    /** 
-     * Il est parfois nécessaire de forcer le rendu. En utilisant ce truc ça marche...
-     */
-    public ForceRendering() {
-        this.setDummy(!this.dummy);
-    }
-
     public SetChk(son: string, chkBoxVal: boolean) {
         let chkMap = this.chkSons;
         chkMap.set(son, chkBoxVal);
@@ -241,6 +234,7 @@ export default class PhonConfig { // équivalent de ColConfWin
         let cfMap = this.cfSons;
         cfMap.set(son, cf);
         this.setCFSons(cfMap);
+        this.ForceRendering();
     }
 
     public GetCF(son: string) : CharFormatting {
@@ -288,6 +282,13 @@ export default class PhonConfig { // équivalent de ColConfWin
         sonValides.forEach((son:string) => {chkMap.set(son, val)});
         this.setChkSons(chkMap);
         this.setDummy(!this.dummy); // to force rendering
+    }
+
+    /** 
+     * Il est parfois nécessaire de forcer le rendu. En utilisant ce truc ça marche...
+     */
+    private ForceRendering() {
+        this.setDummy(!this.dummy);
     }
 
 }

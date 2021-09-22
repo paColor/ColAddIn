@@ -187,19 +187,18 @@ export default class MSWText extends TheText {
         })
     }
 
-    static async ColLetClick(_conf: Config) {
+    static async ColLetClick(conf: Config) {
         Word.run(async (context) => {
             let sel = context.document.getSelection();
             sel.load();
             await context.sync();
             if (!sel.isEmpty) {
-                // let rgeColl = sel.split(letDelimiters);
-                // rgeColl.load();
-                // await context.sync();
-                // let mswT = new MSWText(sel, rgeColl);
-                // mswT.ColorizePhons(conf);
-                // await context.sync();
-                SorryMsg("La fonction colorisation de lettres n'est malheureusement pas encore réalisée.");
+                let rgeColl = sel.split(letDelimiters);
+                rgeColl.load();
+                await context.sync();
+                let mswT = new MSWText(sel, rgeColl);
+                mswT.MarkLetters(conf);
+                await context.sync();
             }
             else {
                 WarningMsg("Aucun texte n'est sélectionné.")

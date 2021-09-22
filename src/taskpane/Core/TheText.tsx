@@ -83,6 +83,16 @@ export default class TheText {
         this.ApplyFormatting(conf);
     }
 
+    public MarkLetters(conf: Config) {
+        for (let i = 0; i < this.S.length; i++) {
+            let cf = conf.pbdq.GetCfForPBDQLetter(this.S[i]);
+            if (cf !== null) {
+                this.AddFTE(new FormattedTextEl(this, i, i, cf));
+            }
+        }
+        this.ApplyFormatting(conf);
+    }
+
     public AddFTE(fte : FormattedTextEl) {
         this.formats.push(fte);
     }
@@ -139,8 +149,7 @@ export default class TheText {
     }
 
     protected SetChars(_fte: FormattedTextEl, _conf: Config) {
-        // Must be overriden
-        // Must learn how to throw exceptions in Typescript :-) 
+        throw new Error("SetChars must be overridden.")
     }
 
 }

@@ -27,17 +27,29 @@ import CharFormatFormBase from './CharFormatFormBase';
 
 export interface CharFormatFormProps { 
 
-  /** le titre de la fenêtre du dialogue */
-  titTxt: string;
-  
-  /** fonction appelée quand OK ou "Valider" est cliqué. */
-  valid: (cf: CharFormatting) => void;
+    /**
+     * Fonction appelée quand OK ou "Valider" est cliqué et que editLet est true.
+     * c: la valeur du champ lettre, cf: le CharFormatting défini par l'utilisateur.
+     */
+    validLet?: (c: string, cf: CharFormatting) => void;
+    
+    /** fonction appelée quand OK ou "Valider" est cliqué et que editLet est false. */
+    valid?: (cf: CharFormatting) => void;
 
 }
 
 let isCFFOpen: boolean;
 let showCFF: () => void;
 let hideCFF: () => void;
+
+let titreTxt: string;
+let setTitreTxt: (c: string) => void;
+
+let edLet: boolean;
+let setEdLet: React.Dispatch<React.SetStateAction<boolean>>;
+
+let theLet: string;
+let setTheLet: (c: string) => void;
 
 let cffColor : IColor;
 let setCffColor: (c: IColor) => void;
@@ -57,7 +69,8 @@ let clickCffUnderline: () => void;
 let setUnderline: () => void;
 let clearUnderline: () => void;
 
-export function EditCf(cf: CharFormatting) {
+function OpenDialog(titre: string, cf: CharFormatting) {
+    setTitreTxt(titre);
     if (cf.bold) {
         setBold();
     } else {
@@ -77,10 +90,22 @@ export function EditCf(cf: CharFormatting) {
     showCFF();
 }
 
-export default function CharFormatForm(props:CharFormatFormProps) {
+export function EditCf(titre: string, cf: CharFormatting) {
+    setEdLet(false);
+    OpenDialog(titre, cf);
+}
 
+export function EditLetCf(titre: string, c: string, cf: CharFormatting) {
+    setEdLet(true);
+    setTheLet(c);
+    OpenDialog(titre, cf);
+}
+
+export default function CharFormatForm(props:CharFormatFormProps) {
+    [titreTxt, setTitreTxt] = useState("");
     [isCFFOpen, { setTrue: showCFF, setFalse: hideCFF }] 
         = useBoolean(false);
+
     const white: IColor = getColorFromString('#ffffff');
     [cffColor, setCffColor] = useState(white);
     [cffBold, {toggle : clickCffBold, setTrue : setBold, setFalse : clearBold}] 
@@ -89,16 +114,26 @@ export default function CharFormatForm(props:CharFormatFormProps) {
         = useBoolean(false);
     [cffUnderline, {toggle : clickCffUnderline, setTrue : setUnderline, setFalse : clearUnderline}]
         = useBoolean(false);
+    [edLet, setEdLet] = useState(false);
+    [theLet, setTheLet] = useState("");
 
     function LoadCffBData() {
-        props.valid(new CharFormatting(cffBold, cffItalic, cffUnderline, true, cffColor));
+        if (edLet) {
+            props.validLet(
+                theLet, new CharFormatting(cffBold, cffItalic, cffUnderline, true, cffColor))
+        } else {
+            props.valid(new CharFormatting(cffBold, cffItalic, cffUnderline, true, cffColor));
+        }
         hideCFF();
     }
 
     return(
         <CharFormatFormBase
             visible={isCFFOpen}
-            titTxt={props.titTxt}
+            titTxt={titreTxt}
+            editLet={edLet}
+            let={theLet}
+            modifLet={setTheLet}
             bold={cffBold}
             clickBold={clickCffBold}
             italic={cffItalic}

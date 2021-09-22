@@ -18,7 +18,7 @@
  *                                                                              *
  ********************************************************************************/
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import CharFormatting from "./CharFormatting";
 
 const nrButtons = 8;
@@ -65,15 +65,24 @@ export default class PBDQConfig {
     private defaultCF: CharFormatting;
     private setDefaultCF: (newCF: CharFormatting) => void;
 
+    /**
+     * Permet de forcer un nouveau rendu...
+     */
+    private readonly dummy: boolean;
+    private readonly setDummy: Dispatch<SetStateAction<boolean>>;
+
 
     constructor() {
         [this.markAsBlack, this.setMAB] = useState(false);
         [this.pbdqCF, this.setPBDQcf] = useState(GetDefPBDQCFs());
         [this.selLetters, this.setSelLetters] = useState(GetDefSelLet());
-        [this.defaultCF, this.setDefaultCF] = useState(CharFormatting.NeutralCF)
-
+        [this.defaultCF, this.setDefaultCF] = useState(CharFormatting.NeutralCF);
+        [this.dummy, this.setDummy] = useState(false);
     }
 
+    /**
+     * Réinitialise tous les champs du PBDQConfig à leur valeur par défaut.
+     */
     public Reset() {
         this.setMAB(false);
         this.setPBDQcf(GetDefPBDQCFs());
@@ -140,6 +149,9 @@ export default class PBDQConfig {
             let newPBDQcf = this.pbdqCF;
             let newSelLetters = this.selLetters;
             let previousC = this.selLetters[butNr];
+            if (c === "") {
+                c = " ";
+            }
             if (c !== PBDQConfig.inactiveLetter)
             {
                 if (previousC !== c)
@@ -152,21 +164,15 @@ export default class PBDQConfig {
                         }
                         newPBDQcf.set(c, cf);
                         newSelLetters[butNr] = c;
-                    }
-                    else
-                    {
+                    } else {
                         // pbdqCF.ContainsKey(c) i.e. the letter is already present
                         toReturn = false;
                     }
-                }
-                else
-                {
+                } else {
                     // previousC == c
                     newPBDQcf.set(c, cf);
                 }
-            }
-            else
-            {
+            } else {
                 // c == inactiveLetter
                 newSelLetters[butNr] = PBDQConfig.inactiveLetter; // neutral character inactiveLetter
                 if (previousC !== PBDQConfig.inactiveLetter){
@@ -175,10 +181,9 @@ export default class PBDQConfig {
             }
             this.setPBDQcf(newPBDQcf);
             this.setSelLetters(newSelLetters);
-        }
-        else {
-            // on jettera une exception quand on saura comment ça se fait :-)
-            toReturn = false;
+            this.ForceRendering();
+        } else {
+            throw new Error("butNr not in range")
         }
         return toReturn;
     }
@@ -194,13 +199,8 @@ export default class PBDQConfig {
         this.setPBDQcf(newPBDQcf);
     }
 
-    public ttt() {
-        if (this.pbdqCF.get("c") == this.defaultCF) {
-
-        }
-        else if (this.selLetters.length === 1) {
-
-        }
+    private ForceRendering() {
+        this.setDummy(!this.dummy);
     }
 
 }

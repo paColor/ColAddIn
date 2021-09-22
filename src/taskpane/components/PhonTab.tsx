@@ -147,11 +147,6 @@ export default function PhonTab(props: PhonTabProps) {
     function ColNoirClick() {
         props.colNoir(props.conf);
     }
-
-    function LoadCffData(cf: CharFormatting) {
-        pc.SetCF(phonToEdit, cf);
-        pc.ForceRendering();
-    }
   
     function SetChk(phon: string, valeurChkBox: boolean) {
         pc.SetChk(phon, valeurChkBox);
@@ -173,9 +168,13 @@ export default function PhonTab(props: PhonTabProps) {
         pc.ChkRien();
     }
     
+    function LoadCffData(cf: CharFormatting) {
+      pc.SetCF(phonToEdit, cf);
+    }
+
     function OpenCFF(phon: string) {
       setPTE(phon);
-      EditCf(pc.GetCF(phon));
+      EditCf("Configurer " + phon, pc.GetCF(phon));
     }
   
     let phonLines: Array<any> = new Array<any>();
@@ -373,7 +372,6 @@ export default function PhonTab(props: PhonTabProps) {
         </Stack>
   
         <CharFormatForm
-          titTxt= {"Configurer " + phonToEdit}
           valid= {LoadCffData}
         />
   

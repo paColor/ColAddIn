@@ -20,7 +20,7 @@
 
 
 import { useId } from '@fluentui/react-hooks';
-import { FontWeights, getTheme, IconButton, mergeStyleSets, Modal, IIconProps, IColor, ColorPicker, IColorPickerStyles, ImageFit, IButtonStyles, Stack, IStackStyles, PrimaryButton, DefaultButton, IStackTokens, } from "@fluentui/react";
+import { FontWeights, getTheme, IconButton, mergeStyleSets, Modal, IIconProps, IColor, ColorPicker, IColorPickerStyles, ImageFit, IButtonStyles, Stack, IStackStyles, PrimaryButton, DefaultButton, IStackTokens, TextField, ITextFieldStyles, } from "@fluentui/react";
 import * as React from "react";
 
 export interface CharFormatFormBaseProps {
@@ -30,6 +30,15 @@ export interface CharFormatFormBaseProps {
 
     // le titre de la fenêtre de dialogue
     titTxt: string;
+
+    /** Indique si le dialogue doit éditer une lettre */
+    editLet : boolean;
+
+    /** La lettre à éditer. N'est présent que si editLet est true */
+    let?: string;
+
+    /** Call back pour le cas où la lettre à éditer a été modifiée. Seulement si editLet est true. */
+    modifLet?: (c: string) => void;
 
     // Les détails du CharFormatting à éditer.
     bold: boolean;
@@ -51,6 +60,14 @@ export interface CharFormatFormBaseProps {
     cancel: () => void; 
         
 }
+
+const letFieldStyles: Partial<ITextFieldStyles> = { 
+    field: { fontSize: 24, },
+    root: {
+        width: 40,
+        margin: '-35px 0px 0px 170px', // top right bottom left
+    }
+};
 
 const btnSize = 22;
 const margin = 12;
@@ -113,6 +130,15 @@ export default function CharFormatFormBase(props:CharFormatFormBaseProps) {
     const updateColor = React.useCallback((_ev: any, colorObj: IColor) => props.setColor(colorObj), []);
 
     const titleId = useId('title');
+
+    function UpdateLetter(_event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) {
+        let c: string;
+        if (newValue.length > 0)
+            c = newValue[0];
+        else
+            c = "";
+        props.modifLet(c);
+    }
     
     return(
         <Modal
@@ -124,7 +150,7 @@ export default function CharFormatFormBase(props:CharFormatFormBaseProps) {
             styles={modalStyles}
         >
             <div className={contentStyles.header}>
-                <span id={titleId}>{props.titTxt}</span>
+                <span id={titleId}>{props.titTxt} </span>
                 <IconButton
                     styles={iconButtonStyles}
                     iconProps={cancelIcon}
@@ -133,6 +159,14 @@ export default function CharFormatFormBase(props:CharFormatFormBaseProps) {
                 />
             </div>
 
+            {props.editLet?
+                <TextField
+                    value={props.let}
+                    onChange={UpdateLetter}
+                    styles={letFieldStyles}
+                /> : ""
+            }
+            
             <div className={contentStyles.body}>
               <ColorPicker
                 color={props.color}
@@ -184,8 +218,6 @@ export default function CharFormatFormBase(props:CharFormatFormBaseProps) {
     )
 }
 
-
-
 const theme = getTheme();
 const contentStyles = mergeStyleSets({
     container: {
@@ -202,7 +234,7 @@ const contentStyles = mergeStyleSets({
         display: 'flex',
         alignItems: 'center',
         fontWeight: FontWeights.semibold,
-        padding: '0px 4px 4px 12px',
+        padding: '0px 4px 4px 12px', // top right bottom left
       },
     ],
     body: {

@@ -24,9 +24,11 @@ import CommandButton from "./CommandButton";
 import { Checkbox, ChoiceGroup, ComboBox, DefaultButton, DefaultPalette, IButtonStyles, IChoiceGroupOption, IComboBox, IComboBoxOption, IStackItemStyles, IStackTokens, ITextStyles, Separator, Stack, Text } from "@fluentui/react";
 import LetterButton from "./LetterButton";
 import SylButton from "./SylButton";
-import PBDQConfig from "../Configs/PBDQConfig";
-import { SorryMsg, WarningMsg } from "./MessageWin";
+import { SorryMsg } from "./MessageWin";
 import { useId } from '@fluentui/react-hooks';
+import CharFormatForm, { EditLetCf } from "./CharFormatForm";
+import CharFormatting from "../Configs/CharFormatting";
+import { useState } from "react";
 
 export interface PlusTabProps {
     conf: Config;
@@ -124,14 +126,15 @@ const nrPiedsOptions: IComboBoxOption[] = [
 
 export default function PlusTab(props: PlusTabProps) {
 
+    // Pour CharFormatForm
+    const [curButNr, setCurButNr] = useState(0);
+
     function LetClick()  {
         props.colLettres(props.conf);
-        let pbdqC = new PBDQConfig();
-        pbdqC.ttt();
     }
 
     function ResetLetClick() {
-        WarningMsg("Fonction pas encore réalisée.");
+        props.conf.pbdq.Reset();
     }
 
     function SylClick()  {
@@ -150,8 +153,14 @@ export default function PlusTab(props: PlusTabProps) {
         props.colNoir(props.conf);
     }
 
-    function OnLetButClicked(_butNr: number) {
-        SorryMsg("Fonction pas encore réalisée.");
+    function OnLetButClicked(butNr: number) {
+        setCurButNr(butNr);
+        let c = props.conf.pbdq.GetLetterForButtonNr(butNr);
+        if (c === " ") {
+            c = "";
+        }
+        EditLetCf("Configurer la lettre", c, 
+            props.conf.pbdq.GetCFForPBDQButton(butNr));
     }
 
     function OnSylModeChange(_ev: React.SyntheticEvent<HTMLElement>, option: IChoiceGroupOption): void  {
@@ -176,7 +185,14 @@ export default function PlusTab(props: PlusTabProps) {
     }
 
     function ResetCoulSylClick() {
-        WarningMsg("Fonction pas encore réalisée.");
+        SorryMsg("Fonction pas encore réalisée.");
+    }
+
+    function LoadCffData(_cf: CharFormatting) {
+    }
+
+    function LoadCffLetData(c: string, cf: CharFormatting) {
+        props.conf.pbdq.UpdateLetter(curButNr, c, cf);
     }
 
     let letButtons: Array<any> = new Array<any>();
@@ -437,11 +453,14 @@ export default function PlusTab(props: PlusTabProps) {
                     />
                 </Stack.Item>
             </Stack>
-
-
             
+            <CharFormatForm
+                valid= {LoadCffData}
+                validLet= {LoadCffLetData}
+            />
         </div>
 
+        
 
     )
 }
