@@ -61,6 +61,7 @@ export default class TheText {
         this.S = txt;
         this.lowerCaseS = null;
         this.formats = []; 
+        this.LogCodePoints();
     }
 
     public ToLowerString() : string {
@@ -95,6 +96,12 @@ export default class TheText {
 
     public AddFTE(fte : FormattedTextEl) {
         this.formats.push(fte);
+    }
+
+    public LogCodePoints() {
+        for (let i = 0; i < this.S.length; i++) {
+            console.log(this.S[i] + " - " + this.S.codePointAt(i));
+        }
     }
 
     /**

@@ -62,9 +62,9 @@ export interface CharFormatFormBaseProps {
 }
 
 const letFieldStyles: Partial<ITextFieldStyles> = { 
-    field: { fontSize: 24, },
+    field: { fontSize: 20, },
     root: {
-        width: 40,
+        width: 35,
         margin: '-35px 0px 0px 170px', // top right bottom left
     }
 };

@@ -53,7 +53,7 @@ export default class MSWText extends TheText {
                 this.pos[i] = r;
                 i++;
             }
-            // console.log(r.text);
+            console.log(r.text + " length: " + r.text.length);
         }
     }
 
@@ -205,16 +205,31 @@ export default class MSWText extends TheText {
             }
         })
     }
-
-    // Retourne le string correspondant au range donné. 
-    // Dans la version VSTO, nettoie ce string des
-    // caractères spéciaux corrspondants à l'accroche d'un objet à un paragraphe (par exemple
-    // une image).
-    // Pour le moment, une fonctionalité simplifiée ici. On verra quand ça ne suffira pas. 
+    
+    /**
+     * Retourne le string correspondant au range donné. Il est nécessaire de nettoyer les cas 
+     * spéciaux, par exemple pour les tableaux, de manière à ce que la découpe en sous-range
+     * corresponde aux caractères dans le texte. 
+     * @param rge Le Range du texte à nettoyer
+     * @returns Le texte nettoyé.
+     */
     private static GetStringFor(rge: Word.Range) : string {
-        // let itR = new Word.Range();
-        // itR.set(rge);
-        return rge.text;
+        // Un problème identifié: CR + LF (deux caractères dans le range d'origine) est
+        // représenté par un range d'un seul caractère. Il s'agit du "caractère" de fin
+        // de ligne dans un tableau.
+
+        let toReturn: string = "";
+        let i = 0;
+        while (i < rge.text.length) {
+            toReturn = toReturn + rge.text[i];
+            if ((rge.text[i] === "\r") 
+                && ((i+1) < rge.text.length) 
+                && (rge.text[i+1] == "\n")) {
+                i++;
+            } 
+            i++;
+        }
+        return toReturn;
     }
 
 }
