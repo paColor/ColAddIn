@@ -24,11 +24,11 @@ import CommandButton from "./CommandButton";
 import { Checkbox, ChoiceGroup, ComboBox, DefaultButton, DefaultPalette, IButtonStyles, IChoiceGroupOption, IComboBox, IComboBoxOption, IStackItemStyles, IStackTokens, ITextStyles, Separator, Stack, Text } from "@fluentui/react";
 import LetterButton from "./LetterButton";
 import SylButton from "./SylButton";
-import { SorryMsg } from "./MessageWin";
 import { useId } from '@fluentui/react-hooks';
-import CharFormatForm, { EditLetCf } from "./CharFormatForm";
+import CharFormatForm, { EditCf, EditLetCf } from "./CharFormatForm";
 import CharFormatting from "../Configs/CharFormatting";
 import { useState } from "react";
+import { SylMode } from "../Configs/SylConfig";
 
 export interface PlusTabProps {
     conf: Config;
@@ -95,7 +95,7 @@ const TextStyle: ITextStyles = {
 const sylModeOptions: IChoiceGroupOption[] = [
     { key: 'Ecrit', text: 'Écrit', },
     { key: 'Oral', text: 'Oral', },
-    { key: 'Poésie', text: 'Poésie', },
+    { key: 'Poesie', text: 'Poésie', },
 ];
 
 const cons2Options: IChoiceGroupOption[] = [
@@ -123,10 +123,30 @@ const nrPiedsOptions: IComboBoxOption[] = [
     { key: '16', text: '16' },
 ];
 
+/**
+ * Retourne le string qui peut être utilisé comme clef dans sylModeOptions
+ * pour un SylMode donné.
+ * @param sm Le SylMode dont on veut la conversion
+ */
+function GetSylModeOption(sm : SylMode) : string {
+    switch(sm) {
+        case SylMode.ecrit:
+            return "Ecrit";
+            break;
+        case SylMode.oral:
+            return "Oral";
+            break;
+        case SylMode.poesie:
+            return "Poesie";
+            break;
+        default:
+            return "Ecrit"
+    }
+}
 
 export default function PlusTab(props: PlusTabProps) {
 
-    // Pour CharFormatForm
+    // Pour CharFormatForm: le numéro du bouton qui est édité. 
     const [curButNr, setCurButNr] = useState(0);
 
     function LetClick()  {
@@ -163,32 +183,60 @@ export default function PlusTab(props: PlusTabProps) {
             props.conf.pbdq.GetCFForPBDQButton(butNr));
     }
 
+    function OnSylButClicked(butNr: number) {
+        setCurButNr(butNr);
+        EditCf("Configurer le bouton " + (butNr + 1).toString(),
+            props.conf.sylConf.GetSylButtonConfFor(butNr).cf);
+    }
+
+
     function OnSylModeChange(_ev: React.SyntheticEvent<HTMLElement>, option: IChoiceGroupOption): void  {
-        console.dir(option);
+        switch (option.key) {
+            case "Ecrit":
+                props.conf.sylConf.setSylMode(SylMode.ecrit);
+                break;
+            case "Oral":
+                props.conf.sylConf.setSylMode(SylMode.oral);
+                break;
+            case "Poesie":
+                props.conf.sylConf.setSylMode(SylMode.poesie);
+                break;
+            default:
+                props.conf.sylConf.setSylMode(SylMode.ecrit);
+                break;
+        }
     }
 
     function On2ConsChange(_ev: React.SyntheticEvent<HTMLElement>, option: IChoiceGroupOption): void  {
-        console.dir(option);
+        switch (option.key) {
+            case "Std":
+                props.conf.sylConf.setDoubleConsStd(true);
+                break;
+            case "Av2C":
+                props.conf.sylConf.setDoubleConsStd(false);
+                break;
+        }
     }
 
     function OnMuettesChange(_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, isChecked?: boolean) {
-        console.log(`Muettes has been changed to ${isChecked}.`);
+        props.conf.sylConf.setMarquerMuettes(isChecked);
     }
 
     function OnDiereseChange(_ev?: React.FormEvent<HTMLElement | HTMLInputElement>, isChecked?: boolean) {
-        console.log(`Dierese has been changed to ${isChecked}.`);
+        props.conf.sylConf.setChercherDierese(isChecked);
     }
 
     function OnNbrePiedsChange(_ev: React.FormEvent<IComboBox>, _option?: IComboBoxOption, 
-        _index?: number, _value?: string){
-        console.log(`Nbre Pieds has been changed to index ${_index} and value ${_value}.`);
+        index?: number, _value?: string){
+        props.conf.sylConf.setNrPieds(index);
     }
 
     function ResetCoulSylClick() {
-        SorryMsg("Fonction pas encore réalisée.");
+        props.conf.sylConf.Reset();
     }
 
-    function LoadCffData(_cf: CharFormatting) {
+    function LoadCffData(cf: CharFormatting) {
+        props.conf.sylConf.SetSylButtonCF(curButNr, cf);
     }
 
     function LoadCffLetData(c: string, cf: CharFormatting) {
@@ -208,6 +256,22 @@ export default function PlusTab(props: PlusTabProps) {
             </Stack.Item>
         )
     }
+
+    let sylButtons: Array<any> = new Array<any>();
+    for (let i = 0; i < 6; i++) {
+        sylButtons.push(
+            <Stack.Item key = {useId("SI_LetBut")}> 
+                <SylButton 
+                    position = {i} 
+                    sylConf = {props.conf.sylConf}
+                    clickBut = {OnSylButClicked}
+                    key = {useId("SB_SylBut")}
+                /> 
+            </Stack.Item>
+        )
+    }
+
+
 
     return (
         <div>
@@ -299,7 +363,7 @@ export default function PlusTab(props: PlusTabProps) {
                 >
                     <ChoiceGroup
                         label="Mode"
-                        defaultSelectedKey="Ecrit"
+                        selectedKey={GetSylModeOption(props.conf.sylConf.sylMode)}
                         onChange={OnSylModeChange}
                         options={sylModeOptions}
                         styles={{
@@ -327,7 +391,7 @@ export default function PlusTab(props: PlusTabProps) {
                         >
                             <ChoiceGroup
                                 label="2 Consonnes"
-                                defaultSelectedKey="Std"
+                                selectedKey={props.conf.sylConf.doubleConsStd?"Std":"Av2C"}
                                 onChange={On2ConsChange}
                                 options={cons2Options}
                                 styles={{
@@ -359,6 +423,7 @@ export default function PlusTab(props: PlusTabProps) {
                                         margin: '-2px 0px 0px 0px'
                                     },
                                 }}
+                                checked={props.conf.sylConf.marquerMuettes}
                                 onChange={OnMuettesChange}
                             />
                         </Stack.Item>
@@ -382,7 +447,7 @@ export default function PlusTab(props: PlusTabProps) {
                         <Stack.Item>
                             <Checkbox 
                                 label="Diérèse" 
-                                disabled={false}
+                                disabled={props.conf.sylConf.sylMode !== SylMode.poesie}
                                 styles={{
                                     checkbox: {
                                         width: 17,
@@ -393,14 +458,15 @@ export default function PlusTab(props: PlusTabProps) {
                                         margin: '-2px 0px 0px 0px' // top right bottom left
                                     },
                                 }}
+                                checked={props.conf.sylConf.chercherDierese}
                                 onChange={OnDiereseChange}
                             />
                         </Stack.Item>
                         <Stack.Item>
                             <ComboBox
-                                defaultSelectedKey="0"
                                 label="Nbre pieds"
                                 options={nrPiedsOptions}
+                                selectedKey={props.conf.sylConf.nrPieds.toString()}
                                 styles={{ 
                                     root: { 
                                         width: 80,
@@ -415,7 +481,9 @@ export default function PlusTab(props: PlusTabProps) {
                                         verticalAlign: "middle",
                                     }
                                 }}
-                                disabled={false}
+                                disabled={props.conf.sylConf.sylMode !== SylMode.poesie 
+                                            ||
+                                            !props.conf.sylConf.chercherDierese}
                                 onChange={OnNbrePiedsChange}
                             />
                         </Stack.Item>
@@ -436,12 +504,7 @@ export default function PlusTab(props: PlusTabProps) {
             </Separator>
 
             <Stack horizontal grow tokens={sylButStackTokens}>
-                <Stack.Item> <SylButton position = {0} /> </Stack.Item>
-                <Stack.Item> <SylButton position = {1} /> </Stack.Item>
-                <Stack.Item> <SylButton position = {2} /> </Stack.Item>
-                <Stack.Item> <SylButton position = {3} /> </Stack.Item>
-                <Stack.Item> <SylButton position = {4} /> </Stack.Item>
-                <Stack.Item> <SylButton position = {5} /> </Stack.Item>
+                {sylButtons}
             </Stack>
             
             <Stack tokens={flStackTokens}>

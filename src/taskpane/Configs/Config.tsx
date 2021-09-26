@@ -20,16 +20,19 @@
 
 import PBDQConfig from "./PBDQConfig";
 import PhonConfig from "./PhonConfig";
+import SylConfig from "./SylConfig";
 import UnsetBehConf from "./UnsetBehConf";
 
 export default class Config {
     public readonly pc: PhonConfig;
     public readonly uBeh: UnsetBehConf;
     public readonly pbdq: PBDQConfig;
+    public readonly sylConf: SylConfig;
 
     constructor() {
         this.pc = new PhonConfig();
         this.uBeh = new UnsetBehConf();
         this.pbdq = new PBDQConfig();
+        this.sylConf = new SylConfig();
     }
 }

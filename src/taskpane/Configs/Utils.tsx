@@ -33,8 +33,11 @@ export function IsDark(col: IRGB): boolean {
  * @param col La couleur due fond
  * @returns La couleur du texte à utiliser
  */
-export function GetTxtCol4Bkgrnd(col: IRGB): IColor {
-    if (IsDark(col)) {
+export function GetTxtCol4Bkgrnd(col: IRGB, faded: boolean = false): IColor {
+    if (faded) {
+        return getColorFromString("#CCCCCC"); // gris clair
+    }
+    else if (IsDark(col)) {
         return getColorFromString("#FFFFFF"); // blanc
     }
     else {

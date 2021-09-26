@@ -18,24 +18,35 @@
  *                                                                              *
  ********************************************************************************/
 
-import { DefaultButton, IButtonStyles } from "@fluentui/react";
+import { DefaultButton, getColorFromRGBA, getColorFromString, IButtonStyles, IColor } from "@fluentui/react";
 import React = require("react");
-import { SorryMsg } from "./MessageWin";
+import SylConfig from "../Configs/SylConfig";
+import { GetTxtCol4Bkgrnd } from "../Configs/Utils";
 
 export interface SylButtonProps {
     position: number; // nombre de 0 à 7 indiquant de quel bouton il s'agit
-    // clickBut: (butNr: number) => void;
+    sylConf: SylConfig;
+    clickBut: (butNr: number) => void;
 }
 
 export default function SylButton(props: SylButtonProps) {
 
     function onClicked() {
-        // props.clickBut(props.position);
-        SorryMsg("Cette fonction n'est pas encore réalisée.")
+        props.clickBut(props.position);
     }
 
-    let col: string = "#FFFFFF"; // blanc
-    let fontCol: string = "#000000"; // noir
+    let displayTxt : string = "-";
+    let faded: boolean = true;
+    let cf = props.sylConf.GetSylButtonConfFor(props.position).cf;
+    let bkgrCol: IColor = getColorFromString("#FFFFFF"); // blanc
+    if (props.position < props.sylConf.nrSetButtons) {
+        if (cf.changeColor){
+            bkgrCol = getColorFromRGBA(cf.color);
+        }
+        displayTxt = "txt";
+        faded = false;
+    }
+    let fontCol = GetTxtCol4Bkgrnd(bkgrCol, faded);
 
     const phonButStyles: IButtonStyles = { 
         root: {
@@ -45,26 +56,27 @@ export default function SylButton(props: SylButtonProps) {
             margin: 0,
             minWidth: 10,
             flexWrap: 'nowrap',
-            background: col,
-            },
-            label: {
+            background: bkgrCol.str,
+        },
+        label: {
             fontSize: 11,
-            // fontWeight: props.chk && props.cf.bold?"800":"400",
-            // fontStyle: props.chk && props.cf.italic?"italic":"normal",
-            // textDecoration: props.chk && props.cf.underline?"underline":"",
+            fontWeight: cf.bold?"800":"400",
+            fontStyle: cf.italic?"italic":"normal",
+            textDecoration: cf.underline?"underline":"",
             padding: 0,
             margin: 0,
             flexWrap: 'nowrap',
-            color: fontCol,
+            color: fontCol.str,
         },
     };
     
     return(
         <div>
             <DefaultButton 
-                text={props.position.toString()} 
+                text={displayTxt}
                 styles={phonButStyles}
                 onClick={onClicked}
+                disabled={!props.sylConf.GetSylButtonConfFor(props.position).buttonClickable}
             />
         </div>
     )
