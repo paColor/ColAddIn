@@ -20,8 +20,10 @@
 
 // import { getColorFromString, IRGB } from "@fluentui/react";
 import Config from "../Configs/Config";
+import { EstVoyelle } from "../Configs/Utils";
 import FormattedTextEl from "./FormattedTextEl";
 import PhonWord from "./PhonWord";
+import { EstConsonne } from "./TextEl";
 
 /* Pas sûr qu'on en aura besoin puisque la fonction "Noir" est directement réalisée 
  * dans MSWText
@@ -54,18 +56,18 @@ export default class TheText {
     private static rxWords = /[a-z0-9àáäâéèêëíìïîóòöôúùüû_]+/ig;  // expression régulière (rationnelle?) pour détecter les mots
     
     public S : string;
-    private lowerCaseS: string;
+    private lowerCaseS: string; // attention: utiliser ToLowerString()
     private formats: FormattedTextEl[];
     
     constructor(txt: string) {
         this.S = txt;
-        this.lowerCaseS = null;
+        this.lowerCaseS = undefined;
         this.formats = []; 
         this.LogCodePoints();
     }
 
     public ToLowerString() : string {
-        if (this.lowerCaseS === null) {
+        if (this.lowerCaseS === undefined) {
             this.lowerCaseS = this.S.toLowerCase();
         }
         return this.lowerCaseS;
@@ -78,12 +80,14 @@ export default class TheText {
         let pws = this.GetPhonWords(conf);
         for (let pw of pws) {
             pw.ColorPhons(conf);
-            // console.log(pw);
-            // console.log(pw.lowWord + " " + pw.ToPhonString());
         }
         this.ApplyFormatting(conf);
     }
 
+    /**
+     * Colorise les lettres du texte conformément à la configuration de conf.pbdq
+     * @param conf La configuration à utiliser.
+     */
     public MarkLetters(conf: Config) {
         for (let i = 0; i < this.S.length; i++) {
             let cf = conf.pbdq.GetCfForPBDQLetter(this.S[i]);
@@ -94,10 +98,56 @@ export default class TheText {
         this.ApplyFormatting(conf);
     }
 
+    /**
+     * Colorise les mots du texte de manière alternée, en utilsant les formatages donnés par 
+     * conf.sylConfig.
+     * @param conf La configuration à utiliser (en particulier conf.sylConf).
+     */
+    public MarkWords(conf: Config) {
+        conf.sylConf.ResetCounter();
+        let match: RegExpExecArray | null;
+        while ((match = TheText.rxWords.exec(this.ToLowerString())) !== null) {
+            let beg = match.index;
+            let len = match[0].length;
+            let end = beg + len - 1;
+            this.AddFTE(new FormattedTextEl(this, beg, end, conf.sylConf.NextCF()));
+        }
+        this.ApplyFormatting(conf);
+    }
+
+    /**
+     * Colorise les voyelles et les consonnes, en utilisant les deux premiers formtatages donnés
+     * par conf.sylConfig.
+     * @param conf La configuration à utiliser (en particulier conf.sylConf).
+     * 
+     */
+    public MarkVoyCons(conf: Config) {
+        conf.sylConf.ResetCounter();
+        let voyCF = conf.sylConf.NextCF();
+        let consCF = conf.sylConf.NextCF();
+        let lowS = this.ToLowerString();
+        for (let i = 0; i < lowS.length; i++) {
+            if (EstConsonne(lowS[i])) {
+                this.AddFTE(new FormattedTextEl(this, i, i, consCF));
+            }
+            else if (EstVoyelle(lowS[i])) {
+                this.AddFTE(new FormattedTextEl(this, i, i, voyCF));
+            }
+        }
+        this.ApplyFormatting(conf);
+    }
+
+    /**
+     * Ajoute le FormattedTextEl à la liste de ceux qui existent pour le texte.
+     * @param fte Le FOrmattedTextEl à ajouter.
+     */
     public AddFTE(fte : FormattedTextEl) {
         this.formats.push(fte);
     }
 
+    /**
+     * Génère un log sur la console des représentation UTF-16 (code points) des caractères du texte.
+     */
     public LogCodePoints() {
         for (let i = 0; i < this.S.length; i++) {
             console.log(this.S[i] + " - " + this.S.codePointAt(i));

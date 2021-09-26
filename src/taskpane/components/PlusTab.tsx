@@ -276,8 +276,6 @@ export default function PlusTab(props: PlusTabProps) {
         )
     }
 
-
-
     return (
         <div>
             <Stack horizontal tokens={flStackTokens}>

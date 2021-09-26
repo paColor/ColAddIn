@@ -44,3 +44,16 @@ export function GetTxtCol4Bkgrnd(col: IRGB, faded: boolean = false): IColor {
         return getColorFromString("#000000"); // noir
     }
 }
+
+const consonnes = "bcdfghjklmnpqrstvwxzç";
+const voyelles = "aeiouyœéàèùäëïöüâêîôûœ";
+
+/** Indique si c est une voyelle. */
+export function EstVoyelle(c: string) : boolean {
+    return voyelles.includes(c);
+}
+
+/** Indique si c est une consonne. */
+export function EstConsonne(c: string) : boolean {
+    return consonnes.includes(c);
+}

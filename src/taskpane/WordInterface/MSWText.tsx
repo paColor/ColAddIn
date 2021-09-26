@@ -107,7 +107,7 @@ export default class MSWText extends TheText {
         })
     }
 
-    static async ColPhonsClick(conf: Config) {
+    static async ApplyFunct(act: string, conf: Config) {
         Word.run(async (context) => {
             let sel = context.document.getSelection();
             sel.load();
@@ -117,7 +117,26 @@ export default class MSWText extends TheText {
                 rgeColl.load();
                 await context.sync();
                 let mswT = new MSWText(sel, rgeColl);
-                mswT.ColorizePhons(conf);
+                switch (act) {
+                    case "ColorizePhons":
+                        mswT.ColorizePhons(conf);
+                        break;
+                    case "MarkSyls":
+                        // mswT.MarkSyls(conf);
+                        SorryMsg("La fonction colorisation de syllabes n'est malheureusement pas encore réalisée.");
+                        break;
+                    case "MarkWords":
+                        mswT.MarkWords(conf);
+                        break;
+                    case "MarkVoyCons":
+                        mswT.MarkVoyCons(conf);
+                        break;
+                    case "MarkLetters":
+                        mswT.MarkLetters(conf);
+                        break;
+                    default:
+                        throw new Error("Action inconnue!");
+                }
                 await context.sync();
             }
             else {
@@ -126,84 +145,24 @@ export default class MSWText extends TheText {
         })
     }
 
-
-    static async ColSylClick(_conf: Config) {
-        Word.run(async (context) => {
-            let sel = context.document.getSelection();
-            sel.load();
-            await context.sync();
-            if (!sel.isEmpty) {
-                // let rgeColl = sel.split(letDelimiters);
-                // rgeColl.load();
-                // await context.sync();
-                // let mswT = new MSWText(sel, rgeColl);
-                // mswT.ColorizePhons(conf);
-                // await context.sync();
-                SorryMsg("La fonction colorisation de syllabes n'est malheureusement pas encore réalisée.");
-            }
-            else {
-                WarningMsg("Aucun texte n'est sélectionné.")
-            }
-        })
+    static ColPhonsClick(conf: Config) {
+        MSWText.ApplyFunct("ColorizePhons", conf);
     }
 
-    static async ColMotsClick(_conf: Config) {
-        Word.run(async (context) => {
-            let sel = context.document.getSelection();
-            sel.load();
-            await context.sync();
-            if (!sel.isEmpty) {
-                // let rgeColl = sel.split(letDelimiters);
-                // rgeColl.load();
-                // await context.sync();
-                // let mswT = new MSWText(sel, rgeColl);
-                // mswT.ColorizePhons(conf);
-                // await context.sync();
-                SorryMsg("La fonction colorisation de mots n'est malheureusement pas encore réalisée.");
-            }
-            else {
-                WarningMsg("Aucun texte n'est sélectionné.")
-            }
-        })
+    static ColSylClick(conf: Config) {
+        MSWText.ApplyFunct("MarkSyls", conf);
     }
 
-    static async ColVoyConsClick(_conf: Config) {
-        Word.run(async (context) => {
-            let sel = context.document.getSelection();
-            sel.load();
-            await context.sync();
-            if (!sel.isEmpty) {
-                // let rgeColl = sel.split(letDelimiters);
-                // rgeColl.load();
-                // await context.sync();
-                // let mswT = new MSWText(sel, rgeColl);
-                // mswT.ColorizePhons(conf);
-                // await context.sync();
-                SorryMsg("La fonction colorisation de voyelles et consonnes n'est malheureusement pas encore réalisée.");
-            }
-            else {
-                WarningMsg("Aucun texte n'est sélectionné.")
-            }
-        })
+    static ColMotsClick(conf: Config) {
+        MSWText.ApplyFunct("MarkWords", conf);
     }
 
-    static async ColLetClick(conf: Config) {
-        Word.run(async (context) => {
-            let sel = context.document.getSelection();
-            sel.load();
-            await context.sync();
-            if (!sel.isEmpty) {
-                let rgeColl = sel.split(letDelimiters);
-                rgeColl.load();
-                await context.sync();
-                let mswT = new MSWText(sel, rgeColl);
-                mswT.MarkLetters(conf);
-                await context.sync();
-            }
-            else {
-                WarningMsg("Aucun texte n'est sélectionné.")
-            }
-        })
+    static ColVoyConsClick(conf: Config) {
+        MSWText.ApplyFunct("MarkVoyCons", conf);
+    }
+
+    static ColLetClick(conf: Config) {
+        MSWText.ApplyFunct("MarkLetters", conf);
     }
     
     /**

@@ -117,6 +117,10 @@ export default class SylConfig {
         // this.ForceRendering();
     }
 
+    /** 
+     * Réinitialise le compteur utilisé pour passer d'une couleur à l'autre. Permet d'être
+     * sûr de commencer avec la première couleur configurée.
+     */
     public ResetCounter() {
         this.counter = 0;
     }
