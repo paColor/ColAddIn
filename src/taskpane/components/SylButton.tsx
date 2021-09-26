@@ -18,7 +18,7 @@
  *                                                                              *
  ********************************************************************************/
 
-import { DefaultButton, getColorFromRGBA, getColorFromString, IButtonStyles, IColor } from "@fluentui/react";
+import { DefaultButton, getColorFromRGBA, getColorFromString, IButtonStyles, IColor, } from "@fluentui/react";
 import React = require("react");
 import SylConfig from "../Configs/SylConfig";
 import { GetTxtCol4Bkgrnd } from "../Configs/Utils";
@@ -69,7 +69,7 @@ export default function SylButton(props: SylButtonProps) {
             color: fontCol.str,
         },
     };
-    
+
     return(
         <div>
             <DefaultButton 

@@ -29,6 +29,7 @@ import CharFormatForm, { EditCf, EditLetCf } from "./CharFormatForm";
 import CharFormatting from "../Configs/CharFormatting";
 import { useState } from "react";
 import { SylMode } from "../Configs/SylConfig";
+import { WarningMsg } from "./MessageWin";
 
 export interface PlusTabProps {
     conf: Config;
@@ -233,6 +234,10 @@ export default function PlusTab(props: PlusTabProps) {
 
     function ResetCoulSylClick() {
         props.conf.sylConf.Reset();
+    }
+
+    function EffacerSylClick() {
+        props.conf.sylConf.ClearLastButton(() => {WarningMsg("Il n'y a pas de bouton à effacer.");})
     }
 
     function LoadCffData(cf: CharFormatting) {
@@ -507,7 +512,14 @@ export default function PlusTab(props: PlusTabProps) {
                 {sylButtons}
             </Stack>
             
-            <Stack tokens={flStackTokens}>
+            <Stack horizontal tokens={flStackTokens} horizontalAlign="center">
+                <Stack.Item align="center">
+                    <DefaultButton 
+                        text="Effacer" 
+                        styles={customButStyles}
+                        onClick={EffacerSylClick}
+                    />
+                </Stack.Item>
                 <Stack.Item align="center">
                     <DefaultButton 
                         text="réinitialiser à bleu/rouge" 

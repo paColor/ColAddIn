@@ -181,11 +181,11 @@ export default class SylConfig {
     }
 
     /**
-     * Efface le bouton butNr. N'est possible que pour le dernier bouton formaté de la série.
-     * @param butNr Le numéro du bouton à effacer.
+     * Efface le dernier bouton formaté de la série.
+     * @param errAction fonction appelée s'il n'y a rien à effacer
      */
-    public ClearButton(butNr: number) {
-        if ((butNr === (this.nrSetButtons - 1)) && (this.nrSetButtons > 0))
+    public ClearLastButton(errAction: () => void) {
+        if (this.nrSetButtons > 0) 
         {
             let sylButsCopy = this.sylButtons;
             if (this.nrSetButtons < NrButtons)
@@ -200,7 +200,7 @@ export default class SylConfig {
         }
         else
         {
-            throw new Error("Le bouton no " + butNr.toString() + " ne peut pas être effacé.");
+            errAction();
         }
     }
 
