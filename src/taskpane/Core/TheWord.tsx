@@ -31,5 +31,25 @@ export default class TheWord extends TextEl {
         super(tt, inF, inL);
         this.lowWord = this.T.S.substring(inF, inL+1).toLowerCase();
     }
+
+    /** retourne le mot en minuscules. */
+    public GetWord() : string {
+        return this.lowWord;
+    }
+
+    /**
+     * Retourne le caractère (en minuscule) à la position pos dans le mot
+     * @param pos la position du caractère dans le TheText sur lequel s'appuie le TextEl
+     * @returns le caractère à la position définie.
+     */
+    public GetChar(pos : number) : string {
+        if (pos >= this.first && pos <= this.last) {
+            return this.lowWord[pos - this.first];
+        }
+        else {
+            throw new Error("La position dans le mot est impossible.")
+        }
+        
+    }
     
 }

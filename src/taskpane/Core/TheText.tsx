@@ -20,10 +20,9 @@
 
 // import { getColorFromString, IRGB } from "@fluentui/react";
 import Config from "../Configs/Config";
-import { EstVoyelle } from "../Configs/Utils";
+import { EstConsonne, EstVoyelle } from "../Configs/Utils";
 import FormattedTextEl from "./FormattedTextEl";
 import PhonWord from "./PhonWord";
-import { EstConsonne } from "./TextEl";
 
 /* Pas sûr qu'on en aura besoin puisque la fonction "Noir" est directement réalisée 
  * dans MSWText

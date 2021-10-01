@@ -153,11 +153,28 @@ import TextEl from "./TextEl";
         [ Phoneme.lastPhon,    "LASTPHON" ]
     ])
 
+    const voyelles : Array<Phoneme> = [ Phoneme.a, Phoneme.q, 
+        Phoneme.q_caduc, Phoneme.i, Phoneme.o, Phoneme.o_comp, Phoneme.u, Phoneme.y, 
+        Phoneme.e, Phoneme.E, Phoneme.E_comp, Phoneme.e_comp, Phoneme.e_tilda,
+        Phoneme.a_tilda, Phoneme.o_tilda, Phoneme.x_tilda, Phoneme.x2, Phoneme.oi, 
+        Phoneme.w_e_tilda, Phoneme.i_j, Phoneme.i_j_ill ];
+
+    const consonnes : Array<Phoneme> = [ Phoneme.p, Phoneme.b, 
+        Phoneme.t, Phoneme.d, Phoneme.k, Phoneme.g, Phoneme.f, Phoneme.v, Phoneme.s,
+        Phoneme.z, Phoneme.S, Phoneme.Z, Phoneme.m, Phoneme.n, Phoneme.l, Phoneme.R, 
+        Phoneme.f_ph, Phoneme.k_qu, Phoneme.g_u, Phoneme.s_c, Phoneme.s_t, Phoneme.s_x,
+        Phoneme.z_s,Phoneme.ks, Phoneme.gz ];
+
+    // const semiVoyelles : Array<Phoneme> = [ Phoneme.w,
+    //     Phoneme.J, Phoneme.N, Phoneme.j, Phoneme.j_ill, Phoneme.ji ];
+
+    const muet : Array<Phoneme> = [ Phoneme.verb_3p, Phoneme._muet,
+        Phoneme.chiffre ];
+
     export default class PhonInW extends TextEl {
-        public readonly p : Phoneme;
+        public p : Phoneme;
         public readonly pw : PhonWord; // the PhonWord the PhonInW belongs to
         public readonly firedRuleName: string; // name of the rule that was used to set the phonème.
-
 
         /** Créé un PhonInWord.
          * @param inPW Le PhonWord qui contient le phonème créé.
@@ -190,6 +207,34 @@ import TextEl from "./TextEl";
          */
         public PhonToString() : string {
             return lexMap.get(this.p);
+        }
+
+        /** Indique si le PhonInW est un phonème consonne */
+        public EstConsonne() : boolean {
+            return consonnes.includes(this.p);
+        }
+
+        /**
+         * Indique si le PhonInW est un phonème voyelle
+         * @param forceDierese Indique si la diérèse doit être forcée. 
+         * @returns true s'il s'agit d'une voyelle,  false sinon.
+         */
+        public EstVoyelle(forceDierese = false) : boolean {
+            let toReturn = false;
+            if (this.p === Phoneme.ji)
+            {
+                toReturn = forceDierese;
+            }
+            else
+            {
+                toReturn = voyelles.includes(this.p);
+            }
+            return toReturn;
+        }
+
+        /** Indique si le PhonInW est un phonème muet */
+        public EstMuet() : boolean {
+            return muet.includes(this.p);
         }
 
         /** Créé un PhonInWord et l'ajoute à la liste de inPW.

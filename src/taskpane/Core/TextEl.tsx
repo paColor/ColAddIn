@@ -20,16 +20,17 @@
 
 import TheText from "./TheText";
 
-const consonnes = "bcdfghjklmnpqrstvwxzç";
-const voyelles = "aeiouyœéàèùäëïöüâêîôûœ";
+// Cerci génère une boucle d'imports avec TheText. On l'a donc déplacé dans Utils.
+// const consonnes = "bcdfghjklmnpqrstvwxzç";
+// const voyelles = "aeiouyœéàèùäëïöüâêîôûœ";
 
-export function EstVoyelle(c:string) {
-    return voyelles.includes(c);
-}
+// export function EstVoyelle(c:string) {
+//     return voyelles.includes(c);
+// }
 
-export function EstConsonne(c:string) {
-    return consonnes.includes(c);
-}
+// export function EstConsonne(c:string) {
+//     return consonnes.includes(c);
+// }
 
 export default class TextEl {
 
@@ -37,16 +38,24 @@ export default class TextEl {
     
     // La position (zero-based) dans T du premier caractère du TextEl. Doit
     // être plus grand ou égal à zéro.
-    public readonly first: number;
+    public first: number;
 
     // La position (zero-based) dans T du dernier caractère du TextEl.
     // S'il est plus petit que first, l'élément est considéré comme vide.
-    public readonly last: number;
+    public last: number;
 
     constructor(tt: TheText, inF: number, inL: number) {
         this.T = tt;
         this.first = inF;
         this.last = inL;
+    }
+
+    public ToLowerString(): string
+    {
+        if (this.last < this.first)
+            return "";
+        else
+            return this.T.ToLowerString().substring(this.first, this.last + 1);
     }
 
 }
