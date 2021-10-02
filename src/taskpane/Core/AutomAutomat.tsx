@@ -201,7 +201,7 @@ let automat : any = {
             'aiguille':[{'-':/ai$/i,'+':/^(u(ill|iér|ï|ité|(s?)$))/i},Phoneme.g,1], // encore une exception : aiguille, aigu et quelques mots bizarres comme aiguité
             'u_consonne':[{'+':/^u[bcçdfghjklmnpqrstvwxz]/i},Phoneme.g,1], // gu suivi d'une consonne se prononce [g][y]
             'ngui':[{'-':/n$/i,'+':/^ui(st|sm|fè|cu)/i},Phoneme.g,1], // linguiste, inguinal, unguifère, onguiculé...
-            'u':[{'+':/^u/i},Phoneme.g_u,,2],
+            'u':[{'+':/^u/i},Phoneme.g_u,2],
             'except_n':[{'r':RegleMotsGnGN},Phoneme.g,1],
             'n':[{'+':/^n/i},Phoneme.N,2],
             'vingt':[{'-':/vin$/i,'+':/^t/i},Phoneme._muet,1], // vingt

@@ -22,6 +22,7 @@ import { ILabelStyles, IStyleSet, Label, Pivot, PivotItem } from "@fluentui/reac
 import * as React from "react";
 import Config from "../Configs/Config";
 import MSWText from "../WordInterface/MSWText";
+import AvTab from "./AvTab";
 import MessageWin from "./MessageWin";
 import PhonTab from "./PhonTab";
 import PlusTab from "./PlusTab";
@@ -64,7 +65,9 @@ export default function App() {
           <Label styles={labelStyles}>Config pour Sauv</Label>
         </PivotItem>
         <PivotItem headerText="Avancé">
-          <Label styles={labelStyles}>Config pour Avancé</Label>
+          <AvTab
+            conf = {conf}
+          />
         </PivotItem>
         <PivotItem headerText="Infos">
           <Label styles={labelStyles}>Config pour À propos</Label>

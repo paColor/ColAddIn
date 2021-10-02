@@ -18,11 +18,11 @@
  *                                                                              *
  ********************************************************************************/
 
-import { IRGB } from "@fluentui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Phoneme } from "../Core/Phoneme";
 import CharFormatting from "./CharFormatting";
 
+export enum IllMode {IllCeras, IllLireCouleur, undefined}
 
 const sonValides = [
   "a", "q", "i", "y", "1", "u", "é", "o", "è", "an", "on", "2", "oi", "5", "w", "j", "ill", "ng", 
@@ -89,8 +89,7 @@ function GetRoseCFSons(): Map<string, CharFormatting> {
       ]);
 }
 
-const black: IRGB = { r: 0, g: 0, b: 0 }; 
-const defCF: CharFormatting = new CharFormatting(false, false, false, false, black);
+const defCF: CharFormatting = CharFormatting.NeutralCF;      
 
 /*
 const sonMap : Map<string, Phoneme[]> = new Map ([
@@ -213,10 +212,14 @@ export default class PhonConfig { // équivalent de ColConfWin
     private readonly dummy: boolean;
     private readonly setDummy: Dispatch<SetStateAction<boolean>>;
 
+    public readonly illMode : IllMode;
+    public readonly setIllMode : (IllMode) => void;
+
     constructor () {
         [this.cfSons, this.setCFSons] = useState(GetRoseCFSons());
         [this.chkSons, this.setChkSons] = useState(GetRoseChkSons());
         [this.dummy, this.setDummy] = useState(false);
+        [this.illMode, this.setIllMode] = useState(IllMode.IllCeras);
     }
 
     public SetChk(son: string, chkBoxVal: boolean) {
@@ -242,7 +245,13 @@ export default class PhonConfig { // équivalent de ColConfWin
     }
 
     public GetPhonCF(phon:Phoneme) : CharFormatting {
-        return this.GetCF(phonMap.get(phon));
+        let son = phonMap.get(phon);
+        if (this.GetChk(son)) {
+            return this.GetCF(son);
+        }
+        else {
+            return defCF;
+        }
     }
 
     public SetCERAS() {
@@ -274,6 +283,17 @@ export default class PhonConfig { // équivalent de ColConfWin
     public IsRuleCatEnabled(rCat : string) : boolean {
         // implémentation à modifier quand on rendra les flags configurables, comme dans
         // la version VSTO.
+        switch (rCat) {
+            case "IllCeras":
+                return this.illMode === IllMode.IllCeras;
+                break;
+            case "IllLireCouleur":
+                return this.illMode === IllMode.IllLireCouleur;
+                break;
+            default:
+                throw new Error("Catégorie de règle inattendue: " + rCat);
+                
+        }
         return rCat === "IllCeras";
     }
 
