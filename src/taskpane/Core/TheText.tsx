@@ -19,7 +19,9 @@
  ********************************************************************************/
 
 // import { getColorFromString, IRGB } from "@fluentui/react";
+import { SorryMsg } from "../components/MessageWin";
 import Config from "../Configs/Config";
+import { SylMode } from "../Configs/SylConfig";
 import { EstConsonne, EstVoyelle } from "../Configs/Utils";
 import FormattedTextEl from "./FormattedTextEl";
 import PhonWord from "./PhonWord";
@@ -62,7 +64,7 @@ export default class TheText {
         this.S = txt;
         this.lowerCaseS = undefined;
         this.formats = []; 
-        this.LogCodePoints();
+        // this.LogCodePoints();
     }
 
     public ToLowerString() : string {
@@ -116,7 +118,7 @@ export default class TheText {
 
     /**
      * Colorise les voyelles et les consonnes, en utilisant les deux premiers formtatages donnés
-     * par conf.sylConfig.
+     * par conf.sylConf.
      * @param conf La configuration à utiliser (en particulier conf.sylConf).
      * 
      */
@@ -137,8 +139,29 @@ export default class TheText {
     }
 
     /**
+     * Colorise les syllabes en utilisant les formatages alternés donnés par
+     * conf.sylConf.
+     * @param conf La configuration à utiliser (en particulier conf.sylConf).
+     */
+    public MarkSyls(conf: Config) {
+        let pws = this.GetPhonWords(conf, true);
+        for (let pw of pws) {
+            pw.ComputeSyls();
+        }
+        if (conf.sylConf.sylMode === SylMode.poesie && conf.sylConf.chercherDierese) {
+            SorryMsg("La recherche de diérèses n'est pas encore réalisée.")
+            // _ = AnalyseDierese.ChercheDierese(this, pws, conf.sylConf.nbrPieds);
+        }
+        conf.sylConf.ResetCounter();
+        for (let pw of pws) {
+            pw.ColorizeSyls(conf);
+        }
+        this.ApplyFormatting(conf);
+    }
+
+    /**
      * Ajoute le FormattedTextEl à la liste de ceux qui existent pour le texte.
-     * @param fte Le FOrmattedTextEl à ajouter.
+     * @param fte Le FormattedTextEl à ajouter.
      */
     public AddFTE(fte : FormattedTextEl) {
         this.formats.push(fte);

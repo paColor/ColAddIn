@@ -564,8 +564,8 @@ export default function AutomatFindPhons(pw: PhonWord, conf: Config) {
                     }
                     if (prevCond) {
                         let postCond = (condition['+'] === undefined);
-                        if (!postCond && pos < pw.lowWord.length - 1) {
-                            let postStr = pw.lowWord.substring(pos + 1, pw.lowWord.length);
+                        if (!postCond) {
+                            let postStr = pw.lowWord.substring(pos + 1);
                             postCond = condition['+'].test(postStr);
                         }
                         if (postCond) {

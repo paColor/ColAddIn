@@ -136,6 +136,32 @@ export default class PhonWord extends TheWord {
     }
 
     /**
+     * Colorise les syllabes dans le PhonWord, en utilisant la Config indiquée.
+     * @param conf La Config (en particulier conf.sylConf) utilisée pour la colorisation.
+     */
+    public ColorizeSyls(conf: Config)
+    {
+        if (this.syls != undefined)
+        {
+            // Mettre les syllabes en couleur
+            for (let s of this.syls)
+                s.PutColor(conf);
+
+            // s'il le faut, marquer, par-dessus, les phonemes muets.
+            if (conf.sylConf.marquerMuettes) {
+                for (let piw of this.phons) {
+                    if (piw.EstMuet())
+                        piw.PutColor(conf);
+                }
+            } 
+        }
+        else
+        {
+            throw new Error("ColorizeSyls called when syls is undefined.")
+        }
+    }
+
+    /**
      * Retourne une représentation phonétique lexique.org du mot.
      * S'appelle "Phonetique()" dans la version VSTO
      */
@@ -237,7 +263,7 @@ export default class PhonWord extends TheWord {
             {
                 // le mot ne comprend pas de voyelles --> une seule syllabe
                 this.syls = new Array<SylInW>();
-                siw = new SylInW(this, this.first, this.last, Phoneme.firstPhon);
+                siw = new SylInW(this, 0, this.last - this.first, Phoneme.firstPhon);
                 this.syls.push(siw);
             } 
             else 

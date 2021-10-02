@@ -19,7 +19,7 @@
  ********************************************************************************/
 
 import { getColorFromRGBA } from "@fluentui/react";
-import { SorryMsg, WarningMsg } from "../components/MessageWin";
+import { WarningMsg } from "../components/MessageWin";
 import Config from "../Configs/Config";
 import FormattedTextEl from "../Core/FormattedTextEl";
 import TheText from "../Core/TheText";
@@ -53,7 +53,7 @@ export default class MSWText extends TheText {
                 this.pos[i] = r;
                 i++;
             }
-            console.log(r.text + " length: " + r.text.length);
+            // console.log(r.text + " length: " + r.text.length);
         }
     }
 
@@ -122,8 +122,7 @@ export default class MSWText extends TheText {
                         mswT.ColorizePhons(conf);
                         break;
                     case "MarkSyls":
-                        // mswT.MarkSyls(conf);
-                        SorryMsg("La fonction colorisation de syllabes n'est malheureusement pas encore réalisée.");
+                        mswT.MarkSyls(conf);
                         break;
                     case "MarkWords":
                         mswT.MarkWords(conf);

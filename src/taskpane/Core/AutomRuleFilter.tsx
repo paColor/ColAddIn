@@ -18,7 +18,8 @@
  *                                                                              *
  ********************************************************************************/
 
-import { EstConsonne } from "./TextEl";
+import { EstConsonne } from "../Configs/Utils";
+
 
 let accentMapping = {
     'à': 'a',

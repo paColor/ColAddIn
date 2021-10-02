@@ -29,11 +29,23 @@ const bkptgdfv:  Array<Phoneme> = [Phoneme.b, Phoneme.k, Phoneme.p, Phoneme.t, P
 
 export default class SylInW extends PhonInW {
 
+    /**
+     * Crée und SylInW équivalent au PhonInW indiqué
+     * @param piw Le PhonInW à "cloner" pour le SylInW
+     * @returns Le nouveau SylInW correspondant à piw.
+     */
     public static GetSylInW(piw: PhonInW) : SylInW {
-        return new SylInW(piw.pw, piw.first, piw.last, piw.p);
+        return new SylInW(piw.pw, piw.first-piw.pw.first, piw.last - piw.pw.first, piw.p);
     }
 
-    constructor (inPW : PhonWord, inBeg : number, inEnd : number, inP : Phoneme) {
+    /**
+     * Crée un SylInW
+     * @param inPW Le PhonWord qui contient le phonème créé.
+     * @param inBeg: La position (zero based) de la première lettre du phonème dans le mot.
+     * @param inEnd: La position (zero based) de la dernière lettre du phonème dans le mot.
+     * @param inP: Le type de phonème
+     */
+    public constructor (inPW : PhonWord, inBeg : number, inEnd : number, inP : Phoneme) {
         super(inPW, inBeg, inEnd, inP);
     }
 
