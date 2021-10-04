@@ -23,6 +23,7 @@ import * as React from "react";
 import Config from "../Configs/Config";
 import MSWText from "../WordInterface/MSWText";
 import AvTab from "./AvTab";
+import InfosTab from "./InfosTab";
 import MessageWin from "./MessageWin";
 import PhonTab from "./PhonTab";
 import PlusTab from "./PlusTab";
@@ -70,7 +71,7 @@ export default function App() {
           />
         </PivotItem>
         <PivotItem headerText="Infos">
-          <Label styles={labelStyles}>Config pour À propos</Label>
+          <InfosTab/>
         </PivotItem>
       </Pivot>
       

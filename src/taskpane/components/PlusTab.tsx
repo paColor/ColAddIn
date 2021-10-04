@@ -532,8 +532,5 @@ export default function PlusTab(props: PlusTabProps) {
                 validLet= {LoadCffLetData}
             />
         </div>
-
-        
-
     )
 }
