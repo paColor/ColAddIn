@@ -281,8 +281,8 @@ export default function PlusTab(props: PlusTabProps) {
             <Stack horizontal tokens={flStackTokens}>
                 <Stack.Item align="start" styles={flStackItemStyles}>
                     <CommandButton
-                        butTitle="Cololriser les lettres"
-                        iconSrc="../assets/bdpq_40.png"
+                        butTitle="Cololrisez les lettres"
+                        iconSrc="/assets/bdpq_40.png"
                         onClick={LetClick}
                     />
                 </Stack.Item>
@@ -294,7 +294,7 @@ export default function PlusTab(props: PlusTabProps) {
                         </Stack.Item>
                         <Stack.Item align="center">
                             <DefaultButton 
-                                text="réinitialiser à bpdq" 
+                                text="réinitialisez à bpdq" 
                                 styles={customButStyles}
                                 onClick={ResetLetClick}
                             />
@@ -318,29 +318,29 @@ export default function PlusTab(props: PlusTabProps) {
             <Stack horizontal tokens={CommandStackTokens} horizontalAlign="center">
                 <Stack.Item align="center" styles={flStackItemStyles}>
                     <CommandButton
-                        butTitle="Cololriser les syllabes"
-                        iconSrc="../assets/syll_dys_64.png"
+                        butTitle="Cololrisez les syllabes"
+                        iconSrc="/assets/syll_dys_64.png"
                         onClick={SylClick}
                     />
                 </Stack.Item>
                 <Stack.Item align="center" styles={flStackItemStyles}>
                     <CommandButton
-                        butTitle="Cololriser les mots"
-                        iconSrc="../assets/mots_40.png"
+                        butTitle="Cololrisez les mots"
+                        iconSrc="/assets/mots_40.png"
                         onClick={MotsClick}
                     />
                 </Stack.Item>
                 <Stack.Item align="center" styles={flStackItemStyles}>
                     <CommandButton
-                        butTitle="Cololriser les voyelles et les consonnes"
-                        iconSrc="../assets/voycons_64.png"
+                        butTitle="Cololrisez les voyelles et les consonnes"
+                        iconSrc="/assets/voycons_64.png"
                         onClick={VoyConsClick}
                     />
                 </Stack.Item>
                 <Stack.Item align="center" styles={flStackItemStyles}>
                     <CommandButton
-                        butTitle="Cololriser en noir sans autre formattage"
-                        iconSrc="../assets/black_carre_64.png"
+                        butTitle="Cololrisez en noir sans autre formattage"
+                        iconSrc="/assets/black_carre_64.png"
                         onClick={NoirClick}
                     />
                 </Stack.Item>
@@ -351,6 +351,9 @@ export default function PlusTab(props: PlusTabProps) {
                 styles= {{
                     root: {
                         fontSize: 12,
+                    },
+                    content: {
+                        backgroundColor: "#FFFFFF00",
                     }
                 }}
             >
@@ -500,6 +503,9 @@ export default function PlusTab(props: PlusTabProps) {
                     root: {
                         fontSize: 12,
                         marginTop: -5,
+                    },
+                    content: {
+                        backgroundColor: "#FFFFFF00",
                     }
                 }}
             >
