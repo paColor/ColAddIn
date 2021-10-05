@@ -13,7 +13,7 @@
   <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/LogoColorization_64.png"/>
   <SupportUrl DefaultValue="https://colorization.ch/docs/Manuel_Utilisateur_Colorization.pdf"/>
   <AppDomains>
-    <AppDomain>https://www.collorization.ch</AppDomain>
+    <AppDomain>https://colorization.ch</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Document"/>
@@ -79,7 +79,7 @@
       <bt:ShortStrings>
         <bt:String id="GetStarted.Title" DefaultValue="Utilisez Coloriƨation!" />
         <bt:String id="CommandsGroup.Label" DefaultValue="Coloriƨation" />
-        <bt:String id="TaskpaneButton.Label" DefaultValue="Configurer Coloriƨation" />
+        <bt:String id="TaskpaneButton.Label" DefaultValue="Coloriƨation" />
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="GetStarted.Description" DefaultValue="Coloriƨation a chargé correctement. Utilisez la commande dans le ruban pour ouvrir la configuration." />

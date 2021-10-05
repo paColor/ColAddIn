@@ -271,7 +271,7 @@ export default class PhonConfig { // équivalent de ColConfWin
     }
 
     public ChkRien() {
-        this.SetAllChk(false);
+        this.SetAllChk(false); 
     }
 
     /**

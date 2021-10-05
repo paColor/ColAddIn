@@ -77,7 +77,7 @@ const boldIcon: IIconProps = {
       imageFit: ImageFit.centerContain,
       width: btnSize,
       height: btnSize,
-      src: "../assets/Bold_22.png"
+      src: "/assets/Bold_22.png"
   }
 };
 
@@ -86,7 +86,7 @@ const italicIcon: IIconProps = {
       imageFit: ImageFit.centerContain,
       width: btnSize,
       height: btnSize,
-      src: "../assets/Italic_22.png"
+      src: "/assets/Italic_22.png"
   }
 };
 
@@ -95,7 +95,7 @@ const underlineIcon: IIconProps = {
       imageFit: ImageFit.centerContain,
       width: btnSize,
       height: btnSize,
-      src: "../assets/Underscore_22.png"
+      src: "/assets/Underscore_22.png"
   }
 };
 

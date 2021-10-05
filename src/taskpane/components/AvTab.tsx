@@ -50,6 +50,7 @@ const sepStyles : Partial<ISeparatorStyles> = {
     content: {
         fontSize: 12,
         fontWeight: 700,
+        backgroundColor: "#FFFFFF00",
     }
 }
 

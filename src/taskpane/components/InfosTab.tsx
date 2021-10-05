@@ -20,6 +20,7 @@
 
 import { ActionButton, Image, IStackItemStyles, IStackTokens, Link, Stack, Text } from "@fluentui/react";
 import React = require("react");
+import { ShowMsg } from "./MessageWin";
 
 export interface InfosTabProps {}
 
@@ -38,6 +39,20 @@ const versStackItemStyles: IStackItemStyles = {
       padding: '0px 0px 10px 0px', // top right bottom left
     },
 };
+
+function OnClickLicence() {
+    ShowMsg("Licence",
+    "Coloriƨation is free software: you can redistribute it and/or modify " + 
+    "it under the terms of the GNU General Public License as published by " +
+    "the Free Software Foundation, either version 3 of the License, or " + 
+    "(at your option) any later version. " +
+    "Coloriƨation is distributed in the hope that it will be useful, " +
+    "but WITHOUT ANY WARRANTY; without even the implied warranty of " +
+    "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the " +
+    "GNU General Public License for more details. " +
+    "You should have received a copy of the GNU General Public License " +
+    "along with Coloriƨation. If not, see https://www.gnu.org/licenses/");
+}
 
 export default function InfosTab(_props: InfosTabProps) {
     return (
@@ -129,8 +144,9 @@ export default function InfosTab(_props: InfosTabProps) {
                 <Stack horizontal grow tokens = {butStackTokens} horizontalAlign = "stretch">
                     <Stack.Item>
                         <ActionButton 
-                            href="http://www.gnu.org/licenses/gpl-3.0.html"
+                            // href="http://www.gnu.org/licenses/gpl-3.0.html"
                             iconProps={{ iconName: 'EntitlementPolicy' }}
+                            onClick={OnClickLicence}
                         >
                             Licence
                         </ActionButton>
@@ -144,21 +160,6 @@ export default function InfosTab(_props: InfosTabProps) {
                         </ActionButton>
                     </Stack.Item>
                 </Stack>
-                <Text block variant="tiny">
-                    Coloriƨation is free software: you can redistribute it and/or modify
-                    it under the terms of the GNU General Public License as published by
-                    the Free Software Foundation, either version 3 of the License, or
-                    (at your option) any later version.
-                    Coloriƨation is distributed in the hope that it will be useful,
-                    but WITHOUT ANY WARRANTY; without even the implied warranty of
-                    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-                    GNU General Public License for more details.
-                    You should have received a copy of the GNU General Public License
-                    along with Foobar. If not, see{' '}
-                    <Link href="https://www.gnu.org/licenses/" underline>
-                        https://www.gnu.org/licenses/
-                    </Link>
-                </Text>
             </Stack>
         </div>
     )

@@ -19,7 +19,8 @@
  ********************************************************************************/
 
 import * as React from "react";
-import { DefaultButton, DefaultPalette, IButtonStyles, IStackItemStyles, IStackStyles, IStackTokens, Stack, Text } from "@fluentui/react";
+import { DefaultButton, DefaultPalette, IButtonStyles, IStackItemStyles, IStackStyles, IStackTokens, Stack, Text, TooltipHost } from "@fluentui/react";
+import { useId } from '@fluentui/react-hooks';
 import CommandButton from "./CommandButton";
 import PhonControl from "./PhonControl";
 import { useState } from "react";
@@ -132,6 +133,8 @@ const phonList = [
     [["b",  "[b]",  "bébé"],          ["gz",  "[gz]",  "examen"]],
 ]
 
+
+
 export default function PhonTab(props: PhonTabProps) {
   
     const pc = props.conf.pc;
@@ -176,6 +179,11 @@ export default function PhonTab(props: PhonTabProps) {
       setPTE(phon);
       EditCf("Configurer " + phon, pc.GetCF(phon));
     }
+
+    const ttBoutToutId = useId("BoutTout");
+    const ttBoutFonceId = useId("BoutFoncé");
+    const ttBoutRoseId = useId("BoutRose");
+    const ttBoutRienId = useId("BoutRien");
   
     let phonLines: Array<any> = new Array<any>();
     for (let i = 0; i < phonList.length; i++) {
@@ -257,8 +265,8 @@ export default function PhonTab(props: PhonTabProps) {
         <Stack horizontal tokens={stackTokens}>
           <Stack.Item align="start" styles={flStackItemStyles}>
             <CommandButton
-              butTitle="Cololriser les phonèmes"
-              iconSrc="../assets/phon-carré 52.png"
+              butTitle="Cololrisez les phonèmes"
+              iconSrc="/assets/phon-carré 52.png"
               onClick={ColPhonClick}
             />
           </Stack.Item>
@@ -272,8 +280,8 @@ export default function PhonTab(props: PhonTabProps) {
   
           <Stack.Item align="end" styles={flStackItemStyles}>
             <CommandButton
-              butTitle="Cololriser en enoir et enlever le formattage"
-              iconSrc="../assets/black_carre_64.png" 
+              butTitle="Cololrisez en noir et enlevez le formatage"
+              iconSrc="/assets/black_carre_64.png" 
               onClick={ColNoirClick}
             />
           </Stack.Item>
@@ -282,24 +290,56 @@ export default function PhonTab(props: PhonTabProps) {
         {/* deuxième ligne */}
         <Stack horizontal styles={stackStyles} tokens={stackTokens}>
           <Stack.Item align="start" styles={slStackItemStyles}> 
-            <DefaultButton text="tout" styles={narrowButStyles} onClick={LocChkTout}/>
+            <TooltipHost 
+              content="Sélectionnez tous les phonèmes"
+              id={ttBoutToutId}
+            >
+              <DefaultButton 
+                text="tout" 
+                styles={narrowButStyles} 
+                onClick={LocChkTout}
+                aria-describedby={ttBoutToutId}
+              />
+            </TooltipHost>
           </Stack.Item>
           <Stack.Item align="auto" grow styles={slStackItemStyles}> 
-            <DefaultButton 
-              text="API ceras (foncé)" 
-              styles={customButStyles} 
-              onClick = {LocSetCERAS}
-            />
+            <TooltipHost 
+              content="Réinitialisez les phonèmes à la configuration 'foncé' de API"
+              id={ttBoutFonceId}
+            >
+              <DefaultButton 
+                text="API ceras (foncé)" 
+                styles={customButStyles} 
+                onClick = {LocSetCERAS}
+                aria-describedby={ttBoutFonceId}
+              />
+            </TooltipHost>
           </Stack.Item>
           <Stack.Item align="auto" grow styles={slStackItemStyles}> 
-            <DefaultButton 
-              text="API ceras (rosé)" 
-              styles={customButStyles}
-              onClick = {LocSetRose}
-            />
+            <TooltipHost 
+              content="Réinitialisez les phonèmes à la configuration 'rosé' de API"
+              id={ttBoutRoseId}
+            >
+              <DefaultButton 
+                text="API ceras (rosé)" 
+                styles={customButStyles}
+                onClick = {LocSetRose}
+                aria-describedby={ttBoutRoseId}
+              />
+            </TooltipHost>
           </Stack.Item>
           <Stack.Item align="end" styles={slStackItemStyles}> 
-            <DefaultButton text="rien" styles={narrowButStyles} onClick={LocChkRien}/>
+            <TooltipHost 
+              content="Désélectionnez tous les phonèmes"
+              id={ttBoutRienId}
+            >
+              <DefaultButton 
+                text="rien" 
+                styles={narrowButStyles} 
+                onClick={LocChkRien}
+                aria-describedby={ttBoutRienId}
+              />
+            </TooltipHost>
           </Stack.Item>
         </Stack>
   
