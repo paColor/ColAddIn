@@ -18,6 +18,7 @@
  *                                                                              *
  ********************************************************************************/
 
+import { useState } from "react";
 import PBDQConfig from "./PBDQConfig";
 import PhonConfig from "./PhonConfig";
 import SylConfig from "./SylConfig";
@@ -29,10 +30,21 @@ export default class Config {
     public readonly pbdq: PBDQConfig;
     public readonly sylConf: SylConfig;
 
+    /** 
+     * Indique si la découpe en lettres individuelles a déjà eu lieu une fois.
+     * Permet de contourner un comportement bizarre de Word (un bug?) lors de l'utilisation dans
+     * un navigateur: la première utilisation ne fonctionne pas correctement... 
+     */
+     public readonly alreadyDone: boolean;
+     public readonly setAlreadyDone : (boolean) => void;
+ 
+
     constructor() {
         this.pc = new PhonConfig();
         this.uBeh = new UnsetBehConf();
         this.pbdq = new PBDQConfig();
         this.sylConf = new SylConfig();
+
+        [this.alreadyDone, this.setAlreadyDone] = useState(false);
     }
 }

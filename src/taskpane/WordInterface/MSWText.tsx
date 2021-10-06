@@ -19,7 +19,6 @@
  ********************************************************************************/
 
 import { getColorFromRGBA } from "@fluentui/react";
-import { useState } from "react";
 import { WarningMsg } from "../components/MessageWin";
 import Config from "../Configs/Config";
 import FormattedTextEl from "../Core/FormattedTextEl";
@@ -40,29 +39,27 @@ const letDelimiters : string[] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "
 
 export default class MSWText extends TheText {    
     
-    /** 
-     * Indique si la découpe en lettres individuelles a déjà eu lieu une fois.
-     * Permet de contourner un comportement bizarre de Word (un bug?) lors de l'utilisation dans
-     * un navigateur: la première utilisation ne fonctionne pas correctement... 
-     */
-    private static alreadyDone: boolean;
-    private static setAlreadyDone : (boolean) => void;
-
-
     // pour chaque position dans le texte, indique le Range correspondant.
     // On utilise ce mécanisme car on ne peut garantir que chaque Range contienne exactement
     // un caractère dans tous les cas.
     private pos : Word.Range[];
 
     constructor (rge: Word.Range, rgeColl : Word.RangeCollection) {
-        [MSWText.alreadyDone, MSWText.setAlreadyDone] = useState(false);
         super(MSWText.GetStringFor(rge));
         this.pos = new Array<Word.Range>(this.S.length);
         let i = 0;
         for (let r of rgeColl.items) {
             for (let j = 0; j < r.text.length; j++) {
-                this.pos[i] = r;
-                i++;
+                if (r.text[j] === this.S[i]){
+                    // il peut arriver que r contienne un caractère qui n'est pas dans S.
+                    // On peut observer cette situation dans la version online de Word si
+                    // des objets sont attachés au texte (même comportement que la version VSTO)
+                    // Par contre la version PC ne montre pas ce problème. 
+                    // Si c'est le cas on saute simplement le caractère dans r.
+                    // ça ne règle pas le cas où il y aurait un caractère de plus dans S...
+                    this.pos[i] = r;
+                    i++;
+                }
             }
             // console.log(r.text + " length: " + r.text.length);
         }
@@ -124,8 +121,8 @@ export default class MSWText extends TheText {
             sel.load();
             await context.sync();
             if (!sel.isEmpty) {
-                if (!MSWText.alreadyDone) {
-                    MSWText.setAlreadyDone(true);
+                if (!conf.alreadyDone) {
+                    conf.setAlreadyDone(true);
                     let rc = sel.split(letDelimiters);
                     rc.load();
                     await context.sync();
