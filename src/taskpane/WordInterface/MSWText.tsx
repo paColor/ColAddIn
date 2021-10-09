@@ -19,7 +19,7 @@
  ********************************************************************************/
 
 import { getColorFromRGBA } from "@fluentui/react";
-import { WarningMsg } from "../components/MessageWin";
+import { ErrorMsg, WarningMsg } from "../components/MessageWin";
 import Config from "../Configs/Config";
 import FormattedTextEl from "../Core/FormattedTextEl";
 import TheText from "../Core/TheText";
@@ -49,7 +49,10 @@ export default class MSWText extends TheText {
         this.pos = new Array<Word.Range>(this.S.length);
         let i = 0;
         for (let r of rgeColl.items) {
+            // console.log(r.text + " length: " + r.text.length);
             for (let j = 0; j < r.text.length; j++) {
+                // console.log("r[" + j + "]: " + r.text.codePointAt(j));
+                // console.log("S[" + i + "]: " + this.S.codePointAt(i));
                 if (r.text[j] === this.S[i]){
                     // il peut arriver que r contienne un caractère qui n'est pas dans S.
                     // On peut observer cette situation dans la version online de Word si
@@ -61,38 +64,39 @@ export default class MSWText extends TheText {
                     i++;
                 }
             }
-            // console.log(r.text + " length: " + r.text.length);
         }
     }
 
     protected SetChars(fte: FormattedTextEl, conf: Config) {
         for (let i = fte.first; i <= fte.last; i++) {
-            if (fte.cf.changeColor) {
-                this.pos[i].font.color = getColorFromRGBA(fte.cf.color).str;
-            }
-            else if (fte.cf.ForceBlackColor(conf)) {
-                this.pos[i].font.color = "#000000";
-            }
+            if (this.pos[i].font != undefined) {
+                if (fte.cf.changeColor) {
+                    this.pos[i].font.color = getColorFromRGBA(fte.cf.color).str;
+                }
+                else if (fte.cf.ForceBlackColor(conf)) {
+                    this.pos[i].font.color = "#000000";
+                }
 
-            if (fte.cf.bold) {
-                this.pos[i].font.bold = true;
-            }
-            else if (fte.cf.ForceNonBold(conf)) {
-                this.pos[i].font.bold = false;
-            }
+                if (fte.cf.bold) {
+                    this.pos[i].font.bold = true;
+                }
+                else if (fte.cf.ForceNonBold(conf)) {
+                    this.pos[i].font.bold = false;
+                }
 
-            if (fte.cf.italic) {
-                this.pos[i].font.italic = true;
-            }
-            else if (fte.cf.ForceNonItalic(conf)) {
-                this.pos[i].font.italic = false;
-            }
+                if (fte.cf.italic) {
+                    this.pos[i].font.italic = true;
+                }
+                else if (fte.cf.ForceNonItalic(conf)) {
+                    this.pos[i].font.italic = false;
+                }
 
-            if (fte.cf.underline) {
-                this.pos[i].font.underline = "Single";
-            }
-            else if (fte.cf.ForceNonUnderline(conf)) {
-                this.pos[i].font.underline = "None";
+                if (fte.cf.underline) {
+                    this.pos[i].font.underline = "Single";
+                }
+                else if (fte.cf.ForceNonUnderline(conf)) {
+                    this.pos[i].font.underline = "None";
+                }
             }
         }
     }
@@ -130,25 +134,30 @@ export default class MSWText extends TheText {
                 let rgeColl = sel.split(letDelimiters);
                 rgeColl.load();
                 await context.sync();
-                let mswT = new MSWText(sel, rgeColl);
-                switch (act) {
-                    case "ColorizePhons":
-                        mswT.ColorizePhons(conf);
-                        break;
-                    case "MarkSyls":
-                        mswT.MarkSyls(conf);
-                        break;
-                    case "MarkWords":
-                        mswT.MarkWords(conf);
-                        break;
-                    case "MarkVoyCons":
-                        mswT.MarkVoyCons(conf);
-                        break;
-                    case "MarkLetters":
-                        mswT.MarkLetters(conf);
-                        break;
-                    default:
-                        throw new Error("Action inconnue!");
+                try {
+                    let mswT = new MSWText(sel, rgeColl);
+                    switch (act) {
+                        case "ColorizePhons":
+                            mswT.ColorizePhons(conf);
+                            break;
+                        case "MarkSyls":
+                            mswT.MarkSyls(conf);
+                            break;
+                        case "MarkWords":
+                            mswT.MarkWords(conf);
+                            break;
+                        case "MarkVoyCons":
+                            mswT.MarkVoyCons(conf);
+                            break;
+                        case "MarkLetters":
+                            mswT.MarkLetters(conf);
+                            break;
+                        default:
+                            throw new Error("Action inconnue!");
+                    }
+                } catch (e) {
+                    console.error(e);
+                    ErrorMsg("Ouuups. Vilaine erreur...");
                 }
                 await context.sync();
             }
@@ -193,12 +202,18 @@ export default class MSWText extends TheText {
         let toReturn: string = "";
         let i = 0;
         while (i < rge.text.length) {
-            toReturn = toReturn + rge.text[i];
+            let toAdd = rge.text[i];
             if ((rge.text[i] === "\r") 
                 && ((i+1) < rge.text.length) 
                 && (rge.text[i+1] == "\n")) {
+                // on remplace \r\n dans rge par \t dans S pour faire ce que la découpe 
+                // en sous-range à l'aide de délimiteurs fait également pour les tableaux.
+                // C'est terriblement empirique. Il suffit que Word change de comportement
+                // pour que ceci ne fonctionne plus...
+                toAdd = "\t";
                 i++;
-            } 
+            }
+            toReturn = toReturn + toAdd;
             i++;
         }
         return toReturn;

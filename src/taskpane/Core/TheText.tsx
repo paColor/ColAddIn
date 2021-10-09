@@ -19,10 +19,10 @@
  ********************************************************************************/
 
 // import { getColorFromString, IRGB } from "@fluentui/react";
-import { SorryMsg } from "../components/MessageWin";
 import Config from "../Configs/Config";
 import { SylMode } from "../Configs/SylConfig";
 import { EstConsonne, EstVoyelle } from "../Configs/Utils";
+import ChercheDierese from "./AnalyseDierese";
 import FormattedTextEl from "./FormattedTextEl";
 import PhonWord from "./PhonWord";
 
@@ -149,8 +149,7 @@ export default class TheText {
             pw.ComputeSyls();
         }
         if (conf.sylConf.sylMode === SylMode.poesie && conf.sylConf.chercherDierese) {
-            SorryMsg("La recherche de diérèses n'est pas encore réalisée.")
-            // _ = AnalyseDierese.ChercheDierese(this, pws, conf.sylConf.nbrPieds);
+            ChercheDierese(this, pws, conf.sylConf.nrPieds); // de AnalyseDierese
         }
         conf.sylConf.ResetCounter();
         for (let pw of pws) {

@@ -58,4 +58,11 @@ export default class TextEl {
             return this.T.ToLowerString().substring(this.first, this.last + 1);
     }
 
+    public ToString(): string {
+        if (this.last < this.first)
+            return "";
+        else
+            return this.T.S.substring(this.first, this.last + 1);
+    }
+
 }

@@ -548,63 +548,59 @@ export default function AutomatFindPhons(pw: PhonWord, conf: Config) {
         let pos = 0; // la lettre à analyser dans le mot
         while (pos < pw.lowWord.length) {
             let lettre = pw.lowWord[pos];
-            if (automat[lettre] !== undefined) {
-                let ordre : Array<string> = automat[lettre][0];
-                let listeRegles = automat[lettre][1];
-                let j = 0; // iterateur sur les règles
-                let regleFound = false;
-                while (j < ordre.length && !regleFound) {
-                    let nomRegle = ordre[j];
-                    let regle = listeRegles[nomRegle]; // Array de 3 éléments
-                    let condition = regle[0];
-                    let prevCond = (condition['-'] === undefined); // true s'il n'y a pas de condition '-'
-                    if (!prevCond && pos > 0) {
-                        let prevStr = pw.lowWord.substring(0, pos);
-                        prevCond = condition['-'].test(prevStr);
-                    }
-                    if (prevCond) {
-                        let postCond = (condition['+'] === undefined);
-                        if (!postCond) {
-                            let postStr = pw.lowWord.substring(pos + 1);
-                            postCond = condition['+'].test(postStr);
-                        }
-                        if (postCond) {
-                            let regCond = (condition['r'] === undefined);
-                            if (!regCond) {
-                                regCond = condition['r'](pw.lowWord, pos);
-                            }
-                            if (regCond) {
-                                let firstCond = true;
-                                if (condition['first']) {
-                                    firstCond = (pos === 0);
-                                }
-                                let lastCond = true;
-                                if (condition['last']) {
-                                    lastCond = (pos === pw.lowWord.length - 1)
-                                }
-                                if (firstCond && lastCond) {
-                                    let ruleFlagCond = true;
-                                    if (regle[3] !== undefined) {
-                                        ruleFlagCond = conf.pc.IsRuleCatEnabled(regle[3]);
-                                    }
-                                    if (ruleFlagCond) {
-                                        regleFound = true;
-                                        let phon : Phoneme = regle[1];
-                                        let incr : number = regle[2];
-                                        PhonInW.CreateAndPushPiWPhon(pw, pos, pos + incr-1, phon, nomRegle);
-                                        pos = pos + incr;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    j++;
+            let letAutomat = (automat[lettre] !== undefined)?automat[lettre]:automat["*"];
+            let ordre : Array<string> = letAutomat[0];
+            let listeRegles = letAutomat[1];
+            let j = 0; // iterateur sur les règles
+            let regleFound = false;
+            while (j < ordre.length && !regleFound) {
+                let nomRegle = ordre[j];
+                let regle = listeRegles[nomRegle]; // Array de 3 éléments
+                let condition = regle[0];
+                let prevCond = (condition['-'] === undefined); // true s'il n'y a pas de condition '-'
+                if (!prevCond && pos > 0) {
+                    let prevStr = pw.lowWord.substring(0, pos);
+                    prevCond = condition['-'].test(prevStr);
                 }
-                if (!regleFound) {
-                    pos++;
+                if (prevCond) {
+                    let postCond = (condition['+'] === undefined);
+                    if (!postCond) {
+                        let postStr = pw.lowWord.substring(pos + 1);
+                        postCond = condition['+'].test(postStr);
+                    }
+                    if (postCond) {
+                        let regCond = (condition['r'] === undefined);
+                        if (!regCond) {
+                            regCond = condition['r'](pw.lowWord, pos);
+                        }
+                        if (regCond) {
+                            let firstCond = true;
+                            if (condition['first']) {
+                                firstCond = (pos === 0);
+                            }
+                            let lastCond = true;
+                            if (condition['last']) {
+                                lastCond = (pos === pw.lowWord.length - 1)
+                            }
+                            if (firstCond && lastCond) {
+                                let ruleFlagCond = true;
+                                if (regle[3] !== undefined) {
+                                    ruleFlagCond = conf.pc.IsRuleCatEnabled(regle[3]);
+                                }
+                                if (ruleFlagCond) {
+                                    regleFound = true;
+                                    let phon : Phoneme = regle[1];
+                                    let incr : number = regle[2];
+                                    PhonInW.CreateAndPushPiWPhon(pw, pos, pos + incr-1, phon, nomRegle);
+                                    pos = pos + incr;
+                                }
+                            }
+                        }
+                    }
                 }
+                j++;
             }
-            else {
+            if (!regleFound) {
                 pos++;
             }
         }

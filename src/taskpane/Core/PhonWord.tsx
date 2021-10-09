@@ -437,6 +437,15 @@ export default class PhonWord extends TheWord {
     }
 
     /**
+     * Donne le nombre de syllabes dans le mot.
+     * @returns le nombre de syllabes du mot.
+     */
+    public GetNbreSyllabes() : number
+    {
+        return this.syls.length;
+    }
+
+    /**
      * Vérifie si une syllabe et son successeur doivent être fusionnées. (voir explications plus
      * longues dans la version c#)
      * @param syls Liste des syllabes du mot, comme elles sont comprises au moment de l'appel de
