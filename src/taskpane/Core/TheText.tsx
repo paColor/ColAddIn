@@ -54,7 +54,7 @@ class CFFForceBlack extends CharFormatting {
 */
 
 export default class TheText {
-    private static rxWords = /[a-z0-9àáäâéèêëíìïîóòöôúùüû_]+/ig;  // expression régulière (rationnelle?) pour détecter les mots
+    private static rxWords = /[a-z0-9àáäâéèêëíìïîóòöôúùüûœæ_]+/ig;  // expression régulière (rationnelle?) pour détecter les mots
     
     public S : string;
     private lowerCaseS: string; // attention: utiliser ToLowerString()
