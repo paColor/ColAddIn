@@ -73,28 +73,28 @@ export default class MSWText extends TheText {
                 if (fte.cf.changeColor) {
                     this.pos[i].font.color = getColorFromRGBA(fte.cf.color).str;
                 }
-                else if (fte.cf.ForceBlackColor(conf)) {
+                else if (conf.uBeh.forceBlackColor) {
                     this.pos[i].font.color = "#000000";
                 }
 
                 if (fte.cf.bold) {
                     this.pos[i].font.bold = true;
                 }
-                else if (fte.cf.ForceNonBold(conf)) {
+                else if (conf.uBeh.forceNBold) {
                     this.pos[i].font.bold = false;
                 }
 
                 if (fte.cf.italic) {
                     this.pos[i].font.italic = true;
                 }
-                else if (fte.cf.ForceNonItalic(conf)) {
+                else if (conf.uBeh.forceNItalic) {
                     this.pos[i].font.italic = false;
                 }
 
                 if (fte.cf.underline) {
                     this.pos[i].font.underline = "Single";
                 }
-                else if (fte.cf.ForceNonUnderline(conf)) {
+                else if (conf.uBeh.forceNUnderline) {
                     this.pos[i].font.underline = "None";
                 }
             }

@@ -71,13 +71,23 @@ export default class PBDQConfig {
     private readonly dummy: boolean;
     private readonly setDummy: Dispatch<SetStateAction<boolean>>;
 
-
-    constructor() {
-        [this.markAsBlack, this.setMAB] = useState(false);
-        [this.pbdqCF, this.setPBDQcf] = useState(GetDefPBDQCFs());
-        [this.selLetters, this.setSelLetters] = useState(GetDefSelLet());
-        [this.defaultCF, this.setDefaultCF] = useState(CharFormatting.NeutralCF);
+    /**
+     * @param pb La PBDQConfig dont il faut copier les valeurs. Configuration par défaut si
+     * pb est null.
+     */
+    constructor(pb: PBDQConfig) {
+        [this.markAsBlack, this.setMAB] = useState(pb===null?false:pb.markAsBlack);
+        [this.pbdqCF, this.setPBDQcf] = useState(pb===null?GetDefPBDQCFs(): pb.pbdqCF);
+        [this.selLetters, this.setSelLetters] = useState(pb===null?GetDefSelLet():pb.selLetters);
+        [this.defaultCF, this.setDefaultCF] = useState(pb===null?CharFormatting.NeutralCF:pb.defaultCF);
         [this.dummy, this.setDummy] = useState(false);
+    }
+
+    public Copy(thePBDQconf: PBDQConfig) {
+        this.setMAB(thePBDQconf.markAsBlack);
+        this.setPBDQcf(thePBDQconf.pbdqCF);
+        this.setSelLetters(thePBDQconf.selLetters);
+        this.setDefaultCF(thePBDQconf.defaultCF);
     }
 
     /**

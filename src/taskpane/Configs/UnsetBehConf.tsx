@@ -30,11 +30,30 @@ export default class UnsetBehConfig {
     private readonly setFNUnderline: Dispatch<SetStateAction<boolean>>;
     private readonly setFBlackColor: Dispatch<SetStateAction<boolean>>;
 
-    constructor() {
-        [this.forceNBold, this.setFNBold] = useState(false);
-        [this.forceNItalic, this.setFNItalic] = useState(false);
-        [this.forceNUnderline, this.setFNUnderline] = useState(false);
-        [this.forceBlackColor, this.setFBlackColor] = useState(false);
+    /**
+     * 
+     * @param ub L'objet UnsetBehConfig résultant du chargement (JSON.parse) d'une config suavegardée,
+     * dont il faut copier les valeurs. Configuration par défaut si ub est null.
+     */
+    constructor(ub: any) {
+        [this.forceNBold, this.setFNBold] = useState(ub===null?false:ub.forceNBold);
+        [this.forceNItalic, this.setFNItalic] = useState(ub===null?false:ub.forceNItalic);
+        [this.forceNUnderline, this.setFNUnderline] = useState(ub===null?false:ub.forceNUnderline);
+        [this.forceBlackColor, this.setFBlackColor] = useState(ub===null?false:ub.forceBlackColor);
+    }
+
+    public Copy(theUbeh: UnsetBehConfig) {
+        this.setFNBold(theUbeh.forceNBold);
+        this.setFNItalic(theUbeh.forceNItalic);
+        this.setFNUnderline(theUbeh.forceNUnderline);
+        this.setFBlackColor(theUbeh.forceBlackColor);
+    }
+
+    public Reset() {
+        this.setFNBold(false);
+        this.setFNItalic(false);
+        this.setFNUnderline(false);
+        this.setFBlackColor(false);
     }
 
     public SetFNBold(val: boolean) {

@@ -18,7 +18,7 @@
  *                                                                              *
  ********************************************************************************/
 
-import { ILabelStyles, IStyleSet, Label, Pivot, PivotItem } from "@fluentui/react";
+import { Pivot, PivotItem } from "@fluentui/react";
 import * as React from "react";
 import Config from "../Configs/Config";
 import MSWText from "../WordInterface/MSWText";
@@ -27,18 +27,24 @@ import InfosTab from "./InfosTab";
 import MessageWin from "./MessageWin";
 import PhonTab from "./PhonTab";
 import PlusTab from "./PlusTab";
+import SauvTab from "./SauvTab";
 
 export interface AppProps {
   title: string;
   isOfficeInitialized: boolean;
+  storedConf: any;
 }
 
-const labelStyles: Partial<IStyleSet<ILabelStyles>> = {
-  root: { marginTop: 10 },
-};
+export default function App(props: AppProps) {
+  // window.localStorage.clear();
+  const conf = new Config(props.storedConf);
+  Config.SaveCurConfig(conf); 
+  // c'est un peu l'artillerie lourde: on sauvegarde à chaque changement. càd à chaque re-render.
 
-export default function App() {
-  const conf : Config = new Config();
+  // window.onunload = function() {
+  //   console.log("window is closing.");
+  //   Config.SaveCurConfig(conf);
+  // }
 
   return (
     <div>
@@ -63,7 +69,9 @@ export default function App() {
           />
         </PivotItem>
         <PivotItem headerText="Sauv">
-          <Label styles={labelStyles}>Config pour Sauv</Label>
+          <SauvTab 
+            conf = {conf}
+          />
         </PivotItem>
         <PivotItem headerText="Avancé">
           <AvTab

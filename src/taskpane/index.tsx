@@ -4,6 +4,7 @@ import { AppContainer } from "react-hot-loader";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { initializeIcons } from "@fluentui/react/lib/Icons";
+import Config from "./Configs/Config";
 /* global AppContainer, Component, document, Office, module, require */
 
 initializeIcons();
@@ -13,9 +14,10 @@ let isOfficeInitialized = false;
 const title = "Coloriƨation";
 
 const render = (Component) => {
+  const c = Config.LoadDefaultConfigObj();
   ReactDOM.render(
     <AppContainer>
-      <Component title={title} isOfficeInitialized={isOfficeInitialized} />
+      <Component title={title} isOfficeInitialized={isOfficeInitialized} storedConf={c}/>
     </AppContainer>,
     document.getElementById("container")
   );

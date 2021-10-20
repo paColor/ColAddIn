@@ -93,16 +93,30 @@ export default class SylConfig {
     /** Compteur utilisé pour retourner les formatages les uns après les autres. */
     private counter : number;
 
-    constructor() {
-        [this.doubleConsStd, this.setDoubleConsStd] = useState(true);
-        [this.sylMode, this.setSylMode] = useState(SylMode.ecrit);
-        [this.marquerMuettes, this.setMarquerMuettes] = useState(true);
-        [this.chercherDierese, this.setChercherDierese] = useState(true);
-        [this.nrPieds, this.setNrPieds] = useState(0);
-        [this.sylButtons, this.setSylButtons] = useState(GetDefSylButtons());
-        [this.nrSetButtons, this.setNrSetButtons] = useState(2);
+    /**
+     * @param sc La SylConfig dont il faut copier les valeurs. Configuration par défaut si
+     * sc est null.
+     */
+    constructor(sc: SylConfig) {
+        [this.doubleConsStd, this.setDoubleConsStd] = useState(sc===null?true:sc.doubleConsStd);
+        [this.sylMode, this.setSylMode] = useState(sc===null?SylMode.ecrit:sc.sylMode);
+        [this.marquerMuettes, this.setMarquerMuettes] = useState(sc===null?true:sc.marquerMuettes);
+        [this.chercherDierese, this.setChercherDierese] = useState(sc===null?true:this.chercherDierese);
+        [this.nrPieds, this.setNrPieds] = useState(sc===null?0:sc.nrPieds);
+        [this.sylButtons, this.setSylButtons] = useState(sc===null?GetDefSylButtons():sc.sylButtons);
+        [this.nrSetButtons, this.setNrSetButtons] = useState(sc===null?2:sc.nrSetButtons);
         [this.dummy, this.setDummy] = useState(false);
         this.ResetCounter();
+    }
+
+    public Copy(theSylConf: SylConfig) {
+        this.setDoubleConsStd(theSylConf.doubleConsStd);
+        this.setSylMode(theSylConf.sylMode);
+        this.setMarquerMuettes(theSylConf.marquerMuettes);
+        this.setChercherDierese(theSylConf.chercherDierese);
+        this.setNrPieds(theSylConf.nrPieds);
+        this.setSylButtons(theSylConf.sylButtons);
+        this.setNrSetButtons(theSylConf.nrSetButtons);
     }
 
     public Reset() {

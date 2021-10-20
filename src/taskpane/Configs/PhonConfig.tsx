@@ -215,11 +215,29 @@ export default class PhonConfig { // équivalent de ColConfWin
     public readonly illMode : IllMode;
     public readonly setIllMode : (IllMode) => void;
 
-    constructor () {
-        [this.cfSons, this.setCFSons] = useState(GetRoseCFSons());
-        [this.chkSons, this.setChkSons] = useState(GetRoseChkSons());
+    /**
+     * 
+     * @param pc La forme chargée par JSON.parse du PhonConfig dont il faut copier les valeurs. 
+     * On prend les valeurs par défaut s'il est null.
+     */
+    constructor (pc: any) {
+        [this.cfSons, this.setCFSons] = useState(pc===null?GetRoseCFSons():pc.cfSons);
+        [this.chkSons, this.setChkSons] = useState(pc===null?GetRoseChkSons():pc.chkSons);
         [this.dummy, this.setDummy] = useState(false);
-        [this.illMode, this.setIllMode] = useState(IllMode.IllCeras);
+        [this.illMode, this.setIllMode] = useState(pc===null?IllMode.IllCeras:pc.illMode);
+    }
+
+    public Copy(thePC: PhonConfig) {
+        this.setCFSons(thePC.cfSons);
+        this.setChkSons(thePC.chkSons);
+        this.setIllMode(thePC.illMode);
+    }
+
+    public Reset() {
+        this.setChkSons(GetRoseChkSons());
+        this.setCFSons(GetRoseCFSons());
+        this.ForceRendering();
+        this.setIllMode(IllMode.IllCeras);
     }
 
     public SetChk(son: string, chkBoxVal: boolean) {

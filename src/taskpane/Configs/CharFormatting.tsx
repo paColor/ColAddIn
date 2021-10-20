@@ -19,15 +19,14 @@
  ********************************************************************************/
 
 
-import { getColorFromString, IRGB } from "@fluentui/react";
-import Config from "./Config";
+import { IRGB } from "@fluentui/react";
 
 export default class CharFormatting {
     /** Un CharFormatting sans aucun flag mis. */
-    public static readonly NeutralCF = new CharFormatting(false, false, false, false, getColorFromString("#AAAAAA"));
+    public static readonly NeutralCF = new CharFormatting(false, false, false, false, { r: 170, g: 170, b: 170 });
 
     /**Un CharFormatting contenant les instructions de colorer en noir. */
-    public static readonly BlackCF = new CharFormatting(false, false, false, true, getColorFromString("#000000"));
+    public static readonly BlackCF = new CharFormatting(false, false, false, true, { r: 0, g: 0, b: 0 });
 
 
     bold: boolean;
@@ -43,22 +42,6 @@ export default class CharFormatting {
             this.underline = inUnderline;
             this.changeColor = inChangeColor;
             this.color = inColor;
-    }
-
-    public ForceNonBold (conf: Config) : boolean {
-        return conf.uBeh.forceNBold;
-    }
-
-    public ForceNonItalic (conf: Config) : boolean {
-        return conf.uBeh.forceNItalic;
-    }
-
-    public ForceNonUnderline (conf: Config) : boolean {
-        return conf.uBeh.forceNUnderline;
-    }
-
-    public ForceBlackColor (conf: Config) : boolean {
-        return conf.uBeh.forceBlackColor;
     }
 
 }
