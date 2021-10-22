@@ -70,7 +70,7 @@ export default class Config {
             return storedConf;
         }
         catch {
-            console.log("Pas de config enregistrée trouvée.");
+            console.log("Pas de config enregistrée trouvée."); 
             return null;
         }
     }

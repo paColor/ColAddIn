@@ -14,6 +14,7 @@ let isOfficeInitialized = false;
 const title = "Coloriƨation";
 
 const render = (Component) => {
+  // window.localStorage.clear();
   const c = Config.LoadDefaultConfigObj();
   ReactDOM.render(
     <AppContainer>

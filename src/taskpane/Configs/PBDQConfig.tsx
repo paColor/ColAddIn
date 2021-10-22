@@ -76,10 +76,10 @@ export default class PBDQConfig {
      * pb est null.
      */
     constructor(pb: PBDQConfig) {
-        [this.markAsBlack, this.setMAB] = useState(pb===null?false:pb.markAsBlack);
-        [this.pbdqCF, this.setPBDQcf] = useState(pb===null?GetDefPBDQCFs(): pb.pbdqCF);
-        [this.selLetters, this.setSelLetters] = useState(pb===null?GetDefSelLet():pb.selLetters);
-        [this.defaultCF, this.setDefaultCF] = useState(pb===null?CharFormatting.NeutralCF:pb.defaultCF);
+        [this.markAsBlack, this.setMAB] = useState(pb==null?false:pb.markAsBlack);
+        [this.pbdqCF, this.setPBDQcf] = useState(pb==null?GetDefPBDQCFs(): pb.pbdqCF);
+        [this.selLetters, this.setSelLetters] = useState(pb==null?GetDefSelLet():pb.selLetters);
+        [this.defaultCF, this.setDefaultCF] = useState(pb==null?CharFormatting.NeutralCF:pb.defaultCF);
         [this.dummy, this.setDummy] = useState(false);
     }
 

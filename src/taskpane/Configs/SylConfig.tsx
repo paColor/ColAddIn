@@ -98,13 +98,13 @@ export default class SylConfig {
      * sc est null.
      */
     constructor(sc: SylConfig) {
-        [this.doubleConsStd, this.setDoubleConsStd] = useState(sc===null?true:sc.doubleConsStd);
-        [this.sylMode, this.setSylMode] = useState(sc===null?SylMode.ecrit:sc.sylMode);
-        [this.marquerMuettes, this.setMarquerMuettes] = useState(sc===null?true:sc.marquerMuettes);
-        [this.chercherDierese, this.setChercherDierese] = useState(sc===null?true:this.chercherDierese);
-        [this.nrPieds, this.setNrPieds] = useState(sc===null?0:sc.nrPieds);
-        [this.sylButtons, this.setSylButtons] = useState(sc===null?GetDefSylButtons():sc.sylButtons);
-        [this.nrSetButtons, this.setNrSetButtons] = useState(sc===null?2:sc.nrSetButtons);
+        [this.doubleConsStd, this.setDoubleConsStd] = useState(sc==null?true:sc.doubleConsStd);
+        [this.sylMode, this.setSylMode] = useState(sc==null?SylMode.ecrit:sc.sylMode);
+        [this.marquerMuettes, this.setMarquerMuettes] = useState(sc==null?true:sc.marquerMuettes);
+        [this.chercherDierese, this.setChercherDierese] = useState(sc==null?true:sc.chercherDierese);
+        [this.nrPieds, this.setNrPieds] = useState(sc==null?0:sc.nrPieds);
+        [this.sylButtons, this.setSylButtons] = useState(sc==null?GetDefSylButtons():sc.sylButtons);
+        [this.nrSetButtons, this.setNrSetButtons] = useState(sc==null?2:sc.nrSetButtons);
         [this.dummy, this.setDummy] = useState(false);
         this.ResetCounter();
     }

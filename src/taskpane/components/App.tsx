@@ -36,7 +36,6 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  // window.localStorage.clear();
   const conf = new Config(props.storedConf);
   Config.SaveCurConfig(conf); 
   // c'est un peu l'artillerie lourde: on sauvegarde à chaque changement. càd à chaque re-render.

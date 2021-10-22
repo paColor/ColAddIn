@@ -29,19 +29,38 @@ export default class CharFormatting {
     public static readonly BlackCF = new CharFormatting(false, false, false, true, { r: 0, g: 0, b: 0 });
 
 
-    bold: boolean;
-    italic: boolean;
-    underline: boolean;
-    changeColor: boolean;
-    color: IRGB;
+    readonly bold: boolean;
+    readonly italic: boolean;
+    readonly underline: boolean;
+    readonly changeColor: boolean;
+    readonly color: IRGB;
+    readonly changeHighlight: boolean;
+    readonly hilightColor: IRGB;
+
+    /** Indique si un arc doit être tracé sous le groupe de letres. La couleur
+     * est donnée par arcColor */
+    readonly drawArc: boolean;
+
+    /** La couleur de l'arc. */
+    readonly arcColor: IRGB;
+
+    /** Indique si les arcs liés au groupe de lettres doivent être effacés. */
+    readonly removeArcs: boolean;
 
     constructor(inBold: boolean, inItalic: boolean, inUnderline: boolean, 
-        inChangeColor : boolean, inColor : IRGB) {
+        inChangeColor : boolean, inColor : IRGB, inChangeHilight: boolean = false,
+        inHilightColor: IRGB = { r: 170, g: 170, b: 170 }, inDrawArc : boolean = false,
+        inArcColor: IRGB = { r: 170, g: 170, b: 170 }, inRemoveArcs: boolean = false) {
             this.bold = inBold;
             this.italic = inItalic;
             this.underline = inUnderline;
             this.changeColor = inChangeColor;
             this.color = inColor;
+            this.changeHighlight = inChangeHilight;
+            this.hilightColor = inHilightColor;
+            this.drawArc = inDrawArc;
+            this.arcColor = inArcColor;
+            this.removeArcs = inRemoveArcs;
     }
 
 }

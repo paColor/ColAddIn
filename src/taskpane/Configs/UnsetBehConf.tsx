@@ -36,10 +36,10 @@ export default class UnsetBehConfig {
      * dont il faut copier les valeurs. Configuration par défaut si ub est null.
      */
     constructor(ub: any) {
-        [this.forceNBold, this.setFNBold] = useState(ub===null?false:ub.forceNBold);
-        [this.forceNItalic, this.setFNItalic] = useState(ub===null?false:ub.forceNItalic);
-        [this.forceNUnderline, this.setFNUnderline] = useState(ub===null?false:ub.forceNUnderline);
-        [this.forceBlackColor, this.setFBlackColor] = useState(ub===null?false:ub.forceBlackColor);
+        [this.forceNBold, this.setFNBold] = useState(ub==null?false:ub.forceNBold);
+        [this.forceNItalic, this.setFNItalic] = useState(ub==null?false:ub.forceNItalic);
+        [this.forceNUnderline, this.setFNUnderline] = useState(ub==null?false:ub.forceNUnderline);
+        [this.forceBlackColor, this.setFBlackColor] = useState(ub==null?false:ub.forceBlackColor);
     }
 
     public Copy(theUbeh: UnsetBehConfig) {

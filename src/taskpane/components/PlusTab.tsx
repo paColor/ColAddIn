@@ -453,6 +453,7 @@ export default function PlusTab(props: PlusTabProps) {
                         <Stack.Item>
                             <Checkbox 
                                 label="Diérèse" 
+                                checked={props.conf.sylConf.chercherDierese}
                                 disabled={props.conf.sylConf.sylMode !== SylMode.poesie}
                                 styles={{
                                     checkbox: {
@@ -464,7 +465,6 @@ export default function PlusTab(props: PlusTabProps) {
                                         margin: '-2px 0px 0px 0px' // top right bottom left
                                     },
                                 }}
-                                checked={props.conf.sylConf.chercherDierese}
                                 onChange={OnDiereseChange}
                             />
                         </Stack.Item>

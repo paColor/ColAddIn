@@ -221,10 +221,10 @@ export default class PhonConfig { // équivalent de ColConfWin
      * On prend les valeurs par défaut s'il est null.
      */
     constructor (pc: any) {
-        [this.cfSons, this.setCFSons] = useState(pc===null?GetRoseCFSons():pc.cfSons);
-        [this.chkSons, this.setChkSons] = useState(pc===null?GetRoseChkSons():pc.chkSons);
+        [this.cfSons, this.setCFSons] = useState(pc==null?GetRoseCFSons():pc.cfSons);
+        [this.chkSons, this.setChkSons] = useState(pc==null?GetRoseChkSons():pc.chkSons);
         [this.dummy, this.setDummy] = useState(false);
-        [this.illMode, this.setIllMode] = useState(pc===null?IllMode.IllCeras:pc.illMode);
+        [this.illMode, this.setIllMode] = useState(pc==null?IllMode.IllCeras:pc.illMode);
     }
 
     public Copy(thePC: PhonConfig) {
