@@ -42,11 +42,18 @@ export default class UnsetBehConfig {
         [this.forceBlackColor, this.setFBlackColor] = useState(ub==null?false:ub.forceBlackColor);
     }
 
-    public Copy(theUbeh: UnsetBehConfig) {
-        this.setFNBold(theUbeh.forceNBold);
-        this.setFNItalic(theUbeh.forceNItalic);
-        this.setFNUnderline(theUbeh.forceNUnderline);
-        this.setFBlackColor(theUbeh.forceBlackColor);
+    /**
+     * Copie les valeurs de ubObj dans la UnsetBehConfig
+     * @param ubObj Un objet qui a la structure de UnsetBehConfig, mais qui ne contient que les attributs
+     * qui peuvent être stockés dans un JSON. 
+     */
+    public Copy(ubObj: any) {
+        if (ubObj != null) {
+            this.setFNBold(ubObj.forceNBold);
+            this.setFNItalic(ubObj.forceNItalic);
+            this.setFNUnderline(ubObj.forceNUnderline);
+            this.setFBlackColor(ubObj.forceBlackColor);
+        }
     }
 
     public Reset() {

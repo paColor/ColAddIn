@@ -109,14 +109,21 @@ export default class SylConfig {
         this.ResetCounter();
     }
 
-    public Copy(theSylConf: SylConfig) {
-        this.setDoubleConsStd(theSylConf.doubleConsStd);
-        this.setSylMode(theSylConf.sylMode);
-        this.setMarquerMuettes(theSylConf.marquerMuettes);
-        this.setChercherDierese(theSylConf.chercherDierese);
-        this.setNrPieds(theSylConf.nrPieds);
-        this.setSylButtons(theSylConf.sylButtons);
-        this.setNrSetButtons(theSylConf.nrSetButtons);
+    /**
+     * Copie les valeurs de cObj dans la SylConfig
+     * @param sObj Un objet qui a la structure de SylConfig, mais qui ne contient que les attributs
+     * qui peuvent être stockés dans un JSON. 
+     */
+    public Copy(sObj: any) {
+        if (sObj != null) {
+            this.setDoubleConsStd(sObj.doubleConsStd);
+            this.setSylMode(sObj.sylMode);
+            this.setMarquerMuettes(sObj.marquerMuettes);
+            this.setChercherDierese(sObj.chercherDierese);
+            this.setNrPieds(sObj.nrPieds);
+            this.setSylButtons(sObj.sylButtons);
+            this.setNrSetButtons(sObj.nrSetButtons);
+        }    
     }
 
     public Reset() {

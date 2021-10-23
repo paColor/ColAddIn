@@ -83,11 +83,18 @@ export default class PBDQConfig {
         [this.dummy, this.setDummy] = useState(false);
     }
 
-    public Copy(thePBDQconf: PBDQConfig) {
-        this.setMAB(thePBDQconf.markAsBlack);
-        this.setPBDQcf(thePBDQconf.pbdqCF);
-        this.setSelLetters(thePBDQconf.selLetters);
-        this.setDefaultCF(thePBDQconf.defaultCF);
+    /**
+     * Copie les valeurs de pObj dans la PBDQConfig
+     * @param pObj Un objet qui a la structure de PBDQConfig, mais qui ne contient que les attributs
+     * qui peuvent être stockés dans un JSON. 
+     */
+    public Copy(pObj: any) {
+        if (pObj != null) {
+            this.setMAB(pObj.markAsBlack);
+            this.setPBDQcf(pObj.pbdqCF);
+            this.setSelLetters(pObj.selLetters);
+            this.setDefaultCF(pObj.defaultCF);
+        }
     }
 
     /**

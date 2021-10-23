@@ -56,7 +56,7 @@ export function SorryMsg (contTxt: string) {
  * Affiche une fenêtre avec le titre "Attention" et le message contTxt
  * @param contTxt Le message à afficher
  */
- export function WarningMsg (contTxt: string) {
+export function WarningMsg (contTxt: string) {
     ShowMsg("Attention", contTxt);
 }
 
@@ -64,8 +64,12 @@ export function SorryMsg (contTxt: string) {
  * Affiche une fenêtre avec le titre "Erreur" et le message contTxt
  * @param contTxt Le message à afficher
  */
- export function ErrorMsg (contTxt: string) {
+export function ErrorMsg (contTxt: string) {
     ShowMsg("Erreur", contTxt);
+}
+
+export function InfoMsg (contTxt: string) {
+    ShowMsg("Information", contTxt);
 }
 
 export default function MessageWin() {

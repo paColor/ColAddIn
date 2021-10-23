@@ -25,9 +25,15 @@ import PhonConfig from "./PhonConfig";
 import SylConfig from "./SylConfig";
 import UnsetBehConf from "./UnsetBehConf";
 
-/** Nom de la config courante enregistrée */
-const curConf = "CurConf";
-// const prefixSauv = "S_";
+const DefaultConfigName = "Hippocampéléphantocamélos";
+
+/** 
+ * Nom de la config courante enregistrée.
+ * Remarque: si un utilisateur choisit le même nom de sauvegarde, la config par défaut sera
+ * écrasée...
+ */
+const curConf = "CurConf_RtZh68j_$";
+const prefixSauv = "Sclrzn_";
 
 /* voir https://stackoverflow.com/questions/29085197/how-do-you-json-stringify-an-es6-map */
 function replacer (_key: string, value: any) {
@@ -61,34 +67,63 @@ export default class Config {
     * @returns Un objet correspondant à la Config enregistrée. Il a la structure de Config, mais
     * ne contient que les variables qui sont transférables dans un JSON.
     */
-    public static LoadDefaultConfigObj(): any {
+    public static LoadCurrentConfigObj(): any {
+        return Config.LoadConfigObj(curConf);
+    }
+
+    public static LoadSavedConfigObj(name: string): any {
+        return Config.LoadConfigObj(name, true);
+    }
+
+
+   /**
+    * Charge la config enregistrée sous name
+    * @param name le nom sous lequel est enregsitrée la config à charger.
+    * @param addPrfx indique s'il faut ajouter le préfixe des configs enregistrées nomément. 
+    * @returns Un objet correspondant à la Config enregistrée. Il a la structure de Config, mais
+    * ne contient que les variables qui sont transférables dans un JSON.
+    * null si la config en question ne peut pas être chargée.
+    */
+    private static LoadConfigObj(name: string, addPrfx: boolean = false) : any {
         try {
-            let json = window.localStorage.getItem(curConf);
+            let theName = name;
+            if (addPrfx) {
+                theName = prefixSauv + name;
+            }
+            let json = window.localStorage.getItem(theName);
             // console.log(json);
-            const storedConf = JSON.parse(json, reviver);
-            console.log("Config enregistrée chargée.");
-            return storedConf;
+            const storedConfObj = JSON.parse(json, reviver);
+            // console.log(`Config ${theName} chargée.`);
+            return storedConfObj;
         }
-        catch {
-            console.log("Pas de config enregistrée trouvée."); 
+        catch (e) {
+            ErrorMsg(`Impossible de charger ${name}. ${e.name}`); 
             return null;
         }
     }
 
     /**
-     * Enregistre conf comme Config courante. 
-     * @param conf La Config à enregistrer comme Config courante
+     * Retourne la liste des configs enregistrées (sans la config courante)
      */
-    public static SaveCurConfig(conf: Config) {
-        try {
-            let json = JSON.stringify(conf, replacer);
-            // console.log(json);
-            window.localStorage.setItem(curConf, json);
-            console.log("Config courante sauvegardée comme défaut.")
+    public static GetSavedConfList(): string[] {
+        let toReturn : string[] = [];
+        let nrSavedConfs = window.localStorage.length;
+        for (let i = 0; i < nrSavedConfs; i++) {
+            let sN: string = window.localStorage.key(i);
+            if (sN.startsWith(prefixSauv)) {
+                toReturn.push(sN.substr(prefixSauv.length));
+            }
         }
-        catch (e) {
-            ErrorMsg("Impossible d'enregistrer la configuration courante. " + e.name);
-        }
+        return toReturn.sort();
+    }
+
+    /**
+     * Efface la caonfiguration enregistrée "name"
+     * @param name Le nom de la Config à effacer.
+     */
+    public static DeleteSavedConf(name: string) {
+        let theName = prefixSauv + name;
+        window.localStorage.removeItem(theName);
     }
 
     /********************************************************************************************
@@ -99,6 +134,8 @@ export default class Config {
     public readonly uBeh: UnsetBehConf;
     public readonly pbdq: PBDQConfig;
     public readonly sylConf: SylConfig;
+    public readonly configName: string;
+    public readonly setConfigName: (string) => void;
 
     /** 
      * Indique si la découpe en lettres individuelles a déjà eu lieu une fois.
@@ -121,15 +158,25 @@ export default class Config {
         this.sylConf = new SylConfig(c == null?null:c.sylConf);
 
         [this.alreadyDone, this.setAlreadyDone] = useState(false);
+        [this.configName, this.setConfigName] = 
+            useState((c==null || c.configName == null)?DefaultConfigName:c.configName);
     }
 
-    public Copy (theConf : Config) {
-        this.pc.Copy(theConf.pc);
-        this.uBeh.Copy(theConf.uBeh);
-        this.pbdq.Copy(theConf.pbdq);
-        this.sylConf.Copy(theConf.sylConf);
+    /**
+     * Copie les valeurs de cObj dans la Config
+     * @param cObj Un objet qui a la structure de Config, mais qui ne contient que les attributs
+     * qui peuvent être stockés dans un JSON. 
+     */
+    public Copy (cObj : any) {
+        if (cObj != null) {
+            this.pc.Copy(cObj.pc);
+            this.uBeh.Copy(cObj.uBeh);
+            this.pbdq.Copy(cObj.pbdq);
+            this.sylConf.Copy(cObj.sylConf);
 
-        // alreadyDone ne doit pas être copié.
+            // alreadyDone ne doit pas être copié.
+            this.setConfigName(cObj.configName != null?cObj.configName:DefaultConfigName)
+        }
     }
 
     public Reset() {
@@ -137,5 +184,44 @@ export default class Config {
         this.uBeh.Reset();
         this.pbdq.Reset();
         this.sylConf.Reset();
+        this.setConfigName(DefaultConfigName);
+    }
+
+    /**
+     * Enregistre la Config sous le nom donné en additionnant le préfixe pour les sauvegardes
+     * explicites si demandé.
+     * @param name Le nom de la sauvegarde
+     * @param addPrfx Indique s'il faut ajouter le préfixe qui distingue les configs. Seules
+     * les configs sauvegardées avec addPrfx = true sont retournées par GetSavedConfList.
+     */
+    private SaveConf(name: string, addPrfx: boolean) {
+        try {
+            let json = JSON.stringify(this, replacer);
+            // console.log(json);
+            let storeName = name;
+            if (addPrfx) {
+                storeName = prefixSauv + name;
+            }
+            window.localStorage.setItem(storeName, json);
+        }
+        catch (e) {
+            ErrorMsg(`Impossible d'enregistrer ${name}. Raison: ${e.name}`);
+        }
+    }
+
+    /**
+     * Enregistre la Config comme Config courante. 
+     */
+    public SaveCurConfig(){
+        this.SaveConf(curConf, false);
+    }
+
+    /**
+     * Enregistre la Config sous le nom donné. Ce nom apparaîtra dans la liste retournée par
+     * GetSavedConfList
+     * @param name Le nom de la sauvegarde
+     */ 
+    public Save(name: string) {
+        this.SaveConf(name, true);
     }
 }

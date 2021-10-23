@@ -227,10 +227,17 @@ export default class PhonConfig { // équivalent de ColConfWin
         [this.illMode, this.setIllMode] = useState(pc==null?IllMode.IllCeras:pc.illMode);
     }
 
-    public Copy(thePC: PhonConfig) {
-        this.setCFSons(thePC.cfSons);
-        this.setChkSons(thePC.chkSons);
-        this.setIllMode(thePC.illMode);
+    /**
+     * Copie les valeurs de pcObj dans la PhonConfig
+     * @param pcObj Un objet qui a la structure de PhonConfig, mais qui ne contient que les attributs
+     * qui peuvant être stockés dans un JSON. 
+     */
+    public Copy(pcObj: any) {
+        if (pcObj != null) {
+            this.setCFSons(pcObj.cfSons);
+            this.setChkSons(pcObj.chkSons);
+            this.setIllMode(pcObj.illMode);
+        }
     }
 
     public Reset() {

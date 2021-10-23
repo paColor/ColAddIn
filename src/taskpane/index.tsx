@@ -15,7 +15,7 @@ const title = "Coloriƨation";
 
 const render = (Component) => {
   // window.localStorage.clear();
-  const c = Config.LoadDefaultConfigObj();
+  const c = Config.LoadCurrentConfigObj();
   ReactDOM.render(
     <AppContainer>
       <Component title={title} isOfficeInitialized={isOfficeInitialized} storedConf={c}/>

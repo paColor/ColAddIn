@@ -36,8 +36,11 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  
+  const [savedList, setSavedList] = React.useState(Config.GetSavedConfList());
+
   const conf = new Config(props.storedConf);
-  Config.SaveCurConfig(conf); 
+  conf.SaveCurConfig(); 
   // c'est un peu l'artillerie lourde: on sauvegarde à chaque changement. càd à chaque re-render.
 
   // window.onunload = function() {
@@ -70,6 +73,8 @@ export default function App(props: AppProps) {
         <PivotItem headerText="Sauv">
           <SauvTab 
             conf = {conf}
+            nameList = {savedList}
+            refreshNameList = {() => {setSavedList(Config.GetSavedConfList())}}
           />
         </PivotItem>
         <PivotItem headerText="Avancé">
