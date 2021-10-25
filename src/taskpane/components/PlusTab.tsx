@@ -98,7 +98,7 @@ const TextStyle: ITextStyles = {
 const TextEspaceStyle: ITextStyles = {
     root: {
         textAlign: "center",
-        width: 200,
+        width: 160,
     },
 }
 
