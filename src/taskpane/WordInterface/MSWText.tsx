@@ -101,6 +101,88 @@ export default class MSWText extends TheText {
         }
     }
 
+    static async AddSpaceClick(conf: Config) {
+        Word.run(async (context) => {
+            let sel = context.document.getSelection();
+            sel.load();
+            await context.sync();
+            if (!sel.isEmpty) {
+                if (!conf.alreadyDone) {
+                    conf.setAlreadyDone(true);
+                    let rc = sel.split(letDelimiters);
+                    rc.load();
+                    await context.sync();
+                }
+                let rgeColl = sel.split(letDelimiters);
+                rgeColl.load();
+                await context.sync();
+                let previousIsSpace = false;
+                for (let r of rgeColl.items) {
+                    if (r.text === " ") {
+                        if (!previousIsSpace)
+                        {
+                            r.insertText(" ", 'Before');
+                        }
+                        previousIsSpace = true;
+                    }
+                    else {
+                        previousIsSpace = false;
+                    }
+                }
+                await context.sync();
+            }
+            else {
+                WarningMsg("Aucun texte n'est sélectionné.")
+            }
+        })
+    }
+
+    static async ShrinkSpaceClick(conf: Config) {
+        Word.run(async (context) => {
+            let sel = context.document.getSelection();
+            sel.load();
+            await context.sync();
+            if (!sel.isEmpty) {
+                if (!conf.alreadyDone) {
+                    conf.setAlreadyDone(true);
+                    let rc = sel.split(letDelimiters);
+                    rc.load();
+                    await context.sync();
+                }
+                let rgeColl = sel.split(letDelimiters);
+                rgeColl.load();
+                await context.sync();
+                
+                let countSpace = 0;
+                let lastSpace:Word.Range = null;
+                for (let r of rgeColl.items) {
+                    if (r.text === " ") {
+                        countSpace++;
+                        lastSpace = r;
+                    }
+                    else {
+                        if (countSpace > 1){
+                            lastSpace.delete();
+                        }
+                        countSpace = 0;
+                        lastSpace = null;
+                    }
+                }
+                // Si le dernier caractère est un espace...
+                if (countSpace > 1) {
+                    lastSpace.delete();
+                }
+
+                await context.sync();
+            }
+            else {
+                WarningMsg("Aucun texte n'est sélectionné.")
+            }
+        })
+    }
+
+
+
     static async ColNoirClick(_conf: Config) {
         Word.run(async (context) => {
             let sel = context.document.getSelection();

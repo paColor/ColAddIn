@@ -68,6 +68,8 @@ export default function App(props: AppProps) {
             colMots = {MSWText.ColMotsClick}
             colVoyCons = {MSWText.ColVoyConsClick}
             colNoir = {MSWText.ColNoirClick}
+            addSpace = {MSWText.AddSpaceClick}
+            shrinkSpace = {MSWText.ShrinkSpaceClick}
           />
         </PivotItem>
         <PivotItem headerText="Sauv">

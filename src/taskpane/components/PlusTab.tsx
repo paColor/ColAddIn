@@ -38,6 +38,8 @@ export interface PlusTabProps {
     colMots: (conf: Config) => void;
     colVoyCons: (conf: Config) => void;
     colNoir: (conf: Config) => void; 
+    addSpace: (conf: Config) => void; 
+    shrinkSpace: (conf: Config) => void; 
 }
 
 const flStackTokens: IStackTokens = { // first line stack tokens
@@ -90,6 +92,13 @@ const customButStyles: IButtonStyles = {
 const TextStyle: ITextStyles = {
     root: {
         textAlign: "center",
+    },
+}
+
+const TextEspaceStyle: ITextStyles = {
+    root: {
+        textAlign: "center",
+        width: 200,
     },
 }
 
@@ -246,6 +255,14 @@ export default function PlusTab(props: PlusTabProps) {
 
     function LoadCffLetData(c: string, cf: CharFormatting) {
         props.conf.pbdq.UpdateLetter(curButNr, c, cf);
+    }
+
+    function AddSpaceClick() {
+        props.addSpace(props.conf);
+    }
+
+    function ShrinkSpaceClick() {
+        props.shrinkSpace(props.conf);
     }
 
     let letButtons: Array<any> = new Array<any>();
@@ -529,6 +546,42 @@ export default function PlusTab(props: PlusTabProps) {
                         text="réinitialiser à bleu/rouge" 
                         styles={customButStyles}
                         onClick={ResetCoulSylClick}
+                    />
+                </Stack.Item>
+            </Stack>
+            <Separator 
+                alignContent="center"
+                styles= {{
+                    root: {
+                        fontSize: 12,
+                        marginTop: 5,
+                    },
+                    content: {
+                        backgroundColor: "#FFFFFF00",
+                    }
+                }}
+            >
+                Espace entre les mots
+            </Separator>
+            <Stack horizontal tokens={CommandStackTokens} horizontalAlign="center">
+                <Stack.Item align="center" styles={flStackItemStyles}>
+                    <CommandButton
+                        butTitle="Écartez les mots"
+                        iconSrc="/assets/enlarge.png"
+                        onClick={AddSpaceClick}
+                    />
+                </Stack.Item>
+                <Stack.Item align="center" grow styles={flStackItemStyles}>
+                    <Text block variant="small" styles={TextEspaceStyle}>
+                        La commande {"'"}Écarter{"'"} ajoute un espace entre chaque mot.
+                        {"'"}Resserrer{"'"} en efface un.
+                    </Text>
+                </Stack.Item>
+                <Stack.Item align="center" styles={flStackItemStyles}>
+                    <CommandButton
+                        butTitle="Resserrez les mots"
+                        iconSrc="/assets/Shrink_red_sq_64.png"
+                        onClick={ShrinkSpaceClick}
                     />
                 </Stack.Item>
             </Stack>
