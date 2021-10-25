@@ -59,7 +59,7 @@ const listStyles: Partial<IDetailsListStyles> = {
     contentWrapper: {
         overflowY: "scroll",
         overflowX: "hidden",
-        height: "290px"
+        maxHeight: "290px"
     }
 }
 
@@ -80,6 +80,9 @@ export default function SauvTab(props: SauvTabProps) {
             let cObj = Config.LoadSavedConfigObj(sel.value);
             props.conf.Copy(cObj);
             props.refreshNameList();
+        }
+        else {
+            WarningMsg("Pas de configuration sélectionnée.")
         }
     }
 
