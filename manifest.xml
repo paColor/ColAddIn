@@ -4,13 +4,13 @@
   xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
   xmlns:ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="TaskPaneApp">
   <Id>05c2e1c9-3e1d-406e-9a91-e9ac64854143</Id>
-  <Version>0.0.0.1</Version>
+  <Version>1.0.0.0</Version>
   <ProviderName>Etique</ProviderName>
   <DefaultLocale>fr-CH</DefaultLocale>
   <DisplayName DefaultValue="Coloriƨation"/>
   <Description DefaultValue="Une aide à la lecture"/>
-  <IconUrl DefaultValue="https://localhost:3000/assets/LogoColorization_32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/LogoColorization_64.png"/>
+  <IconUrl DefaultValue="https://localhost:3000/assets/LogoColorization_carré_32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/LogoColorization_carré_128.png"/>
   <SupportUrl DefaultValue="https://colorization.ch/docs/Manuel_Utilisateur_Colorization.pdf"/>
   <AppDomains>
     <AppDomain>https://colorization.ch</AppDomain>
