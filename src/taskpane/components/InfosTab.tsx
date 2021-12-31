@@ -74,7 +74,7 @@ export default function InfosTab(_props: InfosTabProps) {
                     </Stack>
                 </Stack.Item>
                 <Stack.Item styles = {versStackItemStyles}>
-                    <Text variant="medium">Version: Add-In - 0.5.0</Text>
+                    <Text variant="medium">Version: Add-In - 2.0.0</Text>
                 </Stack.Item>
                 <Stack.Item>
                     <Text block variant="small">
