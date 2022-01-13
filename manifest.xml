@@ -10,7 +10,7 @@
   <DisplayName DefaultValue="Coloriƨation"/>
   <Description DefaultValue="Une aide à la lecture"/>
   <IconUrl DefaultValue="https://localhost:3000/assets/LogoColorization_carré_32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/LogoColorization_carré_128.png"/>
+  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/LogoColorization_carré_64.png"/>
   <SupportUrl DefaultValue="https://colorization.ch/docs/Manuel_Utilisateur_Colorization.pdf"/>
   <AppDomains>
     <AppDomain>https://colorization.ch</AppDomain>
